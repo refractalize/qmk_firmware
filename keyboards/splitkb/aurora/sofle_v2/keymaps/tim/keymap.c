@@ -12,8 +12,8 @@ enum layer_names {
     L_QWER,  // qwerty
     L_GRAP,  // graphite
     L_GRAP_SIMPLE,  // graphite with simplified punctuation
-    L_GRAP2, // graphite with BLD / QXM swap
-    L_GALL,  // gallium with left hand inverted
+    L_GRAPHITE_BZ,
+    L_GRAPHITE_BZQ,  // gallium with left hand inverted
     L_SYM,
     L_BRC,
     L_NUM,
@@ -37,91 +37,91 @@ enum tap_dance_keycodes {
 
 uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_QWER] = LAYOUT(
-        KC_GRV            , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , KC_BSPC           ,
-        KC_TAB            , KC_Q              , KC_W              , KC_E              , KC_R              , KC_T              ,                                         KC_Y              , KC_U              , KC_I              , KC_O              , KC_P              , KC_BSPC           ,
-        KC_ESC            , KC_A              , LTNUM(KC_S)       , LTSYM(KC_D)       , LTBRC(KC_F)       , KC_G              ,                                         KC_H              , KC_J              , KC_K              , KC_L              , KC_SCLN           , KC_QUOT           ,
-        CW_TOGG           , KC_Z              , KC_X              , KC_C              , KC_V              , KC_B              , KC_MUTE           , KC_MPLY           , KC_N              , KC_M              , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
-                                                KC_LGUI           , KC_LCTL           , KC_LALT           , TD(TD_SHIFT_LAYER), KC_ENT            , KC_SPC            , OSM(MOD_LSFT)     , KC_RALT           , KC_RCTL           , KC_RGUI
+        KC_GRV             , KC_1               , KC_2               , KC_3               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_9               , KC_0               , KC_BSPC            ,
+        KC_TAB             , KC_Q               , KC_W               , KC_E               , KC_R               , KC_T               ,                                           KC_Y               , KC_U               , KC_I               , KC_O               , KC_P               , KC_BSPC            ,
+        KC_ESC             , KC_A               , LTNUM(KC_S)        , LTSYM(KC_D)        , LTBRC(KC_F)        , KC_G               ,                                           KC_H               , KC_J               , KC_K               , KC_L               , KC_SCLN            , KC_QUOT            ,
+        CW_TOGG            , KC_Z               , KC_X               , KC_C               , KC_V               , KC_B               , KC_MUTE            , KC_MPLY            , KC_N               , KC_M               , KC_COMM            , KC_DOT             , KC_SLSH            , KC_MINS            ,
+                                                  KC_LGUI            , KC_LCTL            , KC_LALT            , TD(TD_SHIFT_LAYER) , KC_ENT             , KC_SPC             , OSM(MOD_LSFT)      , KC_RALT            , KC_RCTL            , KC_RGUI
     ),
 
     [L_GRAP] = LAYOUT(
-        KC_GRV            , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , KC_BSPC           ,
-        KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_COMM           ,
-        KC_ESC            , KC_N              , LTNUM(KC_R)       , LTSYM(KC_T)       , LTBRC(KC_S)       , KC_G              ,                                         KC_Y              , KC_H              , KC_A              , KC_E              , KC_I              , KC_SCLN           ,
-        _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              , _______           , _______           , KC_K              , KC_P              , KC_DOT            , KC_MINS           , KC_SLSH           , KC_COMM           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+        KC_GRV             , KC_1               , KC_2               , KC_3               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_9               , KC_0               , KC_BSPC            ,
+        KC_TAB             , KC_B               , KC_L               , KC_D               , KC_W               , KC_Z               ,                                           KC_QUOT            , KC_F               , KC_O               , KC_U               , KC_J               , KC_COMM            ,
+        KC_ESC             , KC_N               , LTNUM(KC_R)        , LTSYM(KC_T)        , LTBRC(KC_S)        , KC_G               ,                                           KC_Y               , KC_H               , KC_A               , KC_E               , KC_I               , KC_SCLN            ,
+        _______            , KC_Q               , KC_X               , KC_M               , KC_C               , KC_V               , _______            , _______            , KC_K               , KC_P               , KC_DOT             , KC_MINS            , KC_SLSH            , KC_COMM            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_GRAP_SIMPLE] = LAYOUT(
-        KC_GRV            , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , KC_BSPC           ,
-        KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSLS           ,
-        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), LT(L_BRC, KC_S)   , KC_G              ,                                         KC_Y              , LT(L_SYM, KC_H)   , MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_SCLN           ,
-        _______           , KC_Q              , KC_X              , KC_M              , LT(L_NUM, KC_C)   , KC_V              , _______           , _______           , KC_K              , LT(L_NUM, KC_P)   , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+        KC_GRV             , KC_1               , KC_2               , KC_3               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_9               , KC_0               , KC_BSPC            ,
+        KC_TAB             , KC_B               , KC_L               , KC_D               , KC_W               , KC_Z               ,                                           KC_QUOT            , KC_F               , KC_O               , KC_U               , KC_J               , KC_BSLS            ,
+        KC_ESC             , MT(MOD_LGUI, KC_N) , MT(MOD_LCTL, KC_R) , MT(MOD_LALT, KC_T) , LT(L_BRC, KC_S)    , KC_G               ,                                           KC_Y               , LT(L_SYM, KC_H)    , MT(MOD_RALT, KC_A) , MT(MOD_RCTL, KC_E) , MT(MOD_RGUI, KC_I) , KC_SCLN            ,
+        _______            , KC_Q               , KC_X               , KC_M               , LT(L_NUM, KC_C)    , KC_V               , _______            , _______            , KC_K               , LT(L_NUM, KC_P)    , KC_COMM            , KC_DOT             , KC_SLSH            , KC_MINS            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
-    [L_GRAP2] = LAYOUT(
-        KC_GRV            , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , KC_BSPC           ,
-        KC_TAB            , KC_Q              , KC_X              , KC_M              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_COMM           ,
-        KC_ESC            , KC_N              , LTNUM(KC_R)       , LTSYM(KC_T)       , LTBRC(KC_S)       , KC_G              ,                                         KC_Y              , KC_H              , KC_A              , KC_E              , KC_I              , KC_SCLN           ,
-        _______           , KC_B              , KC_L              , KC_D              , KC_C              , KC_V              , _______           , _______           , KC_K              , KC_P              , KC_DOT            , KC_MINS           , KC_SLSH           , KC_COMM           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+    [L_GRAPHITE_BZ] = LAYOUT(
+        KC_GRV             , KC_1               , KC_2               , KC_3               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_9               , KC_0               , KC_BSPC            ,
+        KC_TAB             , KC_Z               , KC_L               , KC_D               , KC_W               , KC_B               ,                                           KC_QUOT            , KC_F               , KC_O               , KC_U               , KC_J               , KC_BSLS            ,
+        KC_ESC             , MT(MOD_LGUI, KC_N) , MT(MOD_LCTL, KC_R) , MT(MOD_LALT, KC_T) , LT(L_BRC, KC_S)    , KC_G               ,                                           KC_Y               , LT(L_SYM, KC_H)    , MT(MOD_RALT, KC_A) , MT(MOD_RCTL, KC_E) , MT(MOD_RGUI, KC_I) , KC_SCLN            ,
+        _______            , KC_Q               , KC_X               , KC_M               , LT(L_NUM, KC_C)    , KC_V               , _______            , _______            , KC_K               , LT(L_NUM, KC_P)    , KC_COMM            , KC_DOT             , KC_SLSH            , KC_MINS            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
-    [L_GALL] = LAYOUT(
-        KC_GRV            , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , KC_BSPC           ,
-        KC_TAB            , KC_Q              , KC_X              , KC_M              , KC_W              , KC_Z              ,                                         KC_J              , KC_F              , KC_O              , KC_U              , KC_QUOT           , KC_BSLS           ,
-        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), LT(L_BRC, KC_S)   , KC_G              ,                                         KC_Y              , LT(L_SYM, KC_H)   , MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_SCLN           ,
-        _______           , KC_B              , KC_L              , KC_D              , LT(L_NUM, KC_C)   , KC_V              , _______           , _______           , KC_K              , LT(L_NUM, KC_P)   , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+    [L_GRAPHITE_BZQ] = LAYOUT(
+        KC_GRV             , KC_1               , KC_2               , KC_3               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_9               , KC_0               , KC_BSPC            ,
+        KC_TAB             , KC_Q               , KC_L               , KC_D               , KC_W               , KC_B               ,                                           KC_QUOT            , KC_F               , KC_O               , KC_U               , KC_J               , KC_BSLS            ,
+        KC_ESC             , MT(MOD_LGUI, KC_N) , MT(MOD_LCTL, KC_R) , MT(MOD_LALT, KC_T) , LT(L_BRC, KC_S)    , KC_G               ,                                           KC_Y               , LT(L_SYM, KC_H)    , MT(MOD_RALT, KC_A) , MT(MOD_RCTL, KC_E) , MT(MOD_RGUI, KC_I) , KC_SCLN            ,
+        _______            , KC_Z               , KC_X               , KC_M               , LT(L_NUM, KC_C)    , KC_V               , _______            , _______            , KC_K               , LT(L_NUM, KC_P)    , KC_COMM            , KC_DOT             , KC_SLSH            , KC_MINS            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_SYM] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , KC_PIPE           , KC_DLR            , KC_AMPR           , KC_CIRC           ,                                         KC_CIRC           , KC_AMPR           , KC_DLR            , KC_PIPE           , _______           , _______           ,
-        _______           , KC_EXLM           , KC_GRV            , KC_HASH           , KC_EQL            , KC_PERC           ,                                         KC_PERC           , KC_EQL            , KC_HASH           , KC_GRV            , KC_EXLM           , _______           ,
-        _______           , _______           , KC_AT             , KC_PLUS           , KC_ASTR           , KC_BSLS           , _______           , _______           , KC_BSLS           , KC_ASTR           , KC_PLUS           , KC_AT             , _______           , _______           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , KC_PIPE            , KC_DLR             , KC_AMPR            , KC_CIRC            ,                                           KC_CIRC            , KC_AMPR            , KC_DLR             , KC_PIPE            , _______            , _______            ,
+        _______            , KC_EXLM            , KC_GRV             , KC_HASH            , KC_EQL             , KC_PERC            ,                                           KC_PERC            , KC_EQL             , KC_HASH            , KC_GRV             , KC_EXLM            , _______            ,
+        _______            , KC_AT              , KC_PLUS            , KC_ASTR            , KC_BSLS            , _______            , _______            , KC_BSLS            , KC_ASTR            , KC_PLUS            , KC_AT              , _______            , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , XXXXXXX
     ),
 
     [L_BRC] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , KC_LABK           , KC_RABK           , _______           , _______           , _______           ,
-        _______           , KC_LCBR           , KC_RCBR           , KC_LPRN           , KC_RPRN           , _______           ,                                         _______           , KC_LPRN           , KC_RPRN           , KC_LCBR           , KC_RCBR           , _______           ,
-        _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , KC_LABK            , KC_RABK            , _______            , _______            , _______            ,
+        _______            , KC_LCBR            , KC_RCBR            , KC_LPRN            , KC_RPRN            , _______            ,                                           _______            , KC_LPRN            , KC_RPRN            , KC_LCBR            , KC_RCBR            , _______            ,
+        _______            , _______            , _______            , KC_LBRC            , KC_RBRC            , _______            , _______            , _______            , _______            , KC_LBRC            , KC_RBRC            , _______            , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_NUM] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , KC_7              , KC_8              , KC_9              , _______           ,                                         _______           , KC_7              , KC_8              , KC_9              , _______           , _______           ,
-        _______           , KC_0              , KC_4              , KC_5              , KC_6              , KC_0              ,                                         KC_0              , KC_4              , KC_5              , KC_6              , KC_0              , _______           ,
-        _______           , _______           , KC_1              , KC_2              , KC_3              , _______           , _______           , _______           , _______           , KC_1              , KC_2              , KC_3              , _______           , _______           ,
-                                                _______           , _______           , _______           , _______           , QK_LLCK           , KC_0              , KC_0              , _______           , _______           , _______
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , KC_7               , KC_8               , KC_9               , _______            ,                                           _______            , KC_7               , KC_8               , KC_9               , _______            , _______            ,
+        _______            , KC_0               , KC_4               , KC_5               , KC_6               , KC_0               ,                                           KC_PLUS            , KC_4               , KC_5               , KC_6               , KC_ASTR            , _______            ,
+        _______            , _______            , KC_1               , KC_2               , KC_3               , _______            , _______            , _______            , KC_MINS            , KC_1               , KC_2               , KC_3               , KC_SLSH            , _______            ,
+                                                  _______            , _______            , _______            , _______            , QK_LLCK            , _______            , KC_0               , _______            , _______            , _______
     ),
 
     [L_NAV] = LAYOUT(
-        _______           , PDF(L_QWER)       , PDF(L_GRAP)       , PDF(L_GRAP_SIMPLE), PDF(L_GRAP2)      , PDF(L_GALL)       ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         KC_PGUP           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
-        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , KC_B              , MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
-        _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , S(KC_INS)         , C(KC_INS)         , _______           , _______           , _______           , _______           , S(KC_N)           , KC_N              , _______           , _______           ,
-                                                _______           , _______           , _______           , _______           , _______           , QK_LLCK           , _______           , _______           , _______           , _______
+        _______            , PDF(L_QWER)        , PDF(L_GRAP)        , PDF(L_GRAP_SIMPLE) , PDF(L_GRAPHITE_BZ) , PDF(L_GRAPHITE_BZQ),                                           _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , KC_HOME            , KC_UP              , KC_END             , KC_PGUP            ,                                           KC_PGUP            , KC_0               , KC_CIRC            , KC_DLR             , _______            , _______            ,
+        QK_LLCK            , _______            , KC_LEFT            , KC_DOWN            , KC_RGHT            , KC_PGDN            ,                                           KC_PGDN            , KC_B               , MT(MOD_LALT, KC_W) , MT(MOD_LCTL, KC_E) , KC_RGUI            , _______            ,
+        _______            , _______            , SHIFT_ALT_TAB      , ALT_TAB            , S(KC_INS)          , C(KC_INS)          , _______            , _______            , _______            , _______            , S(KC_N)            , KC_N               , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , QK_LLCK            , _______            , _______            , _______            , _______
     ),
 
     [L_UTIL] = LAYOUT(
-        XXXXXXX           , _______           , _______           , _______           , _______           , XXXXXXX           ,                                         XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           ,
-        XXXXXXX           , KC_INS            , _______           , _______           , _______           , XXXXXXX           ,                                         XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           ,
-        XXXXXXX           , _______           , _______           , S(C(KC_C))        , S(C(KC_V))        , XXXXXXX           ,                                         XXXXXXX           , KC_VOLD           , KC_MUTE           , KC_VOLU           , XXXXXXX           , XXXXXXX           ,
-        XXXXXXX           , C(KC_Z)           , C(KC_X)           , C(KC_C)           , C(KC_V)           , XXXXXXX           , XXXXXXX           , XXXXXXX           , XXXXXXX           , KC_MPRV           , KC_MPLY           , KC_MNXT           , XXXXXXX           , XXXXXXX           ,
-                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
+        XXXXXXX            , _______            , _______            , _______            , _______            , XXXXXXX            ,                                           XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            ,
+        XXXXXXX            , KC_INS             , _______            , _______            , _______            , XXXXXXX            ,                                           XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            ,
+        XXXXXXX            , _______            , _______            , S(C(KC_C))         , S(C(KC_V))         , XXXXXXX            ,                                           XXXXXXX            , KC_VOLD            , KC_MUTE            , KC_VOLU            , XXXXXXX            , XXXXXXX            ,
+        XXXXXXX            , C(KC_Z)            , C(KC_X)            , C(KC_C)            , C(KC_V)            , XXXXXXX            , XXXXXXX            , XXXXXXX            , XXXXXXX            , KC_MPRV            , KC_MPLY            , KC_MNXT            , XXXXXXX            , XXXXXXX            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     )
 };
 
-const key_override_t dot_gt_override           = ko_make_with_layers(MOD_MASK_SHIFT, KC_DOT, KC_GT, L_GRAP | L_GRAP2);
-const key_override_t dash_quote_override       = ko_make_with_layers(MOD_MASK_SHIFT, KC_MINS, KC_DQT, L_GRAP | L_GRAP2);
-const key_override_t slash_lt_override         = ko_make_with_layers(MOD_MASK_SHIFT, KC_SLSH, KC_LT, L_GRAP | L_GRAP2);
-const key_override_t comma_question_override   = ko_make_with_layers(MOD_MASK_SHIFT, KC_COMM, KC_QUES, L_GRAP | L_GRAP2);
-const key_override_t qoute_underscore_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUOT, KC_UNDS, L_GRAP | L_GRAP2);
+const key_override_t dot_gt_override           = ko_make_with_layers(MOD_MASK_SHIFT, KC_DOT, KC_GT, L_GRAP);
+const key_override_t dash_quote_override       = ko_make_with_layers(MOD_MASK_SHIFT, KC_MINS, KC_DQT, L_GRAP);
+const key_override_t slash_lt_override         = ko_make_with_layers(MOD_MASK_SHIFT, KC_SLSH, KC_LT, L_GRAP);
+const key_override_t comma_question_override   = ko_make_with_layers(MOD_MASK_SHIFT, KC_COMM, KC_QUES, L_GRAP);
+const key_override_t qoute_underscore_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUOT, KC_UNDS, L_GRAP);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
@@ -132,9 +132,9 @@ const key_override_t *key_overrides[] = {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_QWER] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
     [L_GRAP] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
-    [L_GRAP2] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
     [L_GRAP_SIMPLE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
-    [L_GALL] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
+    [L_GRAPHITE_BZ] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
+    [L_GRAPHITE_BZQ] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
     [L_SYM] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_BRC] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_NUM] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
@@ -180,10 +180,10 @@ bool rgb_matrix_indicators_user(void) {
         case L_GRAP_SIMPLE:
             rgb_matrix_set_color(2, 0, 0, 255);
             break;
-        case L_GRAP2:
+        case L_GRAPHITE_BZ:
             rgb_matrix_set_color(1, 0, 0, 255);
             break;
-        case L_GALL:
+        case L_GRAPHITE_BZQ:
             rgb_matrix_set_color(0, 0, 0, 255);
             break;
         default:
