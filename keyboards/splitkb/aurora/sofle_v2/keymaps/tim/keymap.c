@@ -80,8 +80,8 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , _______            , _______            , _______            , _______            , _______            ,
         _______            , _______            , KC_PIPE            , KC_DLR             , KC_AMPR            , KC_CIRC            ,                                           KC_CIRC            , KC_AMPR            , KC_DLR             , KC_PIPE            , _______            , _______            ,
         _______            , KC_EXLM            , KC_GRV             , KC_HASH            , KC_EQL             , KC_PERC            ,                                           KC_PERC            , KC_EQL             , KC_HASH            , KC_GRV             , KC_EXLM            , _______            ,
-        _______            , KC_AT              , KC_PLUS            , KC_ASTR            , KC_BSLS            , _______            , _______            , KC_BSLS            , KC_ASTR            , KC_PLUS            , KC_AT              , _______            , _______            , _______            ,
-                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , XXXXXXX
+        _______            , _______            , KC_AT              , KC_PLUS            , KC_ASTR            , KC_BSLS            , _______            , _______            , KC_BSLS            , KC_ASTR            , KC_PLUS            , KC_AT              , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_BRC] = LAYOUT(
@@ -250,6 +250,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Tap dance action
 void td_shift_layer_finished(tap_dance_state_t *state, void *user_data) {
     if (state->pressed) {
+        clear_oneshot_mods();
         layer_on(L_NAV); // Activate layer when held
     } else if (state->count == 1) {
         set_oneshot_mods(MOD_LSFT); // One-shot shift when tapped
