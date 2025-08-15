@@ -39,7 +39,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_Q              , KC_W              , KC_E              , KC_R              , KC_T              ,                                         KC_Y              , KC_U              , KC_I              , KC_O              , KC_P              , KC_BSPC           ,
         KC_ESC            , KC_A              , LTNUM(KC_S)       , LTSYM(KC_D)       , LTBRC(KC_F)       , KC_G              ,                                         KC_H              , KC_J              , KC_K              , KC_L              , KC_SCLN           , KC_QUOT           ,
         KC_LSFT           , KC_Z              , KC_X              , KC_C              , KC_V              , KC_B              , KC_MUTE           , KC_MPLY           , KC_N              , KC_M              , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
-                                                KC_LGUI           , KC_LCTL           , KC_LALT           , MO(L_NAV)         , LT(L_SYM, KC_ENT) , LT(L_BRC, KC_SPC) , KC_RSFT           , KC_RALT           , KC_RCTL           , KC_RGUI
+                                                KC_LGUI           , KC_LCTL           , KC_LALT           , MO(L_NAV)         , LT(L_SYM, KC_ENT) , LT(L_BRC, KC_SPC) , KC_LSFT           , KC_RALT           , KC_RCTL           , KC_RGUI
     ),
 
     [L_GRAP] = LAYOUT(
@@ -53,7 +53,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_GRAP_SIMPLE] = LAYOUT(
         KC_GRV            , KC_0              , KC_1              , KC_2              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_LBRC           , KC_RBRC           , KC_BSPC           ,
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSLS           ,
-        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), LT(L_BRC, KC_S)   , KC_G              ,                                         KC_Y              , LT(L_SYM, KC_H)   , MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_SCLN           ,
+        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), MT(MOD_LGUI, KC_S), KC_G              ,                                         KC_Y              , MT(MOD_RGUI, KC_H), MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_SCLN           ,
         _______           , KC_Q              , KC_X              , KC_M              , LT(L_NUM, KC_C)   , KC_V              , _______           , _______           , KC_K              , LT(L_UTIL, KC_P)  , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
                                                 _______           , _______           , KC_COLN           , _______           , _______           , _______           , _______           , KC_UNDS           , _______           , _______
     ),
@@ -62,7 +62,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , KC_BSLS           , KC_PIPE           , KC_DLR            , KC_AMPR           , KC_CIRC           ,                                         _______           , KC_LCBR           , KC_RCBR           , _______           , _______           , _______           ,
         _______           , KC_LABK           , KC_EXLM           , KC_EQL            , KC_RABK           , KC_PERC           ,                                         _______           , KC_LPRN           , KC_RPRN           , KC_SCLN           , KC_COLN           , _______           ,
-        _______           , _______           , KC_AT             , KC_PLUS           , KC_ASTR           , KC_HASH           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
+        _______           , KC_AT             , KC_MINS           , KC_PLUS           , KC_ASTR           , KC_HASH           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
                                                 _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
@@ -85,7 +85,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NAV] = LAYOUT(
         _______           , PDF(L_QWER)       , PDF(L_GRAP)       , PDF(L_GRAP_SIMPLE), _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , KC_DEL            ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         KC_PGUP           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
-        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , KC_B              , MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
+        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , MT(MOD_RGUI, KC_B), MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
         _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , S(KC_INS)         , C(KC_INS)         , _______           , _______           , _______           , _______           , S(KC_N)           , KC_N              , _______           , _______           ,
                                                 _______           , _______           , _______           , _______           , _______           , QK_LLCK           , _______           , _______           , _______           , _______
     ),
