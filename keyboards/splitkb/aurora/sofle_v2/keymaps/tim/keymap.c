@@ -62,16 +62,16 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_SYM] = LAYOUT(
         _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , KC_BSLS           , KC_PIPE           , KC_DLR            , KC_AMPR           , KC_CIRC           ,                                         _______           , KC_LCBR           , KC_RCBR           , _______           , _______           , _______           ,
-        _______           , KC_LABK           , KC_EXLM           , KC_EQL            , KC_RABK           , KC_PERC           ,                                         _______           , KC_LPRN           , KC_RPRN           , KC_SCLN           , KC_COLN           , _______           ,
-        _______           , KC_AT             , KC_MINS           , KC_PLUS           , KC_ASTR           , KC_HASH           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
+        _______           , _______           , _______           , KC_LCBR           , KC_RCBR           , _______           ,                                         KC_CIRC           , KC_AMPR           , KC_DLR            , KC_PIPE           , _______           , _______           ,
+        _______           , _______           , KC_ASTR           , KC_LPRN           , KC_RPRN           , KC_PLUS           ,                                         KC_COLN           , KC_LABK           , KC_EQL            , KC_RABK           , KC_SCLN           , _______           ,
+        _______           , _______           , KC_SLSH           , KC_LBRC           , KC_RBRC           , KC_MINS           , _______           , _______           , KC_AT             , KC_EXLM           , KC_HASH           , KC_PERC           , KC_BSLS           , _______           ,
                                                 _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
     [L_NAV] = LAYOUT(
         _______           , PDF(L_QWER)       , PDF(L_GRAP)       , PDF(L_GRAP_SIMPLE), _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         KC_PGUP           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
-        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , MT(MOD_RGUI, KC_B), MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
+        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , MT(MOD_LGUI, KC_B), MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
         _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , S(KC_INS)         , C(KC_INS)         , _______           , _______           , _______           , _______           , S(KC_N)           , KC_N              , _______           , _______           ,
                                                 _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
@@ -79,8 +79,8 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUM] = LAYOUT(
         _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , _______           , KC_LCBR           , KC_RCBR           , _______           ,                                         _______           , KC_7              , KC_8              , KC_9              , _______           , _______           ,
-        _______           , _______           , KC_ASTR           , KC_LPRN           , KC_RPRN           , KC_PLUS           ,                                         KC_0              , KC_4              , KC_5              , KC_6              , KC_DOT            , _______           ,
-        _______           , _______           , KC_SLSH           , KC_LBRC           , KC_RBRC           , KC_MINS           , _______           , _______           , _______           , KC_1              , KC_2              , KC_3              , KC_COMM           , _______           ,
+        _______           , _______           , KC_ASTR           , KC_LPRN           , KC_RPRN           , KC_PLUS           ,                                         KC_DOT            , KC_4              , KC_5              , KC_6              , KC_0              , _______           ,
+        _______           , _______           , KC_SLSH           , KC_LBRC           , KC_RBRC           , KC_MINS           , _______           , _______           , KC_COMM           , KC_1              , KC_2              , KC_3              , _______           , _______           ,
                                                 _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
