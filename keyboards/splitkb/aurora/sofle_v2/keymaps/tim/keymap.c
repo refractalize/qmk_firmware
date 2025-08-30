@@ -13,9 +13,9 @@ enum layer_names {
     L_GRAP,  // graphite
     L_GRAP_SIMPLE,  // graphite with simplified punctuation
     L_SYM,
-    L_BRC,
-    L_NUM,
     L_NAV,
+    L_NUM,
+    L_BRC,
     L_UTIL,
 };
 
@@ -27,6 +27,8 @@ enum layer_names {
 enum custom_keycodes { // Make sure have the awesome keycode ready
     ALT_TAB = SAFE_RANGE,
     SHIFT_ALT_TAB,
+    NAV_KEY,
+    SYM_KEY,
 };
 
 enum tap_dance_keycodes {
@@ -39,7 +41,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_Q              , KC_W              , KC_E              , KC_R              , KC_T              ,                                         KC_Y              , KC_U              , KC_I              , KC_O              , KC_P              , KC_BSPC           ,
         KC_ESC            , KC_A              , LTNUM(KC_S)       , LTSYM(KC_D)       , LTBRC(KC_F)       , KC_G              ,                                         KC_H              , KC_J              , KC_K              , KC_L              , KC_SCLN           , KC_QUOT           ,
         KC_LSFT           , KC_Z              , KC_X              , KC_C              , KC_V              , KC_B              , KC_MUTE           , KC_MPLY           , KC_N              , KC_M              , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
-                                                KC_LGUI           , KC_LCTL           , KC_LALT           , MO(L_NAV)         , LT(L_SYM, KC_ENT) , LT(L_BRC, KC_SPC) , KC_LSFT           , KC_RALT           , KC_RCTL           , KC_RGUI
+                                                KC_LGUI           , KC_LCTL           , KC_LALT           , KC_SPC            , NAV_KEY           , SYM_KEY           , KC_LSFT           , KC_RALT           , KC_RCTL           , KC_RGUI
     ),
 
     [L_GRAP] = LAYOUT(
@@ -53,7 +55,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_GRAP_SIMPLE] = LAYOUT(
         KC_GRV            , KC_0              , KC_1              , KC_2              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_LBRC           , KC_RBRC           , KC_BSPC           ,
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSLS           ,
-        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), MT(MOD_LGUI, KC_S), KC_G              ,                                         KC_Y              , MT(MOD_RGUI, KC_H), MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_SCLN           ,
+        KC_ESC            , MT(MOD_LGUI, KC_N), MT(MOD_LCTL, KC_R), MT(MOD_LALT, KC_T), MT(MOD_LGUI, KC_S), KC_G              ,                                         KC_Y              , MT(MOD_RGUI, KC_H), MT(MOD_RALT, KC_A), MT(MOD_RCTL, KC_E), MT(MOD_RGUI, KC_I), KC_ENT            ,
         _______           , KC_Q              , KC_X              , KC_M              , LT(L_NUM, KC_C)   , KC_V              , _______           , _______           , KC_K              , LT(L_UTIL, KC_P)  , KC_COMM           , KC_DOT            , KC_SLSH           , KC_MINS           ,
                                                 _______           , _______           , KC_COLN           , _______           , _______           , _______           , _______           , KC_UNDS           , _______           , _______
     ),
@@ -66,28 +68,28 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
-    [L_BRC] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , KC_7              , KC_8              , KC_9              , _______           ,                                         _______           , KC_LCBR           , KC_RCBR           , _______           , _______           , _______           ,
-        _______           , KC_ASTR           , KC_4              , KC_5              , KC_6              , KC_PLUS           ,                                         _______           , KC_LPRN           , KC_RPRN           , KC_SCLN           , KC_COLN           , _______           ,
-        _______           , KC_SLSH           , KC_1              , KC_2              , KC_3              , KC_MINS           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
-                                                _______           , _______           , _______           , KC_0              , _______           , _______           , _______           , _______           , _______           , _______
+    [L_NAV] = LAYOUT(
+        _______           , PDF(L_QWER)       , PDF(L_GRAP)       , PDF(L_GRAP_SIMPLE), _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         KC_PGUP           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
+        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , MT(MOD_RGUI, KC_B), MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
+        _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , S(KC_INS)         , C(KC_INS)         , _______           , _______           , _______           , _______           , S(KC_N)           , KC_N              , _______           , _______           ,
+                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
     [L_NUM] = LAYOUT(
         _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , KC_7              , KC_8              , KC_9              , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         KC_PLUS           , KC_4              , KC_5              , KC_6              , KC_ASTR           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , KC_MINS           , KC_1              , KC_2              , KC_3              , KC_SLSH           , _______           ,
-                                                _______           , _______           , _______           , _______           , QK_LLCK           , _______           , KC_0              , _______           , _______           , _______
+        _______           , _______           , _______           , KC_LCBR           , KC_RCBR           , _______           ,                                         _______           , KC_7              , KC_8              , KC_9              , _______           , _______           ,
+        _______           , _______           , KC_ASTR           , KC_LPRN           , KC_RPRN           , KC_PLUS           ,                                         KC_0              , KC_4              , KC_5              , KC_6              , KC_DOT            , _______           ,
+        _______           , _______           , KC_SLSH           , KC_LBRC           , KC_RBRC           , KC_MINS           , _______           , _______           , _______           , KC_1              , KC_2              , KC_3              , KC_COMM           , _______           ,
+                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
-    [L_NAV] = LAYOUT(
-        _______           , PDF(L_QWER)       , PDF(L_GRAP)       , PDF(L_GRAP_SIMPLE), _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , KC_DEL            ,
-        _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         KC_PGUP           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
-        QK_LLCK           , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         KC_PGDN           , MT(MOD_RGUI, KC_B), MT(MOD_LALT, KC_W), MT(MOD_LCTL, KC_E), KC_RGUI           , _______           ,
-        _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , S(KC_INS)         , C(KC_INS)         , _______           , _______           , _______           , _______           , S(KC_N)           , KC_N              , _______           , _______           ,
-                                                _______           , _______           , _______           , _______           , _______           , QK_LLCK           , _______           , _______           , _______           , _______
+    [L_BRC] = LAYOUT(
+        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , _______           , KC_7              , KC_8              , KC_9              , _______           ,                                         _______           , KC_LCBR           , KC_RCBR           , _______           , _______           , _______           ,
+        _______           , KC_ASTR           , KC_4              , KC_5              , KC_6              , KC_0              ,                                         _______           , KC_LPRN           , KC_RPRN           , KC_SCLN           , KC_COLN           , _______           ,
+        _______           , KC_SLSH           , KC_1              , KC_2              , KC_3              , KC_MINS           , _______           , _______           , _______           , KC_LBRC           , KC_RBRC           , _______           , _______           , _______           ,
+                                                _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______           , _______
     ),
 
     [L_UTIL] = LAYOUT(
@@ -135,11 +137,13 @@ const uint16_t PROGMEM right_angle_bracket_combo[] = {KC_U, KC_E, COMBO_END};
 const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
+// const uint16_t PROGMEM num_layer[] = {MO(L_NAV), MO(L_SYM), COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(browser_forward_combo, KC_WFWD),
     COMBO(browser_back_combo, KC_WBAK),
     COMBO(browser_refresh_combo, KC_WREF),
+    // COMBO(num_layer, MO(L_NUM)),
 };
 
 bool rgb_matrix_indicators_user(void) {
@@ -172,6 +176,24 @@ bool rgb_matrix_indicators_user(void) {
     }
 
     return false;
+}
+
+static bool nav_down = false;
+static bool sym_down = false;
+
+void update_layers(void) {
+    // Clear all layers first
+    layer_off(L_NAV);
+    layer_off(L_SYM);
+    layer_off(L_NUM);
+
+    // Apply logic: both down = NUM, otherwise individual layers
+    if (nav_down && sym_down) {
+        layer_on(L_NUM);
+    } else {
+        if (nav_down) layer_on(L_NAV);
+        if (sym_down) layer_on(L_SYM);
+    }
 }
 
 bool is_alt_tab_active = false;
@@ -209,6 +231,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code16(S(KC_TAB));
             }
             break;
+            return false;
+        case NAV_KEY:
+            nav_down = record->event.pressed;
+            update_layers();
+            return false;
+
+        case SYM_KEY:
+            sym_down = record->event.pressed;
+            update_layers();
             return false;
     }
     return true;
