@@ -40,7 +40,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_GRAPHITE] = LAYOUT(
         CW_TOGG            , KC_0               , KC_1               , KC_2               , KC_4               , KC_5               ,                                           KC_6               , KC_7               , KC_8               , KC_LBRC            , KC_RBRC            , KC_BSPC            ,
         KC_TAB             , KC_B               , KC_L               , KC_D               , KC_W               , KC_Z               ,                                           KC_QUOT            , KC_F               , KC_O               , KC_U               , KC_J               , C(KC_S)            ,
-        KC_ESC             , KC_N               , MT(MOD_LCTL, KC_R) , MT(MOD_LALT, KC_T) , MT(MOD_LGUI, KC_S) , KC_G               ,                                           KC_Y               , MT(MOD_RGUI, KC_H) , MT(MOD_RALT, KC_A) , MT(MOD_RCTL, KC_E) , KC_I               , KC_ENT             ,
+        KC_ESC             , MT(MOD_LGUI, KC_N) , MT(MOD_LCTL, KC_R) , MT(MOD_LALT, KC_T) , MT(MOD_LGUI, KC_S) , KC_G               ,                                           KC_Y               , MT(MOD_RGUI, KC_H) , MT(MOD_RALT, KC_A) , MT(MOD_RCTL, KC_E) , MT(MOD_RGUI, KC_I) , KC_ENT             ,
         _______            , KC_Q               , KC_X               , KC_M               , KC_C               , KC_V               , _______            , _______            , KC_K               , KC_P               , KC_COMM            , KC_DOT             , KC_SLSH            , XXXXXXX            ,
                                                   _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
@@ -137,15 +137,13 @@ bool rgb_matrix_indicators_user(void) {
     return false;
 }
 
-static bool nav_down = false;
-static bool sym_down = false;
-
 bool is_alt_tab_active = false;
+uint8_t alt_tab_key = KC_LALT;
 
 // from https://www.reddit.com/r/MechanicalKeyboards/comments/mrnxrj/better_super_alttab/
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (is_alt_tab_active) {
-        unregister_code(KC_LALT);
+        unregister_code(alt_tab_key);
         is_alt_tab_active = false;
     }
     return state;
@@ -157,7 +155,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 if (!is_alt_tab_active) {
                     is_alt_tab_active = true;
-                    register_code(KC_LALT);
+                    register_code(alt_tab_key);
                 }
                 register_code(KC_TAB);
             } else {
@@ -168,7 +166,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 if (!is_alt_tab_active) {
                     is_alt_tab_active = true;
-                    register_code(KC_LALT);
+                    register_code(alt_tab_key);
                 }
                 register_code16(S(KC_TAB));
             } else {
@@ -176,6 +174,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
             return false;
+    }
+    return true;
+}
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_WINDOWS:
+            // Do something when Windows is detected
+            break;
+        case OS_MACOS:
+            alt_tab_key = KC_LGUI;
+            return false;
+        case OS_LINUX:
+            // Do something when Linux is detected
+            break;
+        default:
+            // Handle unknown OS or do nothing
+            break;
     }
     return true;
 }
