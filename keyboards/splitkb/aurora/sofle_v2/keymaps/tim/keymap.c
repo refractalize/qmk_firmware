@@ -11,8 +11,8 @@ void keyboard_pre_init_user(void) {
 enum layer_names {
     L_QWERTY,  // qwerty
     L_GRAPHITE,  // graphite with simplified punctuation
-    L_SYM,
     L_NAV,
+    L_SYM,
     L_NUM,
     L_FNUM,
 };
@@ -28,7 +28,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB         , KC_Q           , KC_W           , KC_E           , KC_R           , KC_T           ,                                   KC_Y           , KC_U           , KC_I           , KC_O           , KC_P           , KC_BSPC        ,
         KC_ESC         , KC_A           , LCTL_T(KC_S)   , LALT_T(KC_D)   , LGUI_T(KC_F)   , KC_G           ,                                   KC_H           , KC_J           , KC_K           , KC_L           , KC_SCLN        , KC_QUOT        ,
         KC_LSFT        , KC_Z           , KC_X           , KC_C           , KC_V           , KC_B           , KC_MUTE        , KC_MPLY        , KC_N           , KC_M           , KC_COMM        , KC_DOT         , KC_SLSH        , KC_MINS        ,
-                                          KC_LGUI        , KC_LALT        , KC_LCTL        , TL_UPPR        , KC_SPC         , KC_LSFT        , TL_LOWR        , KC_RCTL        , KC_RALT        , KC_RGUI
+                                          KC_LGUI        , KC_LALT        , KC_LCTL        , TL_LOWR        , KC_SPC         , KC_LSFT        , TL_UPPR        , KC_RCTL        , KC_RALT        , KC_RGUI
     ),
 
     [L_GRAPHITE] = LAYOUT(
@@ -39,19 +39,19 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______
     ),
 
+    [L_NAV] = LAYOUT(
+        _______        , PDF(L_QWERTY)  , PDF(L_GRAPHITE), PDF(L_NAV)     , PDF(L_SYM)     , PDF(L_NUM)     ,                                   _______        , _______        , _______        , _______        , _______        , _______        ,
+        _______        , _______        , KC_HOME        , KC_UP          , KC_END         , KC_PGUP        ,                                   _______        , KC_0           , KC_CIRC        , KC_DLR         , _______        , _______        ,
+        KC_ENT         , _______        , KC_LEFT        , KC_DOWN        , KC_RGHT        , KC_PGDN        ,                                   _______        , RGUI_T(KC_B)   , RALT_T(KC_W)   , RCTL_T(KC_E)   , _______        , _______        ,
+        _______        , _______        , _______        , SHIFT_ALT_TAB  , ALT_TAB        , _______        , _______        , _______        , _______        , KC_PSCR        , _______        , _______        , _______        , _______        ,
+                                          _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______
+    ),
+
     [L_SYM] = LAYOUT(
         _______        , KC_F1          , KC_F2          , KC_F3          , KC_F4          , KC_F5          ,                                   KC_F6          , KC_F7          , KC_F8          , KC_F9          , KC_F10         , _______        ,
         _______        , KC_PERC        , KC_DLR         , KC_LCBR        , KC_RCBR        , KC_TILD        ,                                   KC_CIRC        , KC_LABK        , KC_RABK        , KC_EQL         , KC_AMPR        , KC_DEL         ,
         _______        , LGUI_T(KC_AT)  , LCTL_T(KC_MINS), LALT_T(KC_LPRN), LGUI_T(KC_RPRN), KC_PLUS        ,                                   KC_EXLM        , RGUI_T(KC_COLN), RALT_T(KC_UNDS), RCTL_T(KC_DQUO), RGUI_T(KC_SCLN), _______        ,
         _______        , KC_BSLS        , KC_SLSH        , KC_LBRC        , KC_RBRC        , KC_HASH        , _______        , _______        , KC_QUES        , KC_ASTR        , KC_PIPE        , KC_GRV         , KC_QUOT        , _______        ,
-                                          _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______
-    ),
-
-    [L_NAV] = LAYOUT(
-        _______        , PDF(L_QWERTY)  , PDF(L_GRAPHITE), PDF(L_SYM)     , PDF(L_NAV)     , PDF(L_NUM)     ,                                   _______        , _______        , _______        , _______        , _______        , _______        ,
-        _______        , _______        , KC_HOME        , KC_UP          , KC_END         , KC_PGUP        ,                                   _______        , KC_0           , KC_CIRC        , KC_DLR         , _______        , _______        ,
-        KC_ENT         , _______        , KC_LEFT        , KC_DOWN        , KC_RGHT        , KC_PGDN        ,                                   _______        , RGUI_T(KC_B)   , RALT_T(KC_W)   , RCTL_T(KC_E)   , _______        , _______        ,
-        _______        , _______        , _______        , SHIFT_ALT_TAB  , ALT_TAB        , _______        , _______        , _______        , _______        , KC_PSCR        , _______        , _______        , _______        , _______        ,
                                           _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______
     ),
 
@@ -76,8 +76,8 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_QWERTY] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK)},
     [L_GRAPHITE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
-    [L_SYM] = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_NAV] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
+    [L_SYM] = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_NUM] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
     [L_FNUM] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
 };
@@ -112,10 +112,10 @@ bool rgb_matrix_indicators_user(void) {
         case L_GRAPHITE:
             rgb_matrix_set_color(3, 0, 0, 255);
             break;
-        case L_SYM:
+        case L_NAV:
             rgb_matrix_set_color(2, 0, 0, 255);
             break;
-        case L_NAV:
+        case L_SYM:
             rgb_matrix_set_color(1, 0, 0, 255);
             break;
         case L_NUM:
@@ -123,20 +123,6 @@ bool rgb_matrix_indicators_user(void) {
             break;
         default:
             break;
-    }
-
-    if (get_highest_layer(layer_state) > 0) {
-        uint8_t layer = get_highest_layer(layer_state);
-
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint8_t index = g_led_config.matrix_co[row][col];
-
-                if (index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
-                    rgb_matrix_set_color(index, RGB_GREEN);
-                }
-            }
-        }
     }
 
     return false;
