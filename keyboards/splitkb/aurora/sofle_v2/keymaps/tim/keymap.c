@@ -83,15 +83,6 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
-const uint16_t PROGMEM left_brace_combo[] = {KC_F, KC_O, COMBO_END};
-const uint16_t PROGMEM right_brace_combo[] = {KC_O, KC_U, COMBO_END};
-const uint16_t PROGMEM left_paren_combo[] = {KC_H, KC_A, COMBO_END};
-const uint16_t PROGMEM right_paren_combo[] = {KC_A, KC_E, COMBO_END};
-const uint16_t PROGMEM left_bracket_combo[] = {KC_F, KC_H, COMBO_END};
-const uint16_t PROGMEM right_bracket_combo[] = {KC_O, KC_A, COMBO_END};
-const uint16_t PROGMEM left_angle_bracket_combo[] = {KC_F, KC_H, COMBO_END};
-const uint16_t PROGMEM equals_combo[] = {KC_O, KC_A, COMBO_END};
-const uint16_t PROGMEM right_angle_bracket_combo[] = {KC_U, KC_E, COMBO_END};
 const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
