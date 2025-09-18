@@ -49,8 +49,8 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_SYM] = LAYOUT(
         _______        , KC_F1          , KC_F2          , KC_F3          , KC_F4          , KC_F5          ,                                   KC_F6          , KC_F7          , KC_F8          , KC_F9          , KC_F10         , _______        ,
-        _______        , KC_PERC        , KC_DLR         , KC_LCBR        , KC_RCBR        , KC_TILD        ,                                   KC_CIRC        , KC_LABK        , KC_RABK        , KC_EQL         , KC_AMPR        , KC_DEL         ,
-        _______        , LGUI_T(KC_AT)  , LCTL_T(KC_MINS), LALT_T(KC_LPRN), LGUI_T(KC_RPRN), KC_PLUS        ,                                   KC_EXLM        , RGUI_T(KC_COLN), RALT_T(KC_UNDS), RCTL_T(KC_DQUO), RGUI_T(KC_SCLN), _______        ,
+        _______        , KC_PERC        , KC_DLR         , KC_LCBR        , KC_RCBR        , KC_TILD        ,                                   KC_CIRC        , KC_LABK        , KC_RABK        , KC_EQL         , KC_AMPR        , _______        ,
+        _______        , LGUI_T(KC_AT)  , LCTL_T(KC_MINS), LALT_T(KC_LPRN), LGUI_T(KC_RPRN), KC_PLUS        ,                                   KC_EXLM        , RGUI_T(KC_COLN), RALT_T(KC_UNDS), RCTL_T(KC_DQUO), KC_SCLN        , _______        ,
         _______        , KC_BSLS        , KC_SLSH        , KC_LBRC        , KC_RBRC        , KC_HASH        , _______        , _______        , KC_QUES        , KC_ASTR        , KC_PIPE        , KC_GRV         , KC_QUOT        , _______        ,
                                           _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______        , _______
     ),
