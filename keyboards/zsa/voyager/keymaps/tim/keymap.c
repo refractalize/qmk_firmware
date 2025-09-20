@@ -19,7 +19,7 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_GRAPHITE] = LAYOUT(
-        CW_TOGG        , KC_BRID        , KC_BRIU        , KC_MUTE        , KC_VOLD        , KC_VOLU        ,                                   KC_MPRV        , KC_MRWD        , KC_MPLY        , KC_MFFD        , KC_MNXT        , _______        ,
+        CW_TOGG        , KC_BRID        , KC_BRIU        , KC_MUTE        , KC_VOLD        , KC_VOLU        ,                                   KC_MPRV        , KC_MRWD        , KC_MPLY        , KC_MFFD        , KC_MNXT        , KC_PSCR        ,
         KC_TAB         , KC_B           , KC_L           , KC_D           , KC_W           , KC_Z           ,                                   KC_QUOT        , KC_F           , KC_O           , KC_U           , KC_J           , KC_BSPC        ,
         LSFT_T(KC_ESC) , LGUI_T(KC_N)   , LCTL_T(KC_R)   , LALT_T(KC_T)   , LGUI_T(KC_S)   , KC_G           ,                                   KC_Y           , RGUI_T(KC_H)   , RALT_T(KC_A)   , RCTL_T(KC_E)   , RGUI_T(KC_I)   , RSFT_T(KC_ENT) ,
         _______        , KC_Q           , KC_X           , KC_M           , KC_C           , KC_V           ,                                   KC_K           , KC_P           , KC_COMM        , KC_DOT         , KC_SLSH        , _______        ,
@@ -27,10 +27,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        _______        , PDF(L_GRAPHITE), PDF(L_NAV)     , PDF(L_SYM)     , PDF(L_NUM)     , _______        ,                                   _______        , _______        , _______        , _______        , _______        , _______        ,
+        _______        , PDF(L_GRAPHITE), PDF(L_NUM)     , _______        , _______        , _______        ,                                   _______        , _______        , _______        , _______        , _______        , _______        ,
         _______        , _______        , KC_HOME        , KC_UP          , KC_END         , KC_PGUP        ,                                   _______        , KC_0           , KC_CIRC        , KC_DLR         , _______        , _______        ,
         KC_ENT         , _______        , KC_LEFT        , KC_DOWN        , KC_RGHT        , KC_PGDN        ,                                   _______        , RGUI_T(KC_B)   , RALT_T(KC_W)   , RCTL_T(KC_E)   , _______        , _______        ,
-        _______        , _______        , _______        , SHIFT_ALT_TAB  , ALT_TAB        , _______        ,                                   _______        , KC_PSCR        , _______        , _______        , _______        , _______        ,
+        _______        , _______        , _______        , SHIFT_ALT_TAB  , ALT_TAB        , _______        ,                                   _______        , S(KC_N)        , KC_N           , _______        , _______        , _______        ,
                                                                             _______        , _______        ,                                   _______        , _______
     ),
 
@@ -73,7 +73,7 @@ const key_override_t space_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_SPC, 
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
-	&space_key_override
+	// &space_key_override
 };
 
 bool is_alt_tab_active = false;
