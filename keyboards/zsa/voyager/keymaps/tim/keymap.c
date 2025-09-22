@@ -24,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
-                                                                                        LT(L_NAV, KC_COLN), LT(L_WNAV, KC_SPC),                                         LSFT_T(KC_MINS)   , MO(L_SYM)
+                                                                                        LT(L_NAV, KC_COLN), KC_SPC            ,                                         LSFT_T(KC_MINS)   , LT(L_SYM, KC_UNDS)
     ),
 
     [L_NAV] = LAYOUT(
@@ -134,6 +134,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
             return false;
+        case LT(L_SYM, KC_UNDS):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_UNDS);
+                return false;
+            }
+            break;
         case LT(L_NAV, KC_COLN):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_COLN);
@@ -217,4 +223,17 @@ bool rgb_matrix_indicators_user(void) {
     }
 
     return false;
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(L_NAV, KC_COLN):
+        case LSFT_T(KC_MINS):
+        case LT(L_SYM, KC_UNDS):
+            // Make sure we always prefer the hold actions for these keys.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
 }
