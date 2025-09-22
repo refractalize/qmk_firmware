@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         _______           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
         KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         _______           , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
         _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         _______           , KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           ,
@@ -196,4 +196,25 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             break;
     }
     return true;
+}
+
+bool rgb_matrix_indicators_user(void) {
+    uint8_t highest_layer = get_highest_layer(default_layer_state);
+
+    switch (highest_layer) {
+        case L_GRAPHITE:
+            rgb_matrix_set_color(1, 0, 0, 0);
+            break;
+        case L_NUM:
+            rgb_matrix_set_color(2, 0, 0, 0);
+            break;
+        default:
+            break;
+    }
+
+    if (is_caps_word_on()) {
+        rgb_matrix_set_color(0, 255, 255, 255);
+    }
+
+    return false;
 }
