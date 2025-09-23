@@ -16,11 +16,14 @@ enum layer_names {
 enum custom_keycodes { // Make sure have the awesome keycode ready
     ALT_TAB = SAFE_RANGE,
     SHIFT_ALT_TAB,
+    MOTION_START,
+    MOTION_NEXT,
+    MOTION_PREV,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_GRAPHITE] = LAYOUT(
-        CW_TOGG           , KC_BRID           , KC_BRIU           , KC_MUTE           , KC_VOLD           , KC_VOLU           ,                                         KC_MPRV           , KC_MRWD           , KC_MPLY           , KC_MFFD           , KC_MNXT           , KC_PSCR           ,
+        KC_PSCR           , KC_BRID           , KC_BRIU           , KC_VOLD           , KC_VOLU           , KC_MUTE           ,                                         KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , CW_TOGG           ,
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
@@ -29,9 +32,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_NAV] = LAYOUT(
         _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         _______           , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
-        KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         _______           , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
-        _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         _______           , KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           ,
+        _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         MOTION_PREV       , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
+        KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         MOTION_NEXT       , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
+        _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         MOTION_START      , KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           ,
                                                                                         _______           , _______           ,                                         _______           , _______
     ),
 
@@ -86,11 +89,15 @@ bool is_flow_tap_key(uint16_t keycode) {
 const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
+const uint16_t PROGMEM enter_combo[] = {LALT_T(KC_T), LGUI_T(KC_S), COMBO_END};
+const uint16_t PROGMEM escape_combo[] = {RGUI_T(KC_H), RALT_T(KC_A), COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(browser_forward_combo, KC_WFWD),
     COMBO(browser_back_combo, KC_WBAK),
     COMBO(browser_refresh_combo, KC_WREF),
+    COMBO(enter_combo, KC_ENT),
+    COMBO(escape_combo, KC_ESC),
 };
 
 // This globally defines all key overrides to be used
@@ -134,6 +141,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
             return false;
+        case MOTION_START:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("m") "s");
+            }
+            break;
+        case MOTION_NEXT:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("m") "]");
+            }
+            break;
+        case MOTION_PREV:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("m") "[");
+            }
+            break;
         case LT(L_SYM, KC_UNDS):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_UNDS);
@@ -209,17 +231,17 @@ bool rgb_matrix_indicators_user(void) {
 
     switch (highest_layer) {
         case L_GRAPHITE:
-            rgb_matrix_set_color(1, 0, 0, 0);
+            rgb_matrix_set_color(1, 255, 255, 255);
             break;
         case L_NUM:
-            rgb_matrix_set_color(2, 0, 0, 0);
+            rgb_matrix_set_color(2, 255, 255, 255);
             break;
         default:
             break;
     }
 
     if (is_caps_word_on()) {
-        rgb_matrix_set_color(0, 255, 255, 255);
+        rgb_matrix_set_color(31, 255, 255, 255);
     }
 
     return false;
