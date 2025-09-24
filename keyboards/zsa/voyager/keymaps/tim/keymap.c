@@ -9,8 +9,6 @@ enum layer_names {
     L_NAV,
     L_SYM,
     L_NUM,
-    L_WNAV,
-    L_FNUM,
 };
 
 enum custom_keycodes { // Make sure have the awesome keycode ready
@@ -27,14 +25,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
-                                                                                        LT(L_NAV, KC_COLN), KC_SPC            ,                                         LSFT_T(KC_MINS)   , LT(L_SYM, KC_UNDS)
+                                                                                        LT(L_NAV, KC_COLN), KC_SPC            ,                                         LSFT_T(KC_UNDS)   , LT(L_SYM, KC_MINS)
     ),
 
     [L_NAV] = LAYOUT(
         _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         MOTION_PREV       , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
         KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         MOTION_NEXT       , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
-        _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         MOTION_START      , KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           ,
+        _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           , _______           ,
                                                                                         _______           , _______           ,                                         _______           , _______
     ),
 
@@ -51,22 +49,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______           , _______           , KC_LPRN           , KC_LBRC           , KC_LCBR           , _______           ,                                         _______           , KC_RCBR           , KC_RBRC           , KC_RPRN           , _______           , _______           ,
         _______           , KC_8              , LCTL_T(KC_7)      , LALT_T(KC_6)      , LGUI_T(KC_5)      , _______           ,                                         _______           , RGUI_T(KC_0)      , RALT_T(KC_1)      , RCTL_T(KC_2)      , KC_3              , _______           ,
         _______           , KC_ASTR           , KC_MINS           , KC_PLUS           , KC_9              , _______           ,                                         _______           , KC_4              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
-                                                                                        _______           , _______           ,                                         _______           , _______
-    ),
-
-    [L_WNAV] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , LGUI(KC_HOME)     , LGUI(KC_UP)       , LGUI(KC_END)      , LGUI(KC_PGUP)     ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , LGUI(KC_LEFT)     , LGUI(KC_DOWN)     , LGUI(KC_RGHT)     , LGUI(KC_PGDN)     ,                                         _______           , _______           , KC_RALT           , KC_RCTL           , _______           , _______           ,
-        _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-                                                                                        _______           , _______           ,                                         _______           , _______
-    ),
-
-    [L_FNUM] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , KC_F8             , LCTL_T(KC_F7)     , LALT_T(KC_F6)     , LGUI_T(KC_F5)     , _______           ,                                         _______           , RGUI_T(KC_0)      , RALT_T(KC_F1)     , RCTL_T(KC_F2)     , KC_F3             , _______           ,
-        _______           , KC_F12            , KC_F11            , KC_F10            , KC_F9             , _______           ,                                         _______           , KC_F4             , _______           , _______           , _______           , _______           ,
                                                                                         _______           , _______           ,                                         _______           , _______
     ),
 };
@@ -89,15 +71,11 @@ bool is_flow_tap_key(uint16_t keycode) {
 const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
 const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
-const uint16_t PROGMEM enter_combo[] = {LALT_T(KC_T), LGUI_T(KC_S), COMBO_END};
-const uint16_t PROGMEM escape_combo[] = {RGUI_T(KC_H), RALT_T(KC_A), COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(browser_forward_combo, KC_WFWD),
     COMBO(browser_back_combo, KC_WBAK),
     COMBO(browser_refresh_combo, KC_WREF),
-    COMBO(enter_combo, KC_ENT),
-    COMBO(escape_combo, KC_ESC),
 };
 
 // This globally defines all key overrides to be used
@@ -107,6 +85,7 @@ const key_override_t *key_overrides[] = {
 bool is_alt_tab_active = false;
 uint8_t alt_tab_key = KC_LALT;
 
+// from https://www.reddit.com/r/MechanicalKeyboards/comments/mrnxrj/better_super_alttab/
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (is_alt_tab_active) {
         unregister_code(alt_tab_key);
@@ -156,7 +135,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LCTL("m") "[");
             }
             break;
-        case LT(L_SYM, KC_UNDS):
+        case LSFT_T(KC_UNDS):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_UNDS);
                 return false;
@@ -250,8 +229,8 @@ bool rgb_matrix_indicators_user(void) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(L_NAV, KC_COLN):
-        case LSFT_T(KC_MINS):
-        case LT(L_SYM, KC_UNDS):
+        case LSFT_T(KC_UNDS):
+        case LT(L_SYM, KC_MINS):
             // Make sure we always prefer the hold actions for these keys.
             return true;
         default:
