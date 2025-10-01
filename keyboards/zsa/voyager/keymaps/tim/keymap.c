@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
-                                                                                        LT(L_NAV, KC_COLN), KC_SPC            ,                                         LSFT_T(KC_UNDS)   , LT(L_SYM, KC_MINS)
+                                                                                        LT(L_NAV, KC_UNDS), KC_SPC            ,                                         LSFT_T(KC_COLN)   , LT(L_SYM, KC_MINS)
     ),
 
     [L_NAV] = LAYOUT(
@@ -135,15 +135,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LCTL("m") "[");
             }
             break;
-        case LSFT_T(KC_UNDS):
+        case LSFT_T(KC_COLN):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_UNDS);
+                tap_code16(KC_COLN);
                 return false;
             }
             break;
-        case LT(L_NAV, KC_COLN):
+        case LT(L_NAV, KC_UNDS):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_COLN);
+                tap_code16(KC_UNDS);
                 return false;
             }
             break;
@@ -226,10 +226,19 @@ bool rgb_matrix_indicators_user(void) {
     return false;
 }
 
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LSFT_T(KC_COLN):
+            return 0;
+        default:
+            return QUICK_TAP_TERM;
+    }
+}
+
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(L_NAV, KC_COLN):
-        case LSFT_T(KC_UNDS):
+        case LT(L_NAV, KC_UNDS):
+        case LSFT_T(KC_COLN):
         case LT(L_SYM, KC_MINS):
             // Make sure we always prefer the hold actions for these keys.
             return true;
