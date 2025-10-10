@@ -6,6 +6,7 @@
 
 enum layer_names {
     L_GRAPHITE,  // graphite with simplified punctuation
+    L_NIGHT,
     L_NAV,
     L_SYM,
     L_NUM,
@@ -28,8 +29,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                         LT(L_NAV, KC_UNDS), KC_SPC            ,                                         LSFT_T(KC_COLN)   , LT(L_SYM, KC_MINS)
     ),
 
+    [L_NIGHT] = LAYOUT(
+        KC_PSCR           , KC_BRID           , KC_BRIU           , KC_VOLD           , KC_VOLU           , KC_MUTE           ,                                         KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , CW_TOGG           ,
+        KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_DOT            , KC_BSPC           ,
+        LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
+        _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              ,                                         KC_QUOT           , KC_W              , KC_SLSH           , KC_SCLN           , KC_COMM           , _______           ,
+                                                                                        LT(L_NAV, KC_COLN), KC_R              ,                                         KC_SPC            , LT(L_SYM, KC_MINS)
+    ),
+
     [L_NAV] = LAYOUT(
-        _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , PDF(L_GRAPHITE)   , PDF(L_NIGHT)        , PDF(L_NUM)           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         MOTION_PREV       , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
         KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         MOTION_NEXT       , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
         _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           ,                                         KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           , _______           ,
@@ -122,17 +131,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case MOTION_START:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "s");
+                SEND_STRING(SS_LCTL("n") "s");
             }
             break;
         case MOTION_NEXT:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "]");
+                SEND_STRING(SS_LCTL("n") "]");
             }
             break;
         case MOTION_PREV:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "[");
+                SEND_STRING(SS_LCTL("n") "[");
             }
             break;
         case LSFT_T(KC_COLN):
@@ -212,8 +221,11 @@ bool rgb_matrix_indicators_user(void) {
         case L_GRAPHITE:
             rgb_matrix_set_color(1, 255, 255, 255);
             break;
-        case L_NUM:
+        case L_NIGHT:
             rgb_matrix_set_color(2, 255, 255, 255);
+            break;
+        case L_NUM:
+            rgb_matrix_set_color(3, 255, 255, 255);
             break;
         default:
             break;
