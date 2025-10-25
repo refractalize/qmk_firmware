@@ -10,6 +10,7 @@ void keyboard_pre_init_user(void) {
 
 enum layer_names {
     L_GRAPHITE,  // graphite with simplified punctuation
+    L_NIGHT,
     L_NAV,
     L_SYM,
     L_NUM,
@@ -32,8 +33,16 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                 KC_LGUI           , KC_LALT           , KC_LCTL           , LT(L_NAV, KC_UNDS), KC_SPC            , LSFT_T(KC_COLN)   , LT(L_SYM, KC_MINS), KC_RCTL           , KC_RALT           , KC_RGUI
     ),
 
+    [L_NIGHT] = LAYOUT(
+        KC_PSCR           , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , CW_TOGG           ,
+        KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
+        LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
+        _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              , _______           , _______           , KC_QUOT           , KC_W              , KC_DOT            , KC_SLSH           , KC_COMM           , _______           ,
+                                                KC_LGUI           , KC_LALT           , KC_LCTL           , LT(L_SYM, KC_MINS), LSFT_T(KC_R)      , LSFT_T(KC_SPC)    , LT(L_NAV, KC_UNDS), KC_RCTL           , KC_RALT           , KC_RGUI
+    ),
+
     [L_NAV] = LAYOUT(
-        _______           , PDF(L_GRAPHITE)   , PDF(L_NUM)        , _______           , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , PDF(L_GRAPHITE)   , PDF(L_NIGHT)      , PDF(L_NUM)        , RM_PREV           , RM_NEXT           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , KC_HOME           , KC_UP             , KC_END            , KC_PGUP           ,                                         MOTION_PREV       , KC_0              , KC_CIRC           , KC_DLR            , _______           , _______           ,
         KC_ENT            , _______           , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_PGDN           ,                                         MOTION_NEXT       , RGUI_T(KC_B)      , RALT_T(KC_W)      , RCTL_T(KC_E)      , _______           , _______           ,
         _______           , _______           , _______           , SHIFT_ALT_TAB     , ALT_TAB           , _______           , _______           , _______           , KC_ASTR           , S(KC_N)           , KC_N              , _______           , _______           , _______           ,
@@ -58,12 +67,17 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool is_flow_tap_key(uint16_t keycode) {
+    uint8_t highest_layer = get_highest_layer(default_layer_state);
+
     if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
         return false; // Disable Flow Tap on hotkeys.
     }
     switch (get_tap_keycode(keycode)) {
         case KC_SPC:
-        case KC_A ... KC_Z:
+        case KC_R:
+            return highest_layer != L_NIGHT;
+        case KC_A ... KC_Q:
+        case KC_S ... KC_Z:
         case KC_DOT:
         case KC_COMM:
         case KC_SLSH:
@@ -75,6 +89,7 @@ bool is_flow_tap_key(uint16_t keycode) {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_GRAPHITE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
+    [L_NIGHT] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
     [L_NAV] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
     [L_SYM] = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_NUM] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
@@ -135,17 +150,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case MOTION_START:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "s");
+                SEND_STRING(SS_LCTL("n") "s");
             }
             break;
         case MOTION_NEXT:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "]");
+                SEND_STRING(SS_LCTL("n") "]");
             }
             break;
         case MOTION_PREV:
             if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("m") "[");
+                SEND_STRING(SS_LCTL("n") "[");
             }
             break;
         case LSFT_T(KC_COLN):
@@ -225,8 +240,11 @@ bool rgb_matrix_indicators_user(void) {
         case L_GRAPHITE:
             rgb_matrix_set_color(4, 255, 255, 255);
             break;
-        case L_NUM:
+        case L_NIGHT:
             rgb_matrix_set_color(3, 255, 255, 255);
+            break;
+        case L_NUM:
+            rgb_matrix_set_color(2, 255, 255, 255);
             break;
         default:
             break;
@@ -239,9 +257,14 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_COLN):
             return 0;
-        default:
-            return QUICK_TAP_TERM;
+        case LSFT_T(KC_R):
+        case LSFT_T(KC_SPC):
+            if (get_highest_layer(default_layer_state) == L_NIGHT) {
+                return 0;
+            }
     }
+
+    return QUICK_TAP_TERM;
 }
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
@@ -255,4 +278,15 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             // Do not select the hold action when another key is pressed.
             return false;
     }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    if (get_highest_layer(default_layer_state) == L_NIGHT) {
+        switch (keycode) {
+            case LSFT_T(KC_R):
+            case LSFT_T(KC_SPC):
+                return true;
+        }
+    }
+    return false;
 }
