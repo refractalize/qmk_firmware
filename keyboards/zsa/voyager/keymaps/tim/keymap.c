@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              ,                                         KC_QUOT           , KC_W              , KC_DOT            , KC_SLSH           , KC_COMM           , _______           ,
-                                                                                        LT(L_SYM, KC_MINS), LSFT_T(KC_R)      ,                                         LSFT_T(KC_SPC)    , LT(L_NAV, KC_UNDS)
+                                                                                        LT(L_NAV, KC_UNDS), LSFT_T(KC_R)      ,                                         LSFT_T(KC_SPC)    , LT(L_SYM, KC_MINS)
     ),
 
     [L_NAV] = LAYOUT(
@@ -244,14 +244,8 @@ bool rgb_matrix_indicators_user(void) {
 }
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LSFT_T(KC_COLN):
-            return 0;
-        case LSFT_T(KC_R):
-        case LSFT_T(KC_SPC):
-            if (get_highest_layer(default_layer_state) == L_NIGHT) {
-                return 0;
-            }
+    if (QK_MOD_TAP | keycode || QK_LAYER_TAP | keycode) {
+        return 0;
     }
 
     return QUICK_TAP_TERM;
