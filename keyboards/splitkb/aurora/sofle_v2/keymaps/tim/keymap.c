@@ -29,7 +29,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PSCR           , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , CW_TOGG           ,
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
-        _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              , _______           , _______           , KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
+        _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              , KC_MUTE           , KC_MPLY           , KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
                                                 KC_LGUI           , KC_LALT           , KC_LCTL           , LT(L_NAV, KC_UNDS), KC_SPC            , LSFT_T(KC_COLN)   , LT(L_SYM, KC_MINS), KC_RCTL           , KC_RALT           , KC_RGUI
     ),
 
@@ -38,7 +38,7 @@ uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              , _______           , _______           , KC_QUOT           , KC_W              , KC_DOT            , KC_SLSH           , KC_COMM           , _______           ,
-                                                KC_LGUI           , KC_LALT           , KC_LCTL           , LT(L_SYM, KC_MINS), LSFT_T(KC_R)      , LSFT_T(KC_SPC)    , LT(L_NAV, KC_UNDS), KC_RCTL           , KC_RALT           , KC_RGUI
+                                                KC_LGUI           , KC_LALT           , KC_LCTL           , LT(L_NAV, KC_UNDS), LSFT_T(KC_R)      , LSFT_T(KC_SPC)    , LT(L_SYM, KC_MINS), KC_RCTL           , KC_RALT           , KC_RGUI
     ),
 
     [L_NAV] = LAYOUT(
@@ -254,14 +254,8 @@ bool rgb_matrix_indicators_user(void) {
 }
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LSFT_T(KC_COLN):
-            return 0;
-        case LSFT_T(KC_R):
-        case LSFT_T(KC_SPC):
-            if (get_highest_layer(default_layer_state) == L_NIGHT) {
-                return 0;
-            }
+    if (QK_MOD_TAP | keycode || QK_LAYER_TAP | keycode) {
+        return 0;
     }
 
     return QUICK_TAP_TERM;

@@ -10,6 +10,7 @@ enum layer_names {
     L_NAV,
     L_SYM,
     L_NUM,
+    L_MINI_NAV,
 };
 
 enum custom_keycodes { // Make sure have the awesome keycode ready
@@ -25,12 +26,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PSCR           , KC_BRID           , KC_BRIU           , KC_VOLD           , KC_VOLU           , KC_MUTE           ,                                         KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , CW_TOGG           ,
         KC_TAB            , KC_B              , KC_L              , KC_D              , KC_W              , KC_Z              ,                                         KC_QUOT           , KC_F              , KC_O              , KC_U              , KC_J              , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_R)      , LALT_T(KC_T)      , LGUI_T(KC_S)      , KC_G              ,                                         KC_Y              , RGUI_T(KC_H)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
-        _______           , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
+        MO(L_MINI_NAV)    , KC_Q              , KC_X              , KC_M              , KC_C              , KC_V              ,                                         KC_K              , KC_P              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
                                                                                         LT(L_NAV, KC_UNDS), KC_SPC            ,                                         LSFT_T(KC_COLN)   , LT(L_SYM, KC_MINS)
     ),
 
     [L_NIGHT] = LAYOUT(
-        KC_PSCR           , KC_1              , KC_2              , KC_3              , KC_4              , KC_5              ,                                         KC_6              , KC_7              , KC_8              , KC_9              , KC_0              , CW_TOGG           ,
+        KC_PSCR           , KC_ENT            , KC_UP             , KC_DOWN           , C(KC_C)           , C(KC_V)           ,                                         KC_6              , KC_0              , KC_1              , KC_2              , KC_0              , CW_TOGG           ,
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              ,                                         KC_QUOT           , KC_W              , KC_DOT            , KC_SLSH           , KC_COMM           , _______           ,
@@ -58,6 +59,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______           , _______           , KC_LPRN           , KC_LBRC           , KC_LCBR           , _______           ,                                         _______           , KC_RCBR           , KC_RBRC           , KC_RPRN           , _______           , _______           ,
         _______           , KC_8              , LCTL_T(KC_7)      , LALT_T(KC_6)      , LGUI_T(KC_5)      , _______           ,                                         _______           , RGUI_T(KC_0)      , RALT_T(KC_1)      , RCTL_T(KC_2)      , KC_3              , _______           ,
         _______           , KC_ASTR           , KC_MINS           , KC_PLUS           , KC_9              , _______           ,                                         _______           , KC_4              , KC_COMM           , KC_DOT            , KC_SLSH           , _______           ,
+                                                                                        _______           , _______           ,                                         _______           , _______
+    ),
+
+    [L_MINI_NAV] = LAYOUT(
+        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , _______           , _______           , _______           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , C(KC_UP)          , KC_UP             , C(KC_C)           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
+        _______           , C(KC_DOWN)        , KC_DOWN           , C(KC_V)           , _______           , _______           ,                                         _______           , _______           , _______           , _______           , _______           , _______           ,
                                                                                         _______           , _______           ,                                         _______           , _______
     ),
 };
