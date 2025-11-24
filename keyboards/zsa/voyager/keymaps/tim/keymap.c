@@ -19,6 +19,8 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     MOTION_START,
     MOTION_NEXT,
     MOTION_PREV,
+    OS_COPY,
+    OS_PASTE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -31,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NIGHT] = LAYOUT(
-        KC_PSCR           , KC_ENT            , KC_UP             , KC_DOWN           , C(KC_C)           , C(KC_V)           ,                                         KC_6              , KC_0              , KC_1              , KC_2              , KC_0              , CW_TOGG           ,
+        KC_PSCR           , KC_ENT            , KC_UP             , KC_DOWN           , OS_COPY           , OS_PASTE          ,                                         KC_6              , KC_0              , KC_1              , KC_2              , KC_0              , CW_TOGG           ,
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_K              , KC_Q              ,                                         KC_P              , KC_G              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LGUI_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_M              ,                                         KC_Y              , RGUI_T(KC_C)      , RALT_T(KC_A)      , RCTL_T(KC_E)      , RGUI_T(KC_I)      , RSFT_T(KC_ENT)    ,
         _______           , KC_X              , KC_V              , KC_J              , KC_D              , KC_Z              ,                                         KC_QUOT           , KC_W              , KC_DOT            , KC_SLSH           , KC_COMM           , _______           ,
@@ -105,18 +107,42 @@ combo_t key_combos[]   = {
 const key_override_t *key_overrides[] = {
 };
 
+uint16_t os_cmd_or_ctrl(void) {
+    switch (detected_host_os()) {
+        case OS_MACOS:
+        case OS_IOS:
+            return QK_LGUI;
+        case OS_WINDOWS:
+        case OS_LINUX:
+        case OS_UNSURE:
+        default:
+            return QK_LCTL;
+    }
+}
+
+uint8_t os_tab_or_cmd(void) {
+    switch (detected_host_os()) {
+        case OS_MACOS:
+        case OS_IOS:
+            return KC_LGUI;
+        case OS_WINDOWS:
+        case OS_LINUX:
+        case OS_UNSURE:
+        default:
+            return KC_LALT;
+    }
+}
+
 bool is_alt_tab_active = false;
-uint8_t alt_tab_key = KC_LALT;
 
 // from https://www.reddit.com/r/MechanicalKeyboards/comments/mrnxrj/better_super_alttab/
 layer_state_t layer_state_set_user(layer_state_t state) {
     if (is_alt_tab_active) {
-        unregister_code(alt_tab_key);
+        unregister_code(os_tab_or_cmd());
         is_alt_tab_active = false;
     }
     return update_tri_layer_state(state, L_NAV, L_SYM, L_NUM);
 }
-
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -124,7 +150,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 if (!is_alt_tab_active) {
                     is_alt_tab_active = true;
-                    register_code(alt_tab_key);
+                    register_code(os_tab_or_cmd());
                 }
                 register_code(KC_TAB);
             } else {
@@ -135,13 +161,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 if (!is_alt_tab_active) {
                     is_alt_tab_active = true;
-                    register_code(alt_tab_key);
+                    register_code(os_tab_or_cmd());
                 }
                 register_code16(S(KC_TAB));
             } else {
                 unregister_code16(S(KC_TAB));
             }
             break;
+        case OS_COPY:
+            if (record->event.pressed) {
+                tap_code16(os_cmd_or_ctrl() | KC_C);
+            }
+            return false;
+        case OS_PASTE:
+            if (record->event.pressed) {
+                tap_code16(os_cmd_or_ctrl() | KC_V);
+            }
             return false;
         case MOTION_START:
             if (record->event.pressed) {
@@ -205,24 +240,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(KC_DQUO);
                 return false;
             }
-            break;
-    }
-    return true;
-}
-
-bool process_detected_host_os_user(os_variant_t detected_os) {
-    switch (detected_os) {
-        case OS_WINDOWS:
-            // Do something when Windows is detected
-            break;
-        case OS_MACOS:
-            alt_tab_key = KC_LGUI;
-            return false;
-        case OS_LINUX:
-            // Do something when Linux is detected
-            break;
-        default:
-            // Handle unknown OS or do nothing
             break;
     }
     return true;
