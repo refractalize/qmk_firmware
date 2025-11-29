@@ -4,7 +4,6 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_us_international.h"
-// #include "sendstring_us_international.h"
 
 enum layer_names {
     L_NIGHT,
@@ -50,8 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_SYM] = LAYOUT(
         KC_F1                 , KC_F2                 , KC_F3                 , KC_F4                 , KC_F5                 , KC_F6                 ,                                                 KC_F7                 , KC_F8                 , KC_F9                 , KC_F10                , KC_F11                , KC_F12                ,
-        _______               , KC_PERC               , KC_DLR                , KC_LCBR               , KC_RCBR               , KC_TILD               ,                                                 KC_CIRC               , KC_LABK               , KC_RABK               , KC_EQL                , KC_AMPR               , _______               ,
-        _______               , LGUI_T(KC_AT)         , LCTL_T(KC_MINS)       , LALT_T(KC_LPRN)       , LGUI_T(KC_RPRN)       , KC_PLUS               ,                                                 KC_EXLM               , RGUI_T(KC_COLN)       , LALT_T(KC_UNDS)       , RCTL_T(KC_DQUO)       , KC_SCLN               , _______               ,
+        _______               , KC_PERC               , KC_DLR                , KC_LCBR               , KC_RCBR               , KC_TILD               ,                                                 KC_CIRC               , KC_LABK               , KC_RABK               , KC_MINS               , KC_AMPR               , _______               ,
+        _______               , LGUI_T(KC_AT)         , LCTL_T(KC_MINS)       , LALT_T(KC_LPRN)       , LGUI_T(KC_RPRN)       , KC_PLUS               ,                                                 KC_EXLM               , RGUI_T(KC_EQL)        , LALT_T(KC_COLN)       , RCTL_T(KC_DQUO)       , KC_SCLN               , _______               ,
         _______               , KC_BSLS               , KC_SLSH               , KC_LBRC               , KC_RBRC               , KC_HASH               ,                                                 KC_QUES               , KC_ASTR               , KC_PIPE               , KC_GRV                , KC_QUOT               , _______               ,
                                                                                                         _______               , _______               ,                                                 _______               , _______
     ),
@@ -66,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_MINI_NAV] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , C(KC_PGDN)            , KC_UP                 , C(KC_PGUP)            , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
+        _______               , _______               , C(KC_PGUP)            , KC_UP                 , C(KC_PGDN)            , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , OS_COPY               , KC_DOWN               , OS_PASTE              , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , _______               , SHIFT_ALT_TAB         , ALT_TAB               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
                                                                                                         KC_BSPC               , KC_ENT                ,                                                 _______               , _______
@@ -151,7 +150,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         unregister_code(os_tab_or_cmd());
         is_alt_tab_active = false;
     }
-    return update_tri_layer_state(state, L_NAV, L_SYM, L_NUM);
+    return state;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -263,9 +262,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-        case RGUI_T(KC_COLN):
+        case RGUI_T(KC_EQL):
             if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_COLN);
+                tap_code16(KC_EQL);
                 return false;
             }
             break;
@@ -333,6 +332,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
             case LSFT_T(KC_R):
             case LSFT_T(KC_SPC):
             case LT(L_ACCENTS, KC_D):
+            case LT(L_NUM, KC_L):
                 return true;
         }
     }
