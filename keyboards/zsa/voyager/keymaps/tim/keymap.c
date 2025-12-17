@@ -285,9 +285,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool rgb_matrix_indicators_user(void) {
-    uint8_t highest_layer = get_highest_layer(default_layer_state);
+    uint8_t highest_default_layer = get_highest_layer(default_layer_state);
 
-    switch (highest_layer) {
+    switch (highest_default_layer) {
         case L_NIGHT:
             rgb_matrix_set_color(1, 255, 255, 255);
             break;
