@@ -40,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PSCR               , KC_ENT                , KC_UP                 , KC_DOWN               , OS_COPY               , OS_PASTE              ,                                                 KC_6                  , KC_0                  , KC_1                  , KC_2                  , KC_0                  , CW_TOGG               ,
         KC_TAB                , KC_B                  , KC_F                  , LT(L_NUM, KC_L)       , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                                                 KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
-        _______               , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  , _______               , _______               , KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
+        _______               , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  , KC_MUTE               , KC_MPLY               , KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
                                                         KC_LGUI               , KC_LALT               , KC_LCTL               , LT(L_SYM, KC_MINS)    , LSFT_T(KC_R)          , LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)    , KC_RCTL               , KC_RALT               , KC_RGUI
     ),
 
@@ -301,9 +301,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool rgb_matrix_indicators_user(void) {
-    uint8_t highest_layer = get_highest_layer(default_layer_state);
+    uint8_t highest_default_layer = get_highest_layer(default_layer_state);
 
-    switch (highest_layer) {
+    switch (highest_default_layer) {
         case L_NIGHT:
             rgb_matrix_set_color(4, 255, 255, 255);
             break;
