@@ -32,7 +32,7 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NIGHT] = LAYOUT(
-        KC_PSCR               , KC_ENT                , KC_UP                 , KC_DOWN               , OS_COPY               , OS_PASTE              ,                                                 KC_6                  , KC_0                  , KC_1                  , KC_2                  , KC_0                  , CW_TOGG               ,
+        KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
         KC_TAB                , KC_B                  , KC_F                  , LT(L_NUM, KC_L)       , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                                                 KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
         _______               , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                                                 KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
@@ -58,9 +58,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUM] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , _______               , _______               ,
-        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_0)          , LALT_T(KC_1)          , RCTL_T(KC_2)          , RGUI_T(KC_3)          , _______               ,
+        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_2)          , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_4                  , KC_5                  , KC_6                  , _______               , _______               ,
-                                                                                                        _______               , _______               ,                                                 _______               , _______
+                                                                                                        _______               , _______               ,                                                 _______               , KC_0
     ),
 
     [L_MINI_NAV] = LAYOUT(
@@ -79,28 +79,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                         _______               , _______               ,                                                 _______               , _______
     ),
 };
-
-bool is_flow_tap_key(uint16_t keycode) {
-    uint8_t highest_layer = get_highest_layer(default_layer_state);
-
-    if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
-        return false; // Disable Flow Tap on hotkeys.
-    }
-    switch (get_tap_keycode(keycode)) {
-        case KC_SPC:
-        case KC_R:
-        case KC_D:
-            return highest_layer != L_NIGHT;
-        case KC_A ... KC_C:
-        case KC_E ... KC_Q:
-        case KC_S ... KC_Z:
-        case KC_DOT:
-        case KC_COMM:
-        case KC_SLSH:
-            return true;
-    }
-    return false;
-}
 
 const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
 const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
@@ -232,12 +210,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_LCTL("n") "[");
             }
             break;
-        case LSFT_T(KC_COLN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_COLN);
-                return false;
-            }
-            break;
         case LT(L_NAV, KC_UNDS):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_UNDS);
@@ -316,7 +288,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT(L_NAV, KC_UNDS):
-        case LSFT_T(KC_COLN):
         case LT(L_SYM, KC_MINS):
             // Make sure we always prefer the hold actions for these keys.
             return true;
