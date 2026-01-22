@@ -7,6 +7,7 @@
 
 enum layer_names {
     L_NIGHT,
+    L_QWERTY,
     L_NAV,
     L_SYM,
     L_NUM,
@@ -39,8 +40,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                         LT(L_SYM, KC_MINS)    , LSFT_T(KC_R)          ,                                                 LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
     ),
 
+    [L_QWERTY] = LAYOUT(
+        KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
+        KC_TAB                , KC_Q                  , KC_W                  , LT(L_NUM, KC_E)       , KC_R                  , KC_T                  ,                                                 KC_Y                  , KC_U                  , KC_I                  , KC_O                  , KC_P                  , KC_BSPC               ,
+        LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_A)          , LCTL_T(KC_S)          , LALT_T(KC_D)          , LGUI_T(KC_F)          , KC_G                  ,                                                 KC_H                  , RGUI_T(KC_J)          , LALT_T(KC_K)          , RCTL_T(KC_L)          , RGUI_T(KC_SCLN)       , RSFT_T(KC_ENT)        ,
+        _______               , KC_Z                  , KC_X                  , KC_C                  , LT(L_ACCENTS, KC_V)   , KC_B                  ,                                                 KC_N                  , KC_M                  , KC_COMM               , KC_DOT                , KC_SLSH               , _______               ,
+                                                                                                        LT(L_SYM, KC_MINS)    , KC_LEFT_SHIFT         ,                                                 LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
+    ),
+
     [L_NAV] = LAYOUT(
-        _______               , PDF(L_NIGHT)          , PDF(L_NUM)            , _______               , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
+        _______               , PDF(L_NIGHT)          , PDF(L_QWERTY)         , PDF(L_NUM)            , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_HOME               , KC_UP                 , KC_END                , _______               , _______               ,
         _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , KC_LEFT               , KC_DOWN               , KC_RGHT               , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , SHIFT_ALT_TAB         , ALT_TAB               , _______               , _______               , _______               ,
@@ -58,9 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUM] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , _______               , _______               ,
-        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_2)          , _______               , _______               ,
+        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_3)          , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_4                  , KC_5                  , KC_6                  , _______               , _______               ,
-                                                                                                        _______               , _______               ,                                                 _______               , KC_0
+                                                                                                        _______               , _______               ,                                                 _______               , LT(L_NAV, KC_0)
     ),
 
     [L_MINI_NAV] = LAYOUT(
@@ -263,15 +272,14 @@ bool rgb_matrix_indicators_user(void) {
         case L_NIGHT:
             rgb_matrix_set_color(1, 255, 255, 255);
             break;
-        case L_NUM:
+        case L_QWERTY:
             rgb_matrix_set_color(2, 255, 255, 255);
+            break;
+        case L_NUM:
+            rgb_matrix_set_color(3, 255, 255, 255);
             break;
         default:
             break;
-    }
-
-    if (is_caps_word_on()) {
-        rgb_matrix_set_color(31, 255, 255, 255);
     }
 
     return false;
