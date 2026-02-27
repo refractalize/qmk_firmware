@@ -30,13 +30,17 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     ACC_I_UM,
 };
 
+enum tap_dance_codes {
+    TD_OSS_BROWSER,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NIGHT] = LAYOUT(
         KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
-        KC_TAB                , KC_B                  , KC_F                  , LT(L_NUM, KC_L)       , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
+        KC_TAB                , KC_B                  , KC_F                  , KC_L                  , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                                                 KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
         MO(L_BROWSER)         , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                                                 KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
-                                                                                                        OSM(MOD_LSFT)         , LT(L_SYM, KC_R)       ,                                                 LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
+                                                                                                        TD(TD_OSS_BROWSER)    , LT(L_SYM, KC_R)       ,                                                 LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
     ),
 
     [L_QWERTY] = LAYOUT(
@@ -65,8 +69,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_NUM] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , _______               , _______               ,
-        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_3)          , KC_DOT                , _______               ,
+        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , KC_MINS               , KC_DEL                ,
+        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_3)          , KC_DOT                , S(KC_ENT)             ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_4                  , KC_5                  , KC_6                  , KC_COMM               , _______               ,
                                                                                                         _______               , _______               ,                                                 _______               , LT(L_NAV, KC_0)
     ),
@@ -75,16 +79,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , C(KC_W)               , SHIFT_ALT_TAB         , ALT_TAB               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , OS_COPY_SHIFT         , OS_COPY               , OS_PASTE              , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , C(S(KC_PGUP))         , C(S(KC_PGDN))         , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
+        _______               , _______               , _______               , C(KC_PGUP)            , C(KC_PGDN)            , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
                                                                                                         C(S(KC_A))            , KC_ENT                ,                                                 _______               , _______
     ),
 
     [L_BROWSER] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , C(S(KC_PGUP))         , KC_UP                 , C(KC_W)               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , C(S(KC_PGDN))         , KC_DOWN               , C(KC_T)               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-                                                                                                        C(S(KC_A))            , KC_ENT                ,                                                 _______               , _______
+        _______               , _______               , C(KC_PGUP)            , KC_UP                 , C(KC_W)               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , KC_MINS               , KC_DEL                ,
+        KC_ENT                , _______               , C(KC_PGDN)            , KC_DOWN               , C(KC_T)               , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_3)          , KC_DOT                , S(KC_ENT)             ,
+        _______               , _______               , _______               , _______               , C(S(KC_A))            , _______               ,                                                 _______               , KC_4                  , KC_5                  , KC_6                  , KC_COMM               , _______               ,
+                                                                                                        _______               , _______               ,                                                 _______               , KC_0
     ),
 
     [L_ACCENTS] = LAYOUT(
@@ -96,9 +100,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
-const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
-const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
+const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, C(KC_T), COMBO_END};
+const uint16_t PROGMEM browser_back_combo[] = {C(KC_PGDN), KC_DOWN, COMBO_END};
+const uint16_t PROGMEM browser_refresh_combo[] = {C(KC_PGDN), C(KC_T), COMBO_END};
 const uint16_t PROGMEM dj_exclamaition[] = {LT(L_ACCENTS, KC_D), KC_J, COMBO_END};
 const uint16_t PROGMEM vj_at[] = {KC_V, KC_J, COMBO_END};
 
@@ -146,6 +150,57 @@ uint8_t os_tab_or_cmd(void) {
             return KC_LALT;
     }
 }
+
+typedef enum {
+    OSS_BROWSER_STATE_NONE,
+    OSS_BROWSER_STATE_UNKNOWN,
+    OSS_BROWSER_STATE_TAP,
+    OSS_BROWSER_STATE_DOUBLE_TAP,
+    OSS_BROWSER_STATE_HOLD,
+} oss_browser_state_t;
+
+static oss_browser_state_t oss_browser_state;
+
+oss_browser_state_t oss_browser_cur_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->finished) return OSS_BROWSER_STATE_NONE;
+        if (state->interrupted || !state->pressed) return OSS_BROWSER_STATE_TAP;
+        return OSS_BROWSER_STATE_HOLD;
+    }
+    if (state->count == 2) {
+        if (state->interrupted || !state->pressed) return OSS_BROWSER_STATE_DOUBLE_TAP;
+        return OSS_BROWSER_STATE_HOLD;
+    }
+    return OSS_BROWSER_STATE_UNKNOWN;
+}
+
+void oss_browser_finished(tap_dance_state_t *state, void *user_data) {
+    oss_browser_state = oss_browser_cur_dance(state);
+    switch (oss_browser_state) {
+        case OSS_BROWSER_STATE_TAP:
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            break;
+        case OSS_BROWSER_STATE_DOUBLE_TAP:
+            caps_word_on();
+            break;
+        case OSS_BROWSER_STATE_HOLD:
+            layer_on(L_BROWSER);
+            break;
+        default:
+            break;
+    }
+}
+
+void oss_browser_reset(tap_dance_state_t *state, void *user_data) {
+    if (oss_browser_state == OSS_BROWSER_STATE_HOLD) {
+        layer_off(L_BROWSER);
+    }
+    oss_browser_state = OSS_BROWSER_STATE_NONE;
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_OSS_BROWSER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, oss_browser_finished, oss_browser_reset),
+};
 
 bool is_alt_tab_active = false;
 
