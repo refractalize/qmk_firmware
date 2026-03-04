@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
         KC_TAB                , KC_B                  , KC_F                  , KC_L                  , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                                                 KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
-        MO(L_BROWSER)         , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                                                 KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
+        LSFT_T(KC_MINS)       , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                                                 KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , KC_MINS               ,
                                                                                                         TD(TD_OSS_BROWSER)    , LT(L_SYM, KC_R)       ,                                                 LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
     ),
 
@@ -114,13 +114,11 @@ combo_t key_combos[]   = {
     COMBO(vj_at, KC_AT),
 };
 
-const key_override_t colon_mins_override = ko_make_basic(MOD_MASK_SHIFT, KC_COLN, KC_MINS);
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
 const key_override_t comma_at_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_AT);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
-    &colon_mins_override,
     &dot_exclaimation_override,
     &comma_at_override,
 };
