@@ -10,7 +10,7 @@ return {
         qmk = {
           name = "QMK",
           commands = {
-            line = function()
+            file = function()
               local buffer = vim.api.nvim_get_current_buf()
               local filename = vim.fn.expand("%:.")
               local path_components = vim.split(filename, "/")
