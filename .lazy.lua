@@ -1,5 +1,38 @@
 return {
   {
+    "refractalize/qmkformat.nvim",
+
+    cmd = {
+      "QmkFormat",
+      "QmkExportYaml",
+    },
+
+    opts = {
+      keyboard_templates = {
+        sofle = {
+          file_pattern = "*sofle*",
+          template = [[
+            X X X X X X _ _ X X X X X X
+            X X X X X X _ _ X X X X X X
+            X X X X X X _ _ X X X X X X
+            X X X X X X X X X X X X X X
+            _ _ X X X X X X X X X X _ _
+          ]],
+        },
+        voyager = {
+          file_pattern = "*voyager*",
+          template = [[
+            X X X X X X _ X X X X X X
+            X X X X X X _ X X X X X X
+            X X X X X X _ X X X X X X
+            X X X X X X _ X X X X X X
+            _ _ _ _ X X _ X X _ _ _ _
+          ]],
+        },
+      },
+    },
+  },
+  {
     "refractalize/runtest.nvim",
 
     opts = {

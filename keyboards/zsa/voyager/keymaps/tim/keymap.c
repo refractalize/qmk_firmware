@@ -8,6 +8,7 @@
 enum layer_names {
     L_NIGHT,
     L_QWERTY,
+    L_MAGIC,
     L_NAV,
     L_SYM,
     L_NUM,
@@ -28,6 +29,22 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     ACC_O_CIRC,
     ACC_O_UM,
     ACC_I_UM,
+    MAGIC_OULD,
+    MAGIC_TION,
+    MAGIC_SENT,
+    MAGIC_GHT,
+    MAGIC_TENT,
+    MAGIC_MENT,
+    MAGIC_DENT,
+    MAGIC_VE,
+    MAGIC_ING,
+    MAGIC_ERE,
+    MAGIC_THE,
+    MAGIC_PRO,
+    MAGIC_YOU,
+    MAGIC_JECT,
+    MAGIC_DOTSLASH,
+    MAGIC_AGE,
 };
 
 enum tap_dance_codes {
@@ -36,10 +53,10 @@ enum tap_dance_codes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NIGHT] = LAYOUT(
-        KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                         KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
+        KC_PSCR               , _______               , _______               , _______               , KC_VOLD               , KC_VOLU               ,                         KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
         KC_TAB                , KC_B                  , KC_F                  , KC_L                  , KC_K                  , KC_Q                  ,                         KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                         KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
-        LSFT_T(KC_MINS)       , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                         KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , KC_MINS               ,
+        LSFT_T(KC_SLSH)       , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                         KC_QUOT               , KC_W                  , KC_DOT                , OSL(L_MAGIC)          , KC_COMM               , KC_MINS               ,
                                                                                                         TD(TD_OSS_BROWSER)    , LT(L_SYM, KC_R)       ,                         LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
     ),
 
@@ -51,12 +68,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                         _______               , KC_LEFT_SHIFT         ,                         _______               , _______
     ),
 
-    [L_NAV] = LAYOUT(
-        _______               , PDF(L_NIGHT)          , PDF(L_QWERTY)         , PDF(L_BROWSER)        , _______               , _______               ,                         KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                         KC_PGUP               , KC_HOME               , KC_UP                 , KC_END                , _______               , _______               ,
-        _______               , OS_LGUI               , OS_LCTL               , OS_LALT               , OS_LGUI               , _______               ,                         KC_PGDN               , KC_LEFT               , KC_DOWN               , KC_RGHT               , _______               , _______               ,
+    [L_MAGIC] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
-                                                                                                        _______               , _______               ,                         _______               , _______
+        _______               , _______               , _______               , MAGIC_OULD            , _______               , _______               ,                         MAGIC_PRO             , _______               , _______               , _______               , _______               , _______               ,
+        _______               , MAGIC_TION            , MAGIC_SENT            , MAGIC_GHT             , MAGIC_TENT            , MAGIC_MENT            ,                         MAGIC_YOU             , _______               , MAGIC_AGE             , _______               , _______               , _______               ,
+        _______               , _______               , _______               , MAGIC_JECT            , MAGIC_DENT            , _______               ,                         MAGIC_VE              , MAGIC_ING             , MAGIC_DOTSLASH        , KC_SLSH               , _______               , _______               ,
+                                                                                                        _______               , MAGIC_ERE             ,                         MAGIC_THE             , _______
+    ),
+
+    [L_NAV] = LAYOUT(
+        _______               , PDF(L_NIGHT)          , PDF(L_QWERTY)         , PDF(L_BROWSER)        , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
+        _______               , _______               , _______               , _______               , _______               , _______               ,                         KC_PGUP               , KC_HOME               , KC_UP                 , KC_END                , _______               , _______               ,
+        _______               , KC_LGUI               , KC_LCTL               , KC_LALT               , KC_LGUI               , _______               ,                         KC_PGDN               , KC_LEFT               , KC_DOWN               , KC_RGHT               , _______               , _______               ,
+        _______               , _______               , _______               , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
+                                                                                                        KC_LSFT               , _______               ,                         _______               , _______
     ),
 
     [L_SYM] = LAYOUT(
@@ -116,11 +141,13 @@ combo_t key_combos[]   = {
 
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
 const key_override_t comma_at_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_AT);
+const key_override_t shift_magic_question = ko_make_basic(MOD_MASK_SHIFT, OSL(L_MAGIC), KC_QUES);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
     &dot_exclaimation_override,
     &comma_at_override,
+    &shift_magic_question,
 };
 
 uint16_t os_cmd_or_ctrl(void) {
@@ -153,7 +180,6 @@ typedef enum {
     OSS_BROWSER_STATE_NONE,
     OSS_BROWSER_STATE_UNKNOWN,
     OSS_BROWSER_STATE_TAP,
-    OSS_BROWSER_STATE_DOUBLE_TAP,
     OSS_BROWSER_STATE_HOLD,
 } oss_browser_state_t;
 
@@ -165,10 +191,6 @@ oss_browser_state_t oss_browser_cur_dance(tap_dance_state_t *state) {
         if (state->interrupted || !state->pressed) return OSS_BROWSER_STATE_TAP;
         return OSS_BROWSER_STATE_HOLD;
     }
-    if (state->count == 2) {
-        if (state->interrupted || !state->pressed) return OSS_BROWSER_STATE_DOUBLE_TAP;
-        return OSS_BROWSER_STATE_HOLD;
-    }
     return OSS_BROWSER_STATE_UNKNOWN;
 }
 
@@ -177,9 +199,6 @@ void oss_browser_finished(tap_dance_state_t *state, void *user_data) {
     switch (oss_browser_state) {
         case OSS_BROWSER_STATE_TAP:
             add_oneshot_mods(MOD_BIT(KC_LSFT));
-            break;
-        case OSS_BROWSER_STATE_DOUBLE_TAP:
-            caps_word_on();
             break;
         case OSS_BROWSER_STATE_HOLD:
             layer_on(L_BROWSER);
@@ -322,6 +341,111 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case LSFT_T(KC_SPC):
+            if (record->tap.count && record->event.pressed) {
+                if ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT) {
+                    clear_oneshot_mods();
+                    caps_word_on();
+                    return false;
+                }
+            }
+            break;
+        case MAGIC_OULD:
+            if (record->event.pressed) {
+                SEND_STRING("ould");
+                return false;
+            }
+            break;
+        case MAGIC_TION:
+            if (record->event.pressed) {
+                SEND_STRING("tion");
+                return false;
+            }
+            break;
+        case MAGIC_SENT:
+            if (record->event.pressed) {
+                SEND_STRING("sent");
+                return false;
+            }
+            break;
+        case MAGIC_GHT:
+            if (record->event.pressed) {
+                SEND_STRING("ght");
+                return false;
+            }
+            break;
+        case MAGIC_TENT:
+            if (record->event.pressed) {
+                SEND_STRING("tent");
+                return false;
+            }
+            break;
+        case MAGIC_MENT:
+            if (record->event.pressed) {
+                SEND_STRING("ment");
+                return false;
+            }
+            break;
+        case MAGIC_DENT:
+            if (record->event.pressed) {
+                SEND_STRING("dent");
+                return false;
+            }
+            break;
+        case MAGIC_VE:
+            if (record->event.pressed) {
+                SEND_STRING("'ve");
+                return false;
+            }
+            break;
+        case MAGIC_ING:
+            if (record->event.pressed) {
+                SEND_STRING("ing");
+                return false;
+            }
+            break;
+        case MAGIC_ERE:
+            if (record->event.pressed) {
+                SEND_STRING("ere");
+                return false;
+            }
+            break;
+        case MAGIC_THE:
+            if (record->event.pressed) {
+                SEND_STRING("the ");
+                return false;
+            }
+            break;
+        case MAGIC_PRO:
+            if (record->event.pressed) {
+                SEND_STRING("pro");
+                return false;
+            }
+            break;
+        case MAGIC_YOU:
+            if (record->event.pressed) {
+                SEND_STRING("you");
+                return false;
+            }
+            break;
+        case MAGIC_JECT:
+            if (record->event.pressed) {
+                SEND_STRING("ject");
+                return false;
+            }
+            break;
+        case MAGIC_DOTSLASH:
+            if (record->event.pressed) {
+                SEND_STRING("../");
+                return false;
+            }
+            break;
+        case MAGIC_AGE:
+            if (record->event.pressed) {
+                SEND_STRING("age");
+                return false;
+            }
+            break;
     }
     return true;
 }
@@ -366,11 +490,12 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    if (get_highest_layer(default_layer_state) == L_NIGHT) {
+    uint8_t highest_default_layer = get_highest_layer(default_layer_state);
+
+    if (highest_default_layer == L_NIGHT) {
         switch (keycode) {
             case LSFT_T(KC_SPC):
             case LT(L_ACCENTS, KC_D):
-            case LT(L_NUM, KC_L):
                 return true;
         }
     }
