@@ -7,7 +7,6 @@
 
 enum layer_names {
     L_NIGHT,
-    L_QWERTY,
     L_MAGIC,
     L_NAV,
     L_SYM,
@@ -60,14 +59,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                         TD(TD_OSS_BROWSER)    , LT(L_SYM, KC_R)       ,                         LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)
     ),
 
-    [L_QWERTY] = LAYOUT(
-        _______               , _______               , _______               , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , KC_Q                  , KC_W                  , KC_E                  , KC_R                  , KC_T                  ,                         KC_Y                  , KC_U                  , KC_I                  , KC_O                  , KC_P                  , _______               ,
-        _______               , LGUI_T(KC_A)          , LCTL_T(KC_S)          , LALT_T(KC_D)          , LGUI_T(KC_F)          , KC_G                  ,                         KC_H                  , RGUI_T(KC_J)          , LALT_T(KC_K)          , RCTL_T(KC_L)          , RGUI_T(KC_SCLN)       , _______               ,
-        _______               , KC_Z                  , KC_X                  , KC_C                  , LT(L_ACCENTS, KC_V)   , KC_B                  ,                         KC_N                  , KC_M                  , KC_COMM               , KC_DOT                , KC_SLSH               , _______               ,
-                                                                                                        _______               , KC_LEFT_SHIFT         ,                         _______               , _______
-    ),
-
     [L_MAGIC] = LAYOUT(
         _______               , _______               , _______               , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , _______               , MAGIC_OULD            , _______               , _______               ,                         MAGIC_PRO             , _______               , _______               , _______               , _______               , _______               ,
@@ -77,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        _______               , PDF(L_NIGHT)          , PDF(L_QWERTY)         , PDF(L_BROWSER)        , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
+        _______               , PDF(L_NIGHT)          , PDF(L_BROWSER)        , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                         KC_PGUP               , KC_HOME               , KC_UP                 , KC_END                , _______               , _______               ,
         _______               , KC_LGUI               , KC_LCTL               , KC_LALT               , KC_LGUI               , _______               ,                         KC_PGDN               , KC_LEFT               , KC_DOWN               , KC_RGHT               , _______               , _______               ,
         _______               , _______               , _______               , _______               , _______               , _______               ,                         _______               , _______               , _______               , _______               , _______               , _______               ,
@@ -457,11 +448,8 @@ bool rgb_matrix_indicators_user(void) {
         case L_NIGHT:
             rgb_matrix_set_color(1, 255, 255, 255);
             break;
-        case L_QWERTY:
-            rgb_matrix_set_color(2, 255, 255, 255);
-            break;
         case L_NUM:
-            rgb_matrix_set_color(3, 255, 255, 255);
+            rgb_matrix_set_color(2, 255, 255, 255);
             break;
         default:
             break;
