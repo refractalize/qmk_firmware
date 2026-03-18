@@ -30,25 +30,11 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     ACC_O_CIRC,
     ACC_O_UM,
     ACC_I_UM,
-    MAGIC_OULD,
-    MAGIC_TION,
-    MAGIC_SENT,
-    MAGIC_GHT,
-    MAGIC_TENT,
-    MAGIC_MENT,
-    MAGIC_DENT,
-    MAGIC_VE,
-    MAGIC_ING,
-    MAGIC_ERE,
-    MAGIC_THE,
-    MAGIC_PRO,
-    MAGIC_YOU,
-    MAGIC_JECT,
-    MAGIC_DOTSLASH,
-    MAGIC_DOTDOTSLASH,
-    MAGIC_AGE,
-    MAGIC_EQUALS_RABK,
-    MAGIC_MINS_RABK,
+
+    SEND_DOTSLASH,
+    SEND_DOTDOTSLASH,
+    SEND_EQUALS_RABK,
+    SEND_MINS_RABK,
 };
 
 enum tap_dance_codes {
@@ -60,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PSCR               , LGUI(KC_1)            , LGUI(KC_2)            , LGUI(KC_3)            , KC_VOLD               , KC_VOLU               ,                         KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , KC_DEL                ,
         KC_TAB                , KC_B                  , KC_F                  , KC_L                  , KC_K                  , KC_Q                  ,                         KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
         LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                         KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
-        LSFT_T(KC_SLSH)       , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                         KC_QUOT               , KC_W                  , KC_DOT                , KC_MINS               , KC_COMM               , KC_MINS               ,
+        LSFT_T(KC_SLSH)       , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  ,                         KC_QUOT               , KC_W                  , KC_DOT                , KC_MINS               , KC_COMM               , KC_SLSH               ,
                                                                                                         MT_OSM_SHIFT          , MT_R                  ,                         MT_SPACE              , MT_UNDS
     ),
 
@@ -117,10 +103,10 @@ combo_t key_combos[]   = {
     COMBO(dj_combo, KC_SLSH),
     // COMBO(vj_combo, KC_PERC),
     // COMBO(go_combo, KC_ASTR),
-    COMBO(w_dot_combo, MAGIC_DOTDOTSLASH),
-    COMBO(dot_mins_combo, MAGIC_DOTSLASH),
-    COMBO(labk_rabk_combo, MAGIC_EQUALS_RABK),
-    COMBO(rabk_mins_combo, MAGIC_MINS_RABK),
+    COMBO(w_dot_combo, SEND_DOTDOTSLASH),
+    COMBO(dot_mins_combo, SEND_DOTSLASH),
+    COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
+    COMBO(rabk_mins_combo, SEND_MINS_RABK),
 };
 
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
@@ -302,115 +288,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             break;
-        case MAGIC_OULD:
-            if (record->event.pressed) {
-                SEND_STRING("ould");
-                return false;
-            }
-            break;
-        case MAGIC_TION:
-            if (record->event.pressed) {
-                SEND_STRING("tion");
-                return false;
-            }
-            break;
-        case MAGIC_SENT:
-            if (record->event.pressed) {
-                SEND_STRING("sent");
-                return false;
-            }
-            break;
-        case MAGIC_GHT:
-            if (record->event.pressed) {
-                SEND_STRING("ght");
-                return false;
-            }
-            break;
-        case MAGIC_TENT:
-            if (record->event.pressed) {
-                SEND_STRING("tent");
-                return false;
-            }
-            break;
-        case MAGIC_MENT:
-            if (record->event.pressed) {
-                SEND_STRING("ment");
-                return false;
-            }
-            break;
-        case MAGIC_DENT:
-            if (record->event.pressed) {
-                SEND_STRING("dent");
-                return false;
-            }
-            break;
-        case MAGIC_VE:
-            if (record->event.pressed) {
-                SEND_STRING("'ve");
-                return false;
-            }
-            break;
-        case MAGIC_ING:
-            if (record->event.pressed) {
-                SEND_STRING("ing");
-                return false;
-            }
-            break;
-        case MAGIC_ERE:
-            if (record->event.pressed) {
-                SEND_STRING("ere");
-                return false;
-            }
-            break;
-        case MAGIC_THE:
-            if (record->event.pressed) {
-                SEND_STRING("the ");
-                return false;
-            }
-            break;
-        case MAGIC_PRO:
-            if (record->event.pressed) {
-                SEND_STRING("pro");
-                return false;
-            }
-            break;
-        case MAGIC_YOU:
-            if (record->event.pressed) {
-                SEND_STRING("you");
-                return false;
-            }
-            break;
-        case MAGIC_JECT:
-            if (record->event.pressed) {
-                SEND_STRING("ject");
-                return false;
-            }
-            break;
-        case MAGIC_DOTSLASH:
+        case SEND_DOTSLASH:
             if (record->event.pressed) {
                 SEND_STRING("./");
                 return false;
             }
             break;
-        case MAGIC_DOTDOTSLASH:
+        case SEND_DOTDOTSLASH:
             if (record->event.pressed) {
                 SEND_STRING("../");
                 return false;
             }
             break;
-        case MAGIC_AGE:
-            if (record->event.pressed) {
-                SEND_STRING("age");
-                return false;
-            }
-            break;
-        case MAGIC_EQUALS_RABK:
+        case SEND_EQUALS_RABK:
             if (record->event.pressed) {
                 SEND_STRING("=>");
                 return false;
             }
             break;
-        case MAGIC_MINS_RABK:
+        case SEND_MINS_RABK:
             if (record->event.pressed) {
                 SEND_STRING("->");
                 return false;
