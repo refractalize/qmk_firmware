@@ -91,6 +91,7 @@ const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
 const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
 const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
+const uint16_t PROGMEM c_c_c_v_combo[] = {RCTL(KC_C), RCTL(KC_V), COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(browser_forward_combo, KC_WFWD),
@@ -104,6 +105,7 @@ combo_t key_combos[]   = {
     COMBO(dot_mins_combo, SEND_DOTSLASH),
     COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
     COMBO(rabk_mins_combo, SEND_MINS_RABK),
+    COMBO(c_c_c_v_combo, LGUI(KC_V)),
 };
 
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
