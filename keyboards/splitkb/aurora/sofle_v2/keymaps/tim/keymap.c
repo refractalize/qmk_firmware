@@ -10,12 +10,15 @@ void keyboard_pre_init_user(void) {
     gpio_write_pin_high(24);
 }
 
+#define MT_OSM_SHIFT LT(L_MINI_NAV, KC_0)
+#define MT_R LT(L_SYM, KC_R)
+#define MT_SPACE LSFT_T(KC_SPC)
+#define MT_UNDS LT(L_NAV, KC_UNDS)
+
 enum layer_names {
     L_NIGHT,
-    L_QWERTY,
     L_NAV,
     L_SYM,
-    L_NUM,
     L_MINI_NAV,
     L_ACCENTS,
 };
@@ -23,101 +26,114 @@ enum layer_names {
 enum custom_keycodes { // Make sure have the awesome keycode ready
     ALT_TAB = SAFE_RANGE,
     SHIFT_ALT_TAB,
-    MOTION_START,
-    MOTION_NEXT,
-    MOTION_PREV,
-    OS_COPY,
-    OS_PASTE,
     ACC_A_GRV,
     ACC_E_GRV,
     ACC_U_GRV,
     ACC_O_CIRC,
     ACC_O_UM,
     ACC_I_UM,
+
+    SEND_DOTSLASH,
+    SEND_DOTDOTSLASH,
+    SEND_EQUALS_RABK,
+    SEND_MINS_RABK,
+};
+
+enum tap_dance_codes {
+    TD_OSS_BROWSER,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NIGHT] = LAYOUT(
-        KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
-        KC_TAB                , KC_B                  , KC_F                  , LT(L_NUM, KC_L)       , KC_K                  , KC_Q                  ,                                                 KC_P                  , KC_G                  , KC_O                  , KC_U                  , KC_COLN               , KC_BSPC               ,
-        LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_N)          , LCTL_T(KC_S)          , LALT_T(KC_H)          , LGUI_T(KC_T)          , KC_M                  ,                                                 KC_Y                  , RGUI_T(KC_C)          , LALT_T(KC_A)          , RCTL_T(KC_E)          , RGUI_T(KC_I)          , RSFT_T(KC_ENT)        ,
-        _______               , KC_X                  , KC_V                  , KC_J                  , LT(L_ACCENTS, KC_D)   , KC_Z                  , KC_MUTE               , KC_MPLY               , KC_QUOT               , KC_W                  , KC_DOT                , KC_SLSH               , KC_COMM               , _______               ,
-                                                        KC_LGUI               , KC_LALT               , KC_LCTL               , LT(L_SYM, KC_MINS)    , LSFT_T(KC_R)          , LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)    , KC_RCTL               , KC_RALT               , KC_RGUI
-    ),
-
-    [L_QWERTY] = LAYOUT(
-        KC_PSCR               , KC_ENT                , OS_COPY               , OS_PASTE              , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
-        KC_TAB                , KC_Q                  , KC_W                  , LT(L_NUM, KC_E)       , KC_R                  , KC_T                  ,                                                 KC_Y                  , KC_U                  , KC_I                  , KC_O                  , KC_P                  , KC_BSPC               ,
-        LT(L_MINI_NAV, KC_ESC), LGUI_T(KC_A)          , LCTL_T(KC_S)          , LALT_T(KC_D)          , LGUI_T(KC_F)          , KC_G                  ,                                                 KC_H                  , RGUI_T(KC_J)          , LALT_T(KC_K)          , RCTL_T(KC_L)          , RGUI_T(KC_SCLN)       , RSFT_T(KC_ENT)        ,
-        _______               , KC_Z                  , KC_X                  , KC_C                  , LT(L_ACCENTS, KC_V)   , KC_B                  , KC_MUTE               , KC_MPLY               , KC_N                  , KC_M                  , KC_COMM               , KC_DOT                , KC_SLSH               , _______               ,
-                                                        KC_LGUI               , KC_LALT               , KC_LCTL               , LT(L_SYM, KC_MINS)    , KC_LEFT_SHIFT         , LSFT_T(KC_SPC)        , LT(L_NAV, KC_UNDS)    , KC_RCTL               , KC_RALT               , KC_RGUI
+        KC_PSCR            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , KC_VOLD            , KC_VOLU            ,                                           KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
+        KC_TAB             , KC_B               , KC_F               , KC_L               , KC_K               , KC_Q               ,                                           KC_P               , KC_G               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
+        LSFT_T(KC_ESC)     , LGUI_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_M               ,                                           KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LGUI_T(KC_I)       , RSFT_T(KC_ENT)     ,
+        LSFT_T(KC_SLSH)    , KC_X               , KC_V               , KC_J               , LT(L_ACCENTS, KC_D), KC_Z               , KC_MUTE            , KC_MPLY            , KC_QUOT            , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
+                                                  KC_LGUI            , KC_LALT            , KC_LCTL            , MT_OSM_SHIFT       , MT_R               , MT_SPACE           , MT_UNDS            , KC_RCTL            , KC_RALT            , KC_RGUI
     ),
 
     [L_NAV] = LAYOUT(
-        _______               , PDF(L_NIGHT)          , PDF(L_QWERTY)         , PDF(L_NUM)            , KC_VOLD               , KC_VOLU               ,                                                 KC_MPLY               , KC_MRWD               , KC_MFFD               , KC_MPRV               , KC_MNXT               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_HOME               , KC_UP                 , KC_END                , _______               , _______               ,
-        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , KC_LEFT               , KC_DOWN               , KC_RGHT               , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , SHIFT_ALT_TAB         , ALT_TAB               , _______               , _______               , _______               ,
-                                                        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______
+        _______            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         ,                                           LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         , LGUI(KC_0)         , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
+        _______            , KC_LGUI            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                                           KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_SYM] = LAYOUT(
-        KC_F1                 , KC_F2                 , KC_F3                 , KC_F4                 , KC_F5                 , KC_F6                 ,                                                 KC_F7                 , KC_F8                 , KC_F9                 , KC_F10                , KC_F11                , KC_F12                ,
-        _______               , KC_PERC               , KC_DLR                , KC_LCBR               , KC_RCBR               , KC_TILD               ,                                                 KC_CIRC               , KC_LABK               , KC_RABK               , KC_MINS               , KC_AMPR               , _______               ,
-        _______               , LGUI_T(KC_AT)         , LCTL_T(KC_MINS)       , LALT_T(KC_LPRN)       , LGUI_T(KC_RPRN)       , KC_PLUS               ,                                                 KC_EXLM               , RGUI_T(KC_EQL)        , LALT_T(KC_COLN)       , RCTL_T(KC_DQUO)       , KC_SCLN               , _______               ,
-        _______               , KC_BSLS               , KC_SLSH               , KC_LBRC               , KC_RBRC               , KC_HASH               , _______               , _______               , KC_QUES               , KC_ASTR               , KC_PIPE               , KC_GRV                , KC_QUOT               , _______               ,
-                                                        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______
-    ),
-
-    [L_NUM] = LAYOUT(
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , KC_7                  , KC_8                  , KC_9                  , _______               , _______               ,
-        _______               , KC_LEFT_GUI           , KC_LEFT_CTRL          , KC_LEFT_ALT           , KC_LEFT_GUI           , _______               ,                                                 _______               , RGUI_T(KC_1)          , LALT_T(KC_2)          , RCTL_T(KC_3)          , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , KC_4                  , KC_5                  , KC_6                  , _______               , _______               ,
-                                                        _______               , _______               , _______               , _______               , _______               , _______               , LT(L_NAV, KC_0)       , _______               , _______               , _______
+        KC_F1              , KC_F2              , KC_F3              , KC_F4              , KC_F5              , KC_F6              ,                                           KC_F7              , KC_F8              , KC_F9              , KC_F10             , KC_F11             , KC_F12             ,
+        _______            , KC_PERC            , KC_DLR             , KC_LCBR            , KC_RCBR            , KC_TILD            ,                                           KC_CIRC            , KC_LABK            , KC_RABK            , KC_MINS            , KC_AMPR            , _______            ,
+        _______            , LGUI_T(KC_AT)      , LCTL_T(KC_MINS)    , LALT_T(KC_LPRN)    , LGUI_T(KC_RPRN)    , KC_PLUS            ,                                           KC_EXLM            , LGUI_T(KC_LBRC)    , LALT_T(KC_RBRC)    , LCTL_T(KC_EQL)     , KC_SCLN            , _______            ,
+        _______            , KC_BSLS            , KC_SLSH            , _______            , KC_HASH            , KC_HASH            , _______            , _______            , KC_QUES            , KC_ASTR            , KC_PIPE            , KC_GRV             , KC_QUOT            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 
     [L_MINI_NAV] = LAYOUT(
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , C(KC_PGUP)            , KC_UP                 , C(KC_PGDN)            , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , OS_COPY               , KC_DOWN               , OS_PASTE              , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , SHIFT_ALT_TAB         , ALT_TAB               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               ,
-                                                        _______               , _______               , _______               , KC_BSPC               , KC_ENT                , _______               , _______               , _______               , _______               , _______
+        _______            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         ,                                           LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         , LGUI(KC_0)         , _______            ,
+        _______            , _______            , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                                           KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
+        KC_ENT             , _______            , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                                           KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
+        _______            , _______            , _______            , C(KC_PGUP)         , C(KC_PGDN)         , RCTL(S(KC_A))      , _______            , _______            , KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
+                                                  _______            , _______            , _______            , _______            , KC_ENT             , _______            , KC_0               , _______            , _______            , _______
     ),
 
     [L_ACCENTS] = LAYOUT(
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , _______               , _______               , _______               , _______               , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , ACC_O_UM              , ACC_O_CIRC            , ACC_U_GRV             , RALT(KC_DQUO)         , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               ,                                                 _______               , US_CCED               , ACC_A_GRV             , US_EACU               , ACC_I_UM              , _______               ,
-        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , ACC_E_GRV             , _______               , _______               , _______               , _______               ,
-                                                        _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______               , _______
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , ACC_O_UM           , ACC_O_CIRC         , ACC_U_GRV          , RALT(KC_DQUO)      , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                                           _______            , US_CCED            , ACC_A_GRV          , US_EACU            , ACC_I_UM           , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , ACC_E_GRV          , _______            , _______            , _______            , _______            ,
+                                                  _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______            , _______
     ),
 };
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [L_NIGHT] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
-    [L_QWERTY] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
     [L_NAV] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
     [L_SYM] = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
-    [L_NUM] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
     [L_MINI_NAV] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
     [L_ACCENTS] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
 };
 #endif
 
-const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, KC_RGHT, COMBO_END};
-const uint16_t PROGMEM browser_back_combo[] = {KC_LEFT, KC_DOWN, COMBO_END};
-const uint16_t PROGMEM browser_refresh_combo[] = {KC_LEFT, KC_RGHT, COMBO_END};
+const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, C(KC_T), COMBO_END};
+const uint16_t PROGMEM browser_back_combo[] = {C(KC_PGDN), KC_DOWN, COMBO_END};
+const uint16_t PROGMEM browser_refresh_combo[] = {C(KC_PGDN), C(KC_T), COMBO_END};
+const uint16_t PROGMEM lk_combo[] = {KC_L, KC_K, COMBO_END};
+const uint16_t PROGMEM dj_combo[] = {LT(L_ACCENTS, KC_D), KC_J, COMBO_END};
+const uint16_t PROGMEM vj_combo[] = {KC_V, KC_J, COMBO_END};
+const uint16_t PROGMEM go_combo[] = {KC_G, KC_O, COMBO_END};
+const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
+const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
+const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
+const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
+const uint16_t PROGMEM c_c_c_v_combo[] = {RCTL(KC_C), RCTL(KC_V), COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(browser_forward_combo, KC_WFWD),
     COMBO(browser_back_combo, KC_WBAK),
     COMBO(browser_refresh_combo, KC_WREF),
+    COMBO(lk_combo, KC_PERC),
+    COMBO(dj_combo, KC_SLSH),
+    // COMBO(vj_combo, KC_PERC),
+    // COMBO(go_combo, KC_ASTR),
+    COMBO(w_dot_combo, SEND_DOTDOTSLASH),
+    COMBO(dot_mins_combo, SEND_DOTSLASH),
+    COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
+    COMBO(rabk_mins_combo, SEND_MINS_RABK),
+    COMBO(c_c_c_v_combo, LGUI(KC_V)),
 };
+
+const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
+const key_override_t comma_at_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_AT);
+const key_override_t mins_question_override = ko_make_basic(MOD_MASK_SHIFT, KC_MINS, KC_QUES);
+const key_override_t colon_slash_override = ko_make_basic(MOD_MASK_SHIFT, KC_COLN, KC_SLSH);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
+    &dot_exclaimation_override,
+    &comma_at_override,
+    &mins_question_override,
+    &colon_slash_override,
 };
 
 uint16_t os_cmd_or_ctrl(void) {
@@ -181,16 +197,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code16(S(KC_TAB));
             }
             break;
-        case OS_COPY:
-            if (record->event.pressed) {
-                tap_code16(os_cmd_or_ctrl() | KC_C);
+
+        case MT_OSM_SHIFT:
+            if (record->tap.count) {
+                if (record->event.pressed) {
+                    add_oneshot_mods(MOD_BIT(KC_LSFT));
+                }
+                return false;
             }
-            return false;
-        case OS_PASTE:
-            if (record->event.pressed) {
-                tap_code16(os_cmd_or_ctrl() | KC_V);
-            }
-            return false;
+            break;
         case ACC_A_GRV:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("`") "a");
@@ -221,28 +236,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_RALT("\"") "i");
             }
             break;
-        case MOTION_START:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("n") "s");
-            }
-            break;
-        case MOTION_NEXT:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("n") "]");
-            }
-            break;
-        case MOTION_PREV:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("n") "[");
-            }
-            break;
-        case LSFT_T(KC_COLN):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_COLN);
-                return false;
-            }
-            break;
-        case LT(L_NAV, KC_UNDS):
+        case MT_UNDS:
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_UNDS);
                 return false;
@@ -266,7 +260,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-        case RGUI_T(KC_EQL):
+        case LCTL_T(KC_EQL):
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_EQL);
                 return false;
@@ -284,19 +278,80 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case MT_SPACE:
+            if (record->tap.count && record->event.pressed) {
+                if ((get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT) {
+                    clear_oneshot_mods();
+                    caps_word_on();
+                    return false;
+                }
+            }
+            break;
+        case SEND_DOTSLASH:
+            if (record->event.pressed) {
+                SEND_STRING("./");
+                return false;
+            }
+            break;
+        case SEND_DOTDOTSLASH:
+            if (record->event.pressed) {
+                SEND_STRING("../");
+                return false;
+            }
+            break;
+        case SEND_EQUALS_RABK:
+            if (record->event.pressed) {
+                SEND_STRING("=>");
+                return false;
+            }
+            break;
+        case SEND_MINS_RABK:
+            if (record->event.pressed) {
+                SEND_STRING("->");
+                return false;
+            }
+            break;
     }
+    return true;
+}
+
+bool is_macos;
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_IOS:
+        case OS_MACOS:
+            keymap_config.swap_rctl_rgui = true;
+            is_macos = true;
+            break;
+        default:
+            is_macos = false;
+            break;
+    }
+
     return true;
 }
 
 bool rgb_matrix_indicators_user(void) {
     uint8_t highest_default_layer = get_highest_layer(default_layer_state);
+    uint8_t red = 0, green = 0, blue = 0;
+
+    if (is_macos) {
+        red = 0;
+        green = 0;
+        blue = 255;
+    } else {
+        red = 0;
+        green = 255;
+        blue = 0;
+    }
 
     switch (highest_default_layer) {
         case L_NIGHT:
-            rgb_matrix_set_color(4, 255, 255, 255);
+            rgb_matrix_set_color(4, red, green, blue);
             break;
-        case L_NUM:
-            rgb_matrix_set_color(3, 255, 255, 255);
+        case L_NAV:
+            rgb_matrix_set_color(3, red, green, blue);
             break;
         default:
             break;
@@ -315,9 +370,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(L_NAV, KC_UNDS):
-        case LSFT_T(KC_COLN):
-        case LT(L_SYM, KC_MINS):
+        case MT_UNDS:
             // Make sure we always prefer the hold actions for these keys.
             return true;
         default:
@@ -327,12 +380,13 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    if (get_highest_layer(default_layer_state) == L_NIGHT) {
+    uint8_t highest_default_layer = get_highest_layer(default_layer_state);
+
+    if (highest_default_layer == L_NIGHT) {
         switch (keycode) {
-            case LSFT_T(KC_R):
-            case LSFT_T(KC_SPC):
+            case MT_SPACE:
             case LT(L_ACCENTS, KC_D):
-            case LT(L_NUM, KC_L):
+            case MT_R:
                 return true;
         }
     }
