@@ -27,6 +27,8 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     ACC_O_CIRC,
     ACC_O_UM,
     ACC_I_UM,
+    PREV_TAB,
+    NEXT_TAB,
 
     SEND_DOTSLASH,
     SEND_DOTDOTSLASH,
@@ -67,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         ,                      LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         , LGUI(KC_0)         , _______            ,
         _______            , _______            , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                      KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
         KC_ENT             , _______            , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                      KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
-        _______            , _______            , _______            , C(KC_PGUP)         , C(KC_PGDN)         , RCTL(S(KC_A))      ,                      KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
+        _______            , _______            , _______            , PREV_TAB           , NEXT_TAB           , RCTL(S(KC_A))      ,                      KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
                                                                                             _______            , KC_ENT             ,                      _______            , KC_0
     ),
 
@@ -191,6 +193,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case PREV_TAB:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_LBRC)));
+                        break;
+                    default:
+                        tap_code16(C(KC_PGUP));
+                        break;
+                }
+            }
+            return false;
+        case NEXT_TAB:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_RBRC)));
+                        break;
+                    default:
+                        tap_code16(C(KC_PGDN));
+                        break;
+                }
+            }
+            return false;
         case ACC_A_GRV:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("`") "a");
