@@ -16,7 +16,7 @@ void keyboard_pre_init_user(void) {
 #define MT_UNDS LT(L_NAV, KC_UNDS)
 
 enum layer_names {
-    L_NIGHT,
+    L_LATENIGHT,
     L_NAV,
     L_SYM,
     L_MINI_NAV,
@@ -32,6 +32,9 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     ACC_O_CIRC,
     ACC_O_UM,
     ACC_I_UM,
+    PREV_TAB,
+    NEXT_TAB,
+    PASTE_HISTORY,
 
     SEND_DOTSLASH,
     SEND_DOTDOTSLASH,
@@ -44,11 +47,11 @@ enum tap_dance_codes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [L_NIGHT] = LAYOUT(
+    [L_LATENIGHT] = LAYOUT(
         KC_PSCR            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , KC_VOLD            , KC_VOLU            ,                                           KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
-        KC_TAB             , KC_B               , KC_F               , KC_L               , KC_K               , KC_Q               ,                                           KC_P               , KC_G               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
+        KC_TAB             , KC_B               , KC_F               , KC_L               , LT(L_ACCENTS, KC_D), KC_Q               ,                                           KC_Z               , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
         LSFT_T(KC_ESC)     , LGUI_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_M               ,                                           KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LGUI_T(KC_I)       , RSFT_T(KC_ENT)     ,
-        KC_BSLS            , KC_X               , KC_V               , KC_J               , LT(L_ACCENTS, KC_D), KC_Z               , KC_MUTE            , KC_MPLY            , KC_QUOT            , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
+        KC_BSLS            , KC_X               , KC_V               , KC_J               , KC_G               , KC_K               , KC_MUTE            , KC_MPLY            , KC_QUOT            , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
                                                   KC_LGUI            , KC_LALT            , KC_LCTL            , MT_OSM_SHIFT       , MT_R               , MT_SPACE           , MT_UNDS            , KC_RCTL            , KC_RALT            , KC_RGUI
     ),
 
@@ -70,9 +73,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_MINI_NAV] = LAYOUT(
         _______            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         ,                                           LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         , LGUI(KC_0)         , _______            ,
-        _______            , _______            , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                                           KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
-        KC_ENT             , _______            , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                                           KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
-        _______            , _______            , _______            , C(KC_PGUP)         , C(KC_PGDN)         , RCTL(S(KC_A))      , _______            , _______            , KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
+        _______            , KC_GRV             , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                                           KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
+        KC_ENT             , PASTE_HISTORY      , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                                           KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
+        _______            , KC_DQUO            , KC_QUOT            , PREV_TAB           , NEXT_TAB           , RCTL(S(KC_A))      , _______            , _______            , KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
                                                   _______            , _______            , _______            , _______            , KC_ENT             , _______            , KC_0               , _______            , _______            , _______
     ),
 
@@ -87,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [L_NIGHT] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
+    [L_LATENIGHT] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_MRWD, KC_MFFD)},
     [L_NAV] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU), ENCODER_CCW_CW(KC_MPRV, KC_MNXT)},
     [L_SYM] = {ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [L_MINI_NAV] = {ENCODER_CCW_CW(UG_VALD, UG_VALU), ENCODER_CCW_CW(UG_SPDD, UG_SPDU)},
@@ -206,6 +209,45 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case PREV_TAB:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_LBRC)));
+                        break;
+                    default:
+                        tap_code16(C(KC_PGUP));
+                        break;
+                }
+            }
+            return false;
+        case NEXT_TAB:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_RBRC)));
+                        break;
+                    default:
+                        tap_code16(C(KC_PGDN));
+                        break;
+                }
+            }
+            return false;
+        case PASTE_HISTORY:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_V)));
+                        break;
+                    default:
+                        tap_code16(G(KC_V));
+                        break;
+                }
+            }
+            return false;
         case ACC_A_GRV:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("`") "a");
@@ -347,11 +389,8 @@ bool rgb_matrix_indicators_user(void) {
     }
 
     switch (highest_default_layer) {
-        case L_NIGHT:
+        case L_LATENIGHT:
             rgb_matrix_set_color(4, red, green, blue);
-            break;
-        case L_NAV:
-            rgb_matrix_set_color(3, red, green, blue);
             break;
         default:
             break;
@@ -382,7 +421,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     uint8_t highest_default_layer = get_highest_layer(default_layer_state);
 
-    if (highest_default_layer == L_NIGHT) {
+    if (highest_default_layer == L_LATENIGHT) {
         switch (keycode) {
             case MT_SPACE:
             case LT(L_ACCENTS, KC_D):
