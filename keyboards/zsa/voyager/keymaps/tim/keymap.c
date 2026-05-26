@@ -227,6 +227,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
+        case PASTE_HISTORY:
+            if (record->event.pressed) {
+                switch (detected_host_os()) {
+                    case OS_MACOS:
+                    case OS_IOS:
+                        tap_code16(S(G(KC_V)));
+                        break;
+                    default:
+                        tap_code16(G(KC_V));
+                        break;
+                }
+            }
+            return false;
         case ACC_A_GRV:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("`") "a");
