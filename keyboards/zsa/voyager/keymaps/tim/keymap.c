@@ -24,6 +24,8 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     SHIFT_ALT_TAB,
     ACC_A_GRV,
     ACC_E_GRV,
+    ACC_E_CIRC,
+    ACC_E_UM,
     ACC_U_GRV,
     ACC_O_CIRC,
     ACC_O_UM,
@@ -87,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , ACC_O_UM           , ACC_O_CIRC         , ACC_U_GRV          , RALT(KC_DQUO)      , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , US_CCED            , ACC_A_GRV          , US_EACU            , ACC_I_UM           , _______            ,
-        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , ACC_E_GRV          , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , ACC_E_GRV          , ACC_E_CIRC         , ACC_E_UM           , _______            , _______            ,
                                                                                             _______            , _______            ,                      _______            , _______
     ),
 };
@@ -121,7 +123,7 @@ combo_t key_combos[]   = {
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
 const key_override_t comma_at_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_AT);
 const key_override_t mins_question_override = ko_make_basic(MOD_MASK_SHIFT, KC_MINS, KC_QUES);
-const key_override_t colon_slash_override = ko_make_basic(MOD_MASK_SHIFT, KC_COLN, KC_SLSH);
+const key_override_t colon_slash_override = ko_make_basic(MOD_MASK_SHIFT, KC_COLN, KC_SCLN);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
@@ -248,6 +250,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case ACC_E_GRV:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("`") "e");
+            }
+            break;
+        case ACC_E_CIRC:
+            if (record->event.pressed) {
+                SEND_STRING(SS_RALT("6") "e");
+            }
+            break;
+        case ACC_E_UM:
+            if (record->event.pressed) {
+                SEND_STRING(SS_RALT("\"") "e");
             }
             break;
         case ACC_U_GRV:
