@@ -12,6 +12,7 @@
 
 enum layer_names {
     L_LATENIGHT,
+    L_LATENIGHT2,
     L_GAME,
     L_NAV,
     L_SYM,
@@ -36,6 +37,7 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
 
     SEND_DOTSLASH,
     SEND_DOTDOTSLASH,
+    SEND_DOLLAR_CAPS_WORD,
     SEND_EQUALS_RABK,
     SEND_MINS_RABK,
 };
@@ -53,6 +55,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                             MT_OSM_SHIFT       , MT_R               ,                      MT_SPACE           , MT_UNDS
     ),
 
+    [L_LATENIGHT2] = LAYOUT(
+        KC_PSCR            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , KC_VOLD            , KC_VOLU            ,                      KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
+        KC_TAB             , KC_B               , KC_F               , KC_L               , LT(L_ACCENTS, KC_D), KC_J               ,                      KC_QUOT            , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
+        LSFT_T(KC_ESC)     , LGUI_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_K               ,                      KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LGUI_T(KC_I)       , RSFT_T(KC_ENT)     ,
+        KC_BSLS            , KC_X               , KC_V               , KC_M               , KC_G               , KC_Q               ,                      KC_Z               , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
+                                                                                            MT_OSM_SHIFT       , MT_R               ,                      MT_SPACE           , MT_UNDS
+    ),
+
     [L_GAME] = LAYOUT(
         DF(L_LATENIGHT)    , DF(L_LATENIGHT)    , KC_1               , KC_2               , KC_3               , KC_4               ,                      KC_5               , KC_6               , KC_7               , KC_8               , KC_9               , KC_0               ,
         KC_BSPC            , KC_TAB             , KC_Q               , KC_W               , KC_E               , KC_R               ,                      KC_T               , KC_HOME            , KC_UP              , KC_END             , KC_O               , KC_P               ,
@@ -62,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         ,                      LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         ,
+        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_LATENIGHT2)  , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         ,                      LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
         _______            , KC_LGUI            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
@@ -94,12 +104,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-const uint16_t PROGMEM browser_forward_combo[] = {KC_DOWN, C(KC_T), COMBO_END};
-const uint16_t PROGMEM browser_back_combo[] = {C(KC_PGDN), KC_DOWN, COMBO_END};
-const uint16_t PROGMEM browser_refresh_combo[] = {C(KC_PGDN), C(KC_T), COMBO_END};
-const uint16_t PROGMEM lk_combo[] = {KC_L, KC_K, COMBO_END};
-const uint16_t PROGMEM dj_combo[] = {LT(L_ACCENTS, KC_D), KC_J, COMBO_END};
-const uint16_t PROGMEM vj_combo[] = {KC_V, KC_J, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM fl_combo[] = {KC_F, KC_L, COMBO_END};
 const uint16_t PROGMEM go_combo[] = {KC_G, KC_O, COMBO_END};
 const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
@@ -107,13 +113,8 @@ const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
 const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
 
 combo_t key_combos[]   = {
-    COMBO(browser_forward_combo, KC_WFWD),
-    COMBO(browser_back_combo, KC_WBAK),
-    COMBO(browser_refresh_combo, KC_WREF),
-    COMBO(lk_combo, KC_PERC),
-    COMBO(dj_combo, KC_SLSH),
-    COMBO(vj_combo, KC_HASH),
-    // COMBO(go_combo, KC_ASTR),
+    COMBO(jk_combo, S(KC_V)),
+    COMBO(fl_combo, SEND_DOLLAR_CAPS_WORD),
     COMBO(w_dot_combo, SEND_DOTDOTSLASH),
     COMBO(dot_mins_combo, SEND_DOTSLASH),
     COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
@@ -345,6 +346,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
+        case SEND_DOLLAR_CAPS_WORD:
+            if (record->event.pressed) {
+                tap_code16(KC_DLR);
+                caps_word_on();
+                return false;
+            }
+            break;
         case SEND_EQUALS_RABK:
             if (record->event.pressed) {
                 SEND_STRING("=>");
@@ -396,8 +404,11 @@ bool rgb_matrix_indicators_user(void) {
         case L_LATENIGHT:
             rgb_matrix_set_color(1, red, green, blue);
             break;
-        case L_GAME:
+        case L_LATENIGHT2:
             rgb_matrix_set_color(2, red, green, blue);
+            break;
+        case L_GAME:
+            rgb_matrix_set_color(3, red, green, blue);
             break;
         default:
             break;
@@ -427,18 +438,4 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             // Do not select the hold action when another key is pressed.
             return false;
     }
-}
-
-bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    uint8_t highest_default_layer = get_highest_layer(default_layer_state);
-
-    if (highest_default_layer == L_LATENIGHT) {
-        switch (keycode) {
-            case MT_SPACE:
-            case LT(L_ACCENTS, KC_D):
-            case MT_R:
-                return true;
-        }
-    }
-    return false;
 }
