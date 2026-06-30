@@ -1,4 +1,3 @@
-// Copyright 2023 ZSA Technology Labs, Inc <@zsa>
 // Copyright 2023 Christopher Courtney, aka Drashna Jael're  (@drashna) <drashna@live.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
@@ -12,7 +11,6 @@
 
 enum layer_names {
     L_LATENIGHT,
-    L_LATENIGHT2,
     L_GAME,
     L_NAV,
     L_SYM,
@@ -49,14 +47,6 @@ enum tap_dance_codes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_LATENIGHT] = LAYOUT(
         KC_PSCR            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , KC_VOLD            , KC_VOLU            ,                      KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
-        KC_TAB             , KC_B               , KC_F               , KC_L               , LT(L_ACCENTS, KC_D), KC_Q               ,                      KC_Z               , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
-        LSFT_T(KC_ESC)     , LGUI_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_M               ,                      KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LGUI_T(KC_I)       , RSFT_T(KC_ENT)     ,
-        KC_BSLS            , KC_X               , KC_V               , KC_J               , KC_G               , KC_K               ,                      KC_QUOT            , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
-                                                                                            MT_OSM_SHIFT       , MT_R               ,                      MT_SPACE           , MT_UNDS
-    ),
-
-    [L_LATENIGHT2] = LAYOUT(
-        KC_PSCR            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , KC_VOLD            , KC_VOLU            ,                      KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
         KC_TAB             , KC_B               , KC_F               , KC_L               , LT(L_ACCENTS, KC_D), KC_J               ,                      KC_QUOT            , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
         LSFT_T(KC_ESC)     , LGUI_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_K               ,                      KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LGUI_T(KC_I)       , RSFT_T(KC_ENT)     ,
         KC_BSLS            , KC_X               , KC_V               , KC_M               , KC_G               , KC_Q               ,                      KC_Z               , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
@@ -72,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_LATENIGHT2)  , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         ,                      LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         ,
+        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         ,                      LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
         _______            , KC_LGUI            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
@@ -291,36 +281,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case LGUI_T(KC_AT):
             if (record->tap.count && record->event.pressed) {
+                caps_word_off();
                 tap_code16(KC_AT);
                 return false;
             }
             break;
         case LALT_T(KC_LPRN):
             if (record->tap.count && record->event.pressed) {
+                caps_word_off();
                 tap_code16(KC_LPRN);
                 return false;
             }
             break;
         case LGUI_T(KC_RPRN):
             if (record->tap.count && record->event.pressed) {
+                caps_word_off();
                 tap_code16(KC_RPRN);
-                return false;
-            }
-            break;
-        case LCTL_T(KC_EQL):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_EQL);
-                return false;
-            }
-            break;
-        case RALT_T(KC_UNDS):
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_UNDS);
                 return false;
             }
             break;
         case RCTL_T(KC_DQUO):
             if (record->tap.count && record->event.pressed) {
+                caps_word_off();
                 tap_code16(KC_DQUO);
                 return false;
             }
@@ -404,11 +386,8 @@ bool rgb_matrix_indicators_user(void) {
         case L_LATENIGHT:
             rgb_matrix_set_color(1, red, green, blue);
             break;
-        case L_LATENIGHT2:
-            rgb_matrix_set_color(2, red, green, blue);
-            break;
         case L_GAME:
-            rgb_matrix_set_color(3, red, green, blue);
+            rgb_matrix_set_color(2, red, green, blue);
             break;
         default:
             break;
