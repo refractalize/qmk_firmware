@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_NAV] = LAYOUT(
-        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         ,                      LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         ,
+        S(KC_PSCR)         , PDF(L_LATENIGHT)   , PDF(L_GAME)        , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         ,                      LGUI(KC_4)         , LGUI(KC_5)         , LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
         _______            , KC_LGUI            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_MINI_NAV] = LAYOUT(
-        _______            , LGUI(KC_1)         , LGUI(KC_2)         , LGUI(KC_3)         , LGUI(KC_4)         , LGUI(KC_5)         ,                      LGUI(KC_6)         , LGUI(KC_7)         , LGUI(KC_8)         , LGUI(KC_9)         , LGUI(KC_0)         , _______            ,
+        LALT(LCTL(KC_F1))  , LALT(LCTL(KC_F2))  , LALT(LCTL(KC_F3))  , LALT(LCTL(KC_F4))  , LALT(LCTL(KC_F5))  , LALT(LCTL(KC_F6))  ,                      LALT(LCTL(KC_F7))  , LALT(LCTL(KC_F8))  , LALT(LCTL(KC_F9))  , LALT(LCTL(KC_F10)) , LALT(LCTL(KC_F11)) , LALT(LCTL(KC_F12)) ,
         _______            , KC_GRV             , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                      KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
         KC_ENT             , PASTE_HISTORY      , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                      KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
         _______            , KC_DQUO            , KC_QUOT            , PREV_TAB           , NEXT_TAB           , RCTL(S(KC_A))      ,                      KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
@@ -101,6 +101,10 @@ const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
 const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
 const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
+const uint16_t PROGMEM num_12_combo[] = {LGUI_T(KC_1), LALT_T(KC_2), COMBO_END};
+const uint16_t PROGMEM num_23_combo[] = {LALT_T(KC_2), LCTL_T(KC_3), COMBO_END};
+const uint16_t PROGMEM num_78_combo[] = {KC_7, KC_8, COMBO_END};
+const uint16_t PROGMEM num_89_combo[] = {KC_8, KC_9, COMBO_END};
 
 combo_t key_combos[]   = {
     COMBO(jk_combo, S(KC_V)),
@@ -109,6 +113,10 @@ combo_t key_combos[]   = {
     COMBO(dot_mins_combo, SEND_DOTSLASH),
     COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
     COMBO(rabk_mins_combo, SEND_MINS_RABK),
+    COMBO(num_12_combo, KC_LBRC),
+    COMBO(num_23_combo, KC_RBRC),
+    COMBO(num_78_combo, KC_LPRN),
+    COMBO(num_89_combo, KC_RPRN),
 };
 
 const key_override_t dot_exclaimation_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
