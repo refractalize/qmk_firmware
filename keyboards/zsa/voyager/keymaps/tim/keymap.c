@@ -7,7 +7,6 @@
 #define MT_OSM_SHIFT LT(L_MINI_NAV, KC_0)
 #define MT_R LT(L_SYM, KC_R)
 #define MT_SPACE LSFT_T(KC_SPC)
-#define MT_UNDS LT(L_NAV, KC_UNDS)
 
 enum layer_names {
     L_LATENIGHT,
@@ -42,18 +41,16 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
 
 enum tap_dance_codes {
     TD_OSS_BROWSER,
+    TD_REP,
 };
-
-#define LMT(layer, mod) (QK_LAYER_MOD | (((layer) & 0xF) << 5) | ((mod) & 0x1F))
-#define LMT(layer, kc) (QK_LAYER_TAP | (((layer) & 0xF) << 8) | ((kc) & 0xFF))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_LATENIGHT] = LAYOUT(
-        KC_PSCR           , LGUI(KC_1)        , LGUI(KC_2)        , LGUI(KC_3)        , KC_VOLD           , KC_VOLU           ,                     KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , KC_DEL            ,
+        KC_PSCR           , LGUI(LALT(KC_1))  , LGUI(LALT(KC_2))  , LGUI(LALT(KC_3))  , KC_VOLD           , KC_VOLU           ,                     KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , KC_DEL            ,
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_D              , KC_J              ,                     KC_QUOT           , KC_P              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LSFT_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_K              ,                     KC_Y              , LGUI_T(KC_C)      , LALT_T(KC_A)      , LCTL_T(KC_E)      , LSFT_T(KC_I)      , RSFT_T(KC_ENT)    ,
         KC_BSLS           , KC_X              , KC_V              , KC_M              , KC_G              , KC_Q              ,                     KC_Z              , KC_W              , KC_DOT            , KC_MINS           , KC_COMM           , KC_SLSH           ,
-                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , MT_UNDS
+                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , TD(TD_REP)
     ),
 
     [L_GAME] = LAYOUT(
@@ -182,7 +179,64 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
+// When true, the next key pressed is sent twice (see TD_REP single tap below).
+static bool double_next_key = false;
+
+typedef enum {
+    TD_REP_NONE,
+    TD_REP_SINGLE_TAP,
+    TD_REP_SINGLE_HOLD,
+    TD_REP_DOUBLE_TAP,
+} td_rep_state_t;
+
+static td_rep_state_t td_rep_state = TD_REP_NONE;
+
+td_rep_state_t td_rep_get_state(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        // Still physically held (either the tapping term elapsed while held,
+        // or another key interrupted while held) => treat as a hold, so
+        // L_NAV stays instantly accessible like the old layer-tap did.
+        return state->pressed ? TD_REP_SINGLE_HOLD : TD_REP_SINGLE_TAP;
+    } else if (state->count == 2) {
+        return TD_REP_DOUBLE_TAP;
+    }
+    return TD_REP_NONE;
+}
+
+void td_rep_finished(tap_dance_state_t *state, void *user_data) {
+    td_rep_state = td_rep_get_state(state);
+    switch (td_rep_state) {
+        case TD_REP_SINGLE_TAP:
+            double_next_key = true;
+            break;
+        case TD_REP_SINGLE_HOLD:
+            layer_on(L_NAV);
+            break;
+        case TD_REP_DOUBLE_TAP:
+            tap_code16(KC_UNDS);
+            break;
+        default:
+            break;
+    }
+}
+
+void td_rep_reset(tap_dance_state_t *state, void *user_data) {
+    if (td_rep_state == TD_REP_SINGLE_HOLD) {
+        layer_off(L_NAV);
+    }
+    td_rep_state = TD_REP_NONE;
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_REP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_rep_finished, td_rep_reset),
+};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (double_next_key && record->event.pressed) {
+        double_next_key = false;
+        tap_code16(keycode);
+    }
+
     switch (keycode) {
         case ALT_TAB: // super alt tab macro
             if (record->event.pressed) {
@@ -292,12 +346,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case ACC_I_UM:
             if (record->event.pressed) {
                 SEND_STRING(SS_RALT("\"") "i");
-            }
-            break;
-        case MT_UNDS:
-            if (record->tap.count && record->event.pressed) {
-                tap_code16(KC_UNDS);
-                return false;
             }
             break;
         case LGUI_T(KC_AT):
@@ -422,7 +470,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case MT_OSM_SHIFT:
         case MT_R:
         case MT_SPACE:
-        case MT_UNDS:
             return 0;
         default:
             return QUICK_TAP_TERM;
@@ -430,12 +477,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case MT_UNDS:
-            // Make sure we always prefer the hold actions for these keys.
-            return true;
-        default:
-            // Do not select the hold action when another key is pressed.
-            return false;
-    }
+    // Do not select the hold action when another key is pressed.
+    return false;
 }
