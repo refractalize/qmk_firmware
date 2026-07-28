@@ -17,6 +17,8 @@ enum layer_names {
     L_ACCENTS,
 };
 
+#define LT_REP LT(L_NAV, KC_NO)
+
 enum custom_keycodes { // Make sure have the awesome keycode ready
     ALT_TAB = SAFE_RANGE,
     SHIFT_ALT_TAB,
@@ -39,18 +41,13 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     SEND_MINS_RABK,
 };
 
-enum tap_dance_codes {
-    TD_OSS_BROWSER,
-    TD_REP,
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_LATENIGHT] = LAYOUT(
         KC_PSCR           , LGUI(LALT(KC_1))  , LGUI(LALT(KC_2))  , LGUI(LALT(KC_3))  , KC_VOLD           , KC_VOLU           ,                     KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , KC_DEL            ,
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_D              , KC_J              ,                     KC_QUOT           , KC_P              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LSFT_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_K              ,                     KC_Y              , LGUI_T(KC_C)      , LALT_T(KC_A)      , LCTL_T(KC_E)      , LSFT_T(KC_I)      , RSFT_T(KC_ENT)    ,
         KC_BSLS           , KC_X              , KC_V              , KC_M              , KC_G              , KC_Q              ,                     KC_Z              , KC_W              , KC_DOT            , KC_MINS           , KC_COMM           , KC_SLSH           ,
-                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , TD(TD_REP)
+                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , LT_REP
     ),
 
     [L_GAME] = LAYOUT(
@@ -179,62 +176,215 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-// When true, the next key pressed is sent twice (see TD_REP single tap below).
+// When true, the next key pressed is sent twice (see LT_REP handling below).
 static bool double_next_key = false;
+static uint16_t repeat_key_timer = 0;
+static uint8_t repeated_key_delete_count = 0;
+static bool suppress_repeated_key = false;
+static uint16_t suppressed_repeat_keycode = KC_NO;
+static bool repeat_with_caps_word = false;
 
-typedef enum {
-    TD_REP_NONE,
-    TD_REP_SINGLE_TAP,
-    TD_REP_SINGLE_HOLD,
-    TD_REP_DOUBLE_TAP,
-} td_rep_state_t;
-
-static td_rep_state_t td_rep_state = TD_REP_NONE;
-
-td_rep_state_t td_rep_get_state(tap_dance_state_t *state) {
-    if (state->count == 1) {
-        // Still physically held (either the tapping term elapsed while held,
-        // or another key interrupted while held) => treat as a hold, so
-        // L_NAV stays instantly accessible like the old layer-tap did.
-        return state->pressed ? TD_REP_SINGLE_HOLD : TD_REP_SINGLE_TAP;
-    } else if (state->count == 2) {
-        return TD_REP_DOUBLE_TAP;
+static bool is_modifier_only_key(uint16_t keycode, keyrecord_t *record) {
+    if (IS_MODIFIER_KEYCODE(keycode) || keycode == MT_OSM_SHIFT) {
+        return true;
     }
-    return TD_REP_NONE;
+
+    return (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode)) && !record->tap.count;
 }
 
-void td_rep_finished(tap_dance_state_t *state, void *user_data) {
-    td_rep_state = td_rep_get_state(state);
-    switch (td_rep_state) {
-        case TD_REP_SINGLE_TAP:
-            double_next_key = true;
-            break;
-        case TD_REP_SINGLE_HOLD:
-            layer_on(L_NAV);
-            break;
-        case TD_REP_DOUBLE_TAP:
-            tap_code16(KC_UNDS);
-            break;
-        default:
-            break;
+static uint16_t repeat_tap_keycode(uint16_t keycode) {
+    if (IS_QK_MOD_TAP(keycode)) {
+        return QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    }
+    if (IS_QK_LAYER_TAP(keycode)) {
+        return QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    }
+    return keycode;
+}
+
+static bool repeat_key_has_allowed_mods(uint16_t keycode) {
+    uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods();
+    if (mods & ~MOD_MASK_SHIFT) {
+        return false;
+    }
+
+    if (IS_QK_MODS(keycode)) {
+        uint8_t keycode_mods = QK_MODS_GET_MODS(keycode) & 0x0F;
+        return !(keycode_mods & ~MOD_LSFT);
+    }
+
+    return true;
+}
+
+static void tap_repeated_key(uint16_t keycode);
+
+#define SEND_REPEAT_STRING(lowercase, capitalized)             \
+    do {                                                       \
+        if (get_oneshot_mods() & MOD_MASK_SHIFT) {             \
+            del_oneshot_mods(MOD_MASK_SHIFT);                  \
+            send_keyboard_report();                            \
+            SEND_STRING(capitalized);                          \
+        } else {                                               \
+            SEND_STRING(lowercase);                            \
+        }                                                      \
+    } while (0)
+
+static uint8_t send_repeated_key(uint16_t keycode) {
+    suppress_repeated_key = false;
+    switch (repeat_tap_keycode(keycode)) {
+        case KC_X:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_V:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_H:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("the ", "The ");
+            return 4;
+        case KC_J:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_K:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("tion ", "tion ");
+            return 5;
+        case KC_Q:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_QUOT:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_Y:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("you ", "You ");
+            return 4;
+        case KC_W:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("with ", "With ");
+            return 5;
+        case KC_A:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("and ", "And ");
+            return 4;
+        case KC_DOT:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_U:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("for ", "For ");
+            return 4;
+        case KC_MINS:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_COLN:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        case KC_I:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("ing ", "ing ");
+            return 4;
+        case KC_COMM:
+            suppress_repeated_key = true;
+            SEND_REPEAT_STRING("", "");
+            return 0;
+        default: {
+            uint16_t tap_keycode = repeat_tap_keycode(keycode);
+            uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
+            if (KC_A <= basic_keycode && basic_keycode <= KC_Z) {
+                tap_repeated_key(keycode);
+                return 2;
+            }
+            return 0;
+        }
     }
 }
 
-void td_rep_reset(tap_dance_state_t *state, void *user_data) {
-    if (td_rep_state == TD_REP_SINGLE_HOLD) {
-        layer_off(L_NAV);
+static void tap_repeated_key(uint16_t keycode) {
+    uint16_t tap_keycode = repeat_tap_keycode(keycode);
+    uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
+
+    if (is_caps_word_on() && KC_A <= basic_keycode && basic_keycode <= KC_Z && !IS_QK_MODS(tap_keycode)) {
+        uint8_t weak_mods = get_weak_mods();
+        add_weak_mods(MOD_BIT(KC_LSFT));
+        send_keyboard_report();
+        tap_code16(tap_keycode);
+        set_weak_mods(weak_mods);
+        send_keyboard_report();
+        return;
     }
-    td_rep_state = TD_REP_NONE;
+
+    tap_code16(tap_keycode);
 }
 
-tap_dance_action_t tap_dance_actions[] = {
-    [TD_REP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_rep_finished, td_rep_reset),
-};
+static bool process_repeat_behavior(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == LT_REP && record->event.pressed && !record->tap.count) {
+        repeat_with_caps_word = is_caps_word_on();
+    }
+
+    if (!record->event.pressed && keycode == suppressed_repeat_keycode) {
+        suppressed_repeat_keycode = KC_NO;
+        return false;
+    }
+
+    if (record->event.pressed && !is_modifier_only_key(keycode, record)) {
+        if (double_next_key) {
+            double_next_key = false;
+            repeated_key_delete_count = 0;
+            if (keycode == LT_REP) {
+                tap_code16(KC_UNDS);
+                repeat_with_caps_word = false;
+                return false;
+            }
+            if (repeat_key_has_allowed_mods(keycode)) {
+                repeated_key_delete_count = send_repeated_key(keycode);
+                if (suppress_repeated_key) {
+                    suppress_repeated_key = false;
+                    suppressed_repeat_keycode = keycode;
+                    return false;
+                }
+            }
+        } else if (keycode == KC_BSPC && repeated_key_delete_count) {
+            for (uint8_t i = 1; i < repeated_key_delete_count; ++i) {
+                tap_code16(KC_BSPC);
+            }
+            repeated_key_delete_count = 0;
+        } else {
+            repeated_key_delete_count = 0;
+        }
+    }
+
+    if (keycode == LT_REP && record->event.pressed && record->tap.count) {
+        double_next_key = true;
+        repeat_key_timer = timer_read();
+        if (repeat_with_caps_word) {
+            caps_word_on();
+        }
+        repeat_with_caps_word = false;
+    }
+
+    return true;
+}
+
+void housekeeping_task_user(void) {
+#if CAPS_WORD_IDLE_TIMEOUT > 0
+    if (double_next_key && timer_elapsed(repeat_key_timer) >= CAPS_WORD_IDLE_TIMEOUT) {
+        double_next_key = false;
+    }
+#endif
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (double_next_key && record->event.pressed) {
-        double_next_key = false;
-        tap_code16(keycode);
+    if (!process_repeat_behavior(keycode, record)) {
+        return false;
     }
 
     switch (keycode) {
@@ -303,7 +453,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                         tap_code16(S(G(KC_V)));
                         break;
                     default:
-                        tap_code16(G(KC_V));
+                        tap_code16(G(A(KC_V)));
                         break;
                 }
             }
@@ -470,6 +620,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case MT_OSM_SHIFT:
         case MT_R:
         case MT_SPACE:
+        case LT_REP:
             return 0;
         default:
             return QUICK_TAP_TERM;
@@ -479,4 +630,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     // Do not select the hold action when another key is pressed.
     return false;
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    return keycode == LT_REP;
 }
