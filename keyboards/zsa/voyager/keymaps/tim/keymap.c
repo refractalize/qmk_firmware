@@ -4,16 +4,15 @@
 #include QMK_KEYBOARD_H
 #include "keymap_us_international.h"
 
-#define MT_OSM_SHIFT LT(L_MINI_NAV, KC_0)
+#define MT_OSM_SHIFT LT(L_NUM, KC_0)
 #define MT_R LT(L_SYM, KC_R)
 #define MT_SPACE LSFT_T(KC_SPC)
 
 enum layer_names {
     L_LATENIGHT,
-    L_GAME,
     L_NAV,
     L_SYM,
-    L_MINI_NAV,
+    L_NUM,
     L_ACCENTS,
 };
 
@@ -50,16 +49,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                         MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , LT_REP
     ),
 
-    [L_GAME] = LAYOUT(
-        DF(L_LATENIGHT)   , DF(L_LATENIGHT)   , KC_1              , KC_2              , KC_3              , KC_4              ,                     KC_5              , KC_6              , KC_7              , KC_8              , KC_9              , KC_0              ,
-        KC_BSPC           , KC_TAB            , KC_Q              , KC_W              , KC_E              , KC_R              ,                     KC_T              , KC_HOME           , KC_UP             , KC_END            , KC_O              , KC_P              ,
-        KC_ESC            , KC_LSFT           , KC_A              , KC_S              , KC_D              , KC_F              ,                     KC_G              , KC_LEFT           , KC_DOWN           , KC_RGHT           , KC_L              , KC_SCLN           ,
-        KC_RSFT           , KC_LCTL           , KC_Z              , KC_X              , KC_C              , KC_V              ,                     KC_B              , KC_N              , KC_M              , KC_COMM           , KC_DOT            , KC_SLSH           ,
-                                                                                        KC_ENT            , KC_SPC            ,                     KC_ENT            , DF(L_LATENIGHT)
-    ),
-
     [L_NAV] = LAYOUT(
-        S(KC_PSCR)        , PDF(L_LATENIGHT)  , PDF(L_GAME)       , LGUI(KC_1)        , LGUI(KC_2)        , LGUI(KC_3)        ,                     LGUI(KC_4)        , LGUI(KC_5)        , LGUI(KC_6)        , LGUI(KC_7)        , LGUI(KC_8)        , _______           ,
+        S(KC_PSCR)        , PDF(L_LATENIGHT)  , _______           , _______           , _______           , _______           ,                     _______           , _______           , _______           , _______           , _______           , _______           ,
         _______           , _______           , _______           , _______           , _______           , _______           ,                     KC_PGUP           , KC_HOME           , KC_UP             , KC_END            , _______           , _______           ,
         _______           , KC_LSFT           , KC_LCTL           , KC_LALT           , KC_LGUI           , _______           ,                     KC_PGDN           , KC_LEFT           , KC_DOWN           , KC_RGHT           , _______           , _______           ,
         _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , _______           , _______           , _______           , _______           , _______           ,
@@ -74,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                         _______           , _______           ,                     _______           , _______
     ),
 
-    [L_MINI_NAV] = LAYOUT(
+    [L_NUM] = LAYOUT(
         LALT(LCTL(KC_F1)) , LALT(LCTL(KC_F2)) , LALT(LCTL(KC_F3)) , LALT(LCTL(KC_F4)) , LALT(LCTL(KC_F5)) , LALT(LCTL(KC_F6)) ,                     LALT(LCTL(KC_F7)) , LALT(LCTL(KC_F8)) , LALT(LCTL(KC_F9)) , LALT(LCTL(KC_F10)), LALT(LCTL(KC_F11)), LALT(LCTL(KC_F12)),
         _______           , KC_GRV            , RCTL(KC_W)        , SHIFT_ALT_TAB     , ALT_TAB           , KC_UP             ,                     KC_ASTR           , KC_7              , KC_8              , KC_9              , KC_MINS           , _______           ,
         KC_ENT            , PASTE_HISTORY     , RCTL(S(KC_C))     , RCTL(KC_C)        , RCTL(KC_V)        , KC_DOWN           ,                     KC_PLUS           , LGUI_T(KC_1)      , LALT_T(KC_2)      , LCTL_T(KC_3)      , KC_DOT            , _______           ,
@@ -604,9 +595,6 @@ bool rgb_matrix_indicators_user(void) {
     switch (highest_default_layer) {
         case L_LATENIGHT:
             rgb_matrix_set_color(1, red, green, blue);
-            break;
-        case L_GAME:
-            rgb_matrix_set_color(2, red, green, blue);
             break;
         default:
             break;
