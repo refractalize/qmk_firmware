@@ -86,9 +86,6 @@ const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM dollar_caps_word_combo[] = {KC_V, KC_M, COMBO_END};
 const uint16_t PROGMEM slash_combo[] = {KC_P, LGUI_T(KC_C), COMBO_END};
 const uint16_t PROGMEM back_slash_combo[] = {KC_O, LALT_T(KC_A), COMBO_END};
-const uint16_t PROGMEM alt_nav_combo[] = {KC_D, LGUI_T(KC_T), COMBO_END};
-const uint16_t PROGMEM gui_nav_combo[] = {KC_L, LALT_T(KC_H), COMBO_END};
-const uint16_t PROGMEM gui_shift_nav_combo[] = {KC_F, LCTL_T(KC_S), COMBO_END};
 const uint16_t PROGMEM go_combo[] = {KC_G, KC_O, COMBO_END};
 const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
@@ -102,9 +99,6 @@ const uint16_t PROGMEM num_89_combo[] = {KC_8, KC_9, COMBO_END};
 combo_t key_combos[]   = {
     COMBO(jk_combo, S(KC_V)),
     COMBO(dollar_caps_word_combo, SEND_DOLLAR_CAPS_WORD),
-    COMBO(alt_nav_combo, LM(L_NAV, MOD_LALT)),
-    COMBO(gui_nav_combo, LM(L_NAV, MOD_LGUI)),
-    COMBO(gui_shift_nav_combo, LM(L_NAV, MOD_LGUI | MOD_LSFT)),
     COMBO(slash_combo, KC_SLSH),
     COMBO(back_slash_combo, KC_BSLS),
     COMBO(w_dot_combo, SEND_DOTDOTSLASH),
@@ -343,7 +337,7 @@ static bool process_repeat_behavior(uint16_t keycode, keyrecord_t *record) {
                     return false;
                 }
             }
-        } else if (keycode == KC_BSPC && repeated_key_delete_count) {
+        } else if (keycode == KC_BSPC && repeated_key_delete_count && !(get_mods() | get_oneshot_mods() | get_weak_mods())) {
             for (uint8_t i = 1; i < repeated_key_delete_count; ++i) {
                 tap_code16(KC_BSPC);
             }
