@@ -16,7 +16,7 @@ enum layer_names {
     L_ACCENTS,
 };
 
-#define LT_REP LT(L_NAV, KC_NO)
+#define LT_DBL LT(L_NAV, KC_NO)
 
 enum custom_keycodes { // Make sure have the awesome keycode ready
     ALT_TAB = SAFE_RANGE,
@@ -46,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB            , KC_B              , KC_F              , KC_L              , KC_D              , KC_J              ,                     KC_QUOT           , KC_P              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
         LSFT_T(KC_ESC)    , LSFT_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_K              ,                     KC_Y              , LGUI_T(KC_C)      , LALT_T(KC_A)      , LCTL_T(KC_E)      , LSFT_T(KC_I)      , RSFT_T(KC_ENT)    ,
         KC_BSLS           , KC_X              , KC_V              , KC_M              , KC_G              , KC_Q              ,                     KC_Z              , KC_W              , KC_DOT            , KC_MINS           , KC_COMM           , KC_SLSH           ,
-                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , LT_REP
+                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , LT_DBL
     ),
 
     [L_NAV] = LAYOUT(
@@ -161,13 +161,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-// When true, the next key pressed is sent twice (see LT_REP handling below).
+// When true, the next key pressed is sent twice (see LT_DBL handling below).
 static bool double_next_key = false;
-static uint16_t repeat_key_timer = 0;
-static uint8_t repeated_key_delete_count = 0;
-static bool suppress_repeated_key = false;
-static uint16_t suppressed_repeat_keycode = KC_NO;
-static bool repeat_with_caps_word = false;
+static uint16_t double_key_timer = 0;
+static uint8_t doubled_key_delete_count = 0;
+static bool suppress_doubled_key = false;
+static uint16_t suppressed_double_keycode = KC_NO;
+static bool double_with_caps_word = false;
 
 static bool is_modifier_only_key(uint16_t keycode, keyrecord_t *record) {
     if (IS_MODIFIER_KEYCODE(keycode) || keycode == MT_OSM_SHIFT) {
@@ -177,7 +177,7 @@ static bool is_modifier_only_key(uint16_t keycode, keyrecord_t *record) {
     return (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode)) && !record->tap.count;
 }
 
-static uint16_t repeat_tap_keycode(uint16_t keycode) {
+static uint16_t double_tap_keycode(uint16_t keycode) {
     if (IS_QK_MOD_TAP(keycode)) {
         return QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     }
@@ -187,7 +187,7 @@ static uint16_t repeat_tap_keycode(uint16_t keycode) {
     return keycode;
 }
 
-static bool repeat_key_has_allowed_mods(uint16_t keycode) {
+static bool double_key_has_allowed_mods(uint16_t keycode) {
     uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods();
     if (mods & ~MOD_MASK_SHIFT) {
         return false;
@@ -201,9 +201,9 @@ static bool repeat_key_has_allowed_mods(uint16_t keycode) {
     return true;
 }
 
-static void tap_repeated_key(uint16_t keycode);
+static void tap_doubled_key(uint16_t keycode);
 
-#define SEND_REPEAT_STRING(lowercase, capitalized)             \
+#define SEND_MAGIC_STRING(lowercase, capitalized)              \
     do {                                                       \
         if (get_oneshot_mods() & MOD_MASK_SHIFT) {             \
             del_oneshot_mods(MOD_MASK_SHIFT);                  \
@@ -214,78 +214,78 @@ static void tap_repeated_key(uint16_t keycode);
         }                                                      \
     } while (0)
 
-static uint8_t send_repeated_key(uint16_t keycode) {
-    suppress_repeated_key = false;
-    switch (repeat_tap_keycode(keycode)) {
+static uint8_t send_doubled_key(uint16_t keycode) {
+    suppress_doubled_key = false;
+    switch (double_tap_keycode(keycode)) {
         case KC_X:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_V:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_H:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("the ", "The ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("the ", "The ");
             return 4;
         case KC_J:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_K:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("tion ", "tion ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("tion ", "tion ");
             return 5;
         case KC_Q:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_QUOT:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_Y:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("you ", "You ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("you ", "You ");
             return 4;
         case KC_W:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("with ", "With ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("with ", "With ");
             return 5;
         case KC_A:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("and ", "And ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("and ", "And ");
             return 4;
         case KC_DOT:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_U:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("for ", "For ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("for ", "For ");
             return 4;
         case KC_MINS:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_COLN:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         case KC_I:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("ing ", "ing ");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("ing ", "ing ");
             return 4;
         case KC_COMM:
-            suppress_repeated_key = true;
-            SEND_REPEAT_STRING("", "");
+            suppress_doubled_key = true;
+            SEND_MAGIC_STRING("", "");
             return 0;
         default: {
-            uint16_t tap_keycode = repeat_tap_keycode(keycode);
+            uint16_t tap_keycode = double_tap_keycode(keycode);
             uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
             if (KC_A <= basic_keycode && basic_keycode <= KC_Z) {
-                tap_repeated_key(keycode);
+                tap_doubled_key(keycode);
                 return 2;
             }
             return 0;
@@ -293,8 +293,8 @@ static uint8_t send_repeated_key(uint16_t keycode) {
     }
 }
 
-static void tap_repeated_key(uint16_t keycode) {
-    uint16_t tap_keycode = repeat_tap_keycode(keycode);
+static void tap_doubled_key(uint16_t keycode) {
+    uint16_t tap_keycode = double_tap_keycode(keycode);
     uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
 
     if (is_caps_word_on() && KC_A <= basic_keycode && basic_keycode <= KC_Z && !IS_QK_MODS(tap_keycode)) {
@@ -310,50 +310,50 @@ static void tap_repeated_key(uint16_t keycode) {
     tap_code16(tap_keycode);
 }
 
-static bool process_repeat_behavior(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == LT_REP && record->event.pressed && !record->tap.count) {
-        repeat_with_caps_word = is_caps_word_on();
+static bool process_double_behavior(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == LT_DBL && record->event.pressed && !record->tap.count) {
+        double_with_caps_word = is_caps_word_on();
     }
 
-    if (!record->event.pressed && keycode == suppressed_repeat_keycode) {
-        suppressed_repeat_keycode = KC_NO;
+    if (!record->event.pressed && keycode == suppressed_double_keycode) {
+        suppressed_double_keycode = KC_NO;
         return false;
     }
 
     if (record->event.pressed && !is_modifier_only_key(keycode, record)) {
         if (double_next_key) {
             double_next_key = false;
-            repeated_key_delete_count = 0;
-            if (keycode == LT_REP) {
+            doubled_key_delete_count = 0;
+            if (keycode == LT_DBL) {
                 tap_code16(KC_UNDS);
-                repeat_with_caps_word = false;
+                double_with_caps_word = false;
                 return false;
             }
-            if (repeat_key_has_allowed_mods(keycode)) {
-                repeated_key_delete_count = send_repeated_key(keycode);
-                if (suppress_repeated_key) {
-                    suppress_repeated_key = false;
-                    suppressed_repeat_keycode = keycode;
+            if (double_key_has_allowed_mods(keycode)) {
+                doubled_key_delete_count = send_doubled_key(keycode);
+                if (suppress_doubled_key) {
+                    suppress_doubled_key = false;
+                    suppressed_double_keycode = keycode;
                     return false;
                 }
             }
-        } else if (keycode == KC_BSPC && repeated_key_delete_count && !(get_mods() | get_oneshot_mods() | get_weak_mods())) {
-            for (uint8_t i = 1; i < repeated_key_delete_count; ++i) {
+        } else if (keycode == KC_BSPC && doubled_key_delete_count && !(get_mods() | get_oneshot_mods() | get_weak_mods())) {
+            for (uint8_t i = 1; i < doubled_key_delete_count; ++i) {
                 tap_code16(KC_BSPC);
             }
-            repeated_key_delete_count = 0;
+            doubled_key_delete_count = 0;
         } else {
-            repeated_key_delete_count = 0;
+            doubled_key_delete_count = 0;
         }
     }
 
-    if (keycode == LT_REP && record->event.pressed && record->tap.count) {
+    if (keycode == LT_DBL && record->event.pressed && record->tap.count) {
         double_next_key = true;
-        repeat_key_timer = timer_read();
-        if (repeat_with_caps_word) {
+        double_key_timer = timer_read();
+        if (double_with_caps_word) {
             caps_word_on();
         }
-        repeat_with_caps_word = false;
+        double_with_caps_word = false;
     }
 
     return true;
@@ -361,14 +361,14 @@ static bool process_repeat_behavior(uint16_t keycode, keyrecord_t *record) {
 
 void housekeeping_task_user(void) {
 #if CAPS_WORD_IDLE_TIMEOUT > 0
-    if (double_next_key && timer_elapsed(repeat_key_timer) >= CAPS_WORD_IDLE_TIMEOUT) {
+    if (double_next_key && timer_elapsed(double_key_timer) >= CAPS_WORD_IDLE_TIMEOUT) {
         double_next_key = false;
     }
 #endif
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_repeat_behavior(keycode, record)) {
+    if (!process_double_behavior(keycode, record)) {
         return false;
     }
 
@@ -602,7 +602,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case MT_OSM_SHIFT:
         case MT_R:
         case MT_SPACE:
-        case LT_REP:
+        case LT_DBL:
             return 0;
         default:
             return QUICK_TAP_TERM;
@@ -615,5 +615,5 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    return keycode == LT_REP;
+    return keycode == LT_DBL;
 }
