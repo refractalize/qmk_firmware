@@ -3,26 +3,20 @@ layout:
 layers:
   latenight:
     - ["$$mdi:camera$$", "⌘1", "⌘2", "⌘3", "$$mdi:volume-minus$$", "$$mdi:volume-plus$$", "$$mdi:play-pause$$", "$$mdi:rewind$$", "$$mdi:fast-forward$$", "$$mdi:skip-previous$$", "$$mdi:skip-next$$", ⌦]
-    - [⇥, b, f, l, {t: d, h: accents}, j, "'", p, o, u, {t: ":", s: ";"}, ⌫]
-    - [{t: ⎋, h: ⇧}, {t: n, h: ⌘}, {t: s, h: ^}, {t: h, h: ⌥}, {t: t, h: ⌘}, k, y, {t: c, h: ⌘}, {t: a, h: ⌥}, {t: e, h: ^}, {t: i, h: ⌘}, {t: ↵, h: ⇧}]
+    - [⇥, b, f, l, d, j, "'", p, o, u, {t: ":", s: ";"}, ⌫]
+    - [{t: ⎋, h: ⇧}, {t: n, h: ⇧}, {t: s, h: ^}, {t: h, h: ⌥}, {t: t, h: ⌘}, k, y, {t: c, h: ⌘}, {t: a, h: ⌥}, {t: e, h: ^}, {t: i, h: ⇧}, {t: ↵, h: ⇧}]
     - ["\\", x, v, m, g, q, z, w, {t: ".", s: "!"}, {t: "-", s: "?"}, {t: ",", s: "@"}, "/"]
-    - [{t: "OS⇧", h: "num"}, {t: r, h: sym}, {t: "$$mdi:keyboard-space$$", h: ⇧}, {t: "_", h: nav}]
-  game:
-    - ["DF latenight", "DF latenight", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-    - [⌫, ⇥, q, w, e, r, t, home, up, end, o, p]
-    - [⎋, ⇧, a, s, d, f, g, left, down, right, l, ";"]
-    - [⇧, ^, z, x, c, v, b, n, m, {t: ",", s: "@"}, {t: ".", s: "!"}, "/"]
-    - [↵, space, ↵, "DF latenight"]
+    - [{t: "OS⇧", h: "num"}, {t: r, h: sym}, {t: "$$mdi:keyboard-space$$", h: ⇧}, {t: "dbl", h: nav}]
   nav:
-    - ["$$mdi:video$$", "PDF latenight", "PDF game", "⌘1", "⌘2", "⌘3", "⌘4", "⌘5", "⌘6", "⌘7", "⌘8", "⌘9"]
+    - ["$$mdi:video$$", "PDF latenight", {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "$$mdi:arrow-collapse-up$$", "$$mdi:arrow-collapse-left$$", "$$mdi:arrow-up$$", "$$mdi:arrow-collapse-right$$", {type: trans}, {type: trans}]
-    - [{type: trans}, ⌘, ^, ⌥, ⌘, {type: trans}, "$$mdi:arrow-collapse-down$$", "$$mdi:arrow-left$$", "$$mdi:arrow-down$$", "$$mdi:arrow-right$$", {type: trans}, {type: trans}]
+    - [{type: trans}, ⇧, ^, ⌥, ⌘, {type: trans}, "$$mdi:arrow-collapse-down$$", "$$mdi:arrow-left$$", "$$mdi:arrow-down$$", "$$mdi:arrow-right$$", {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
-    - [⇧, {type: trans}, {type: trans}, {type: held}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: held}]
   sym:
     - [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12]
     - [{type: trans}, "%", "$", "{", "}", "~", "^", "<", ">", {t: "-", s: "?"}, "&", {type: trans}]
-    - [{type: trans}, {t: "@", h: ⌘}, {t: "\"", h: ^}, {t: "(", h: ⌥}, {t: ")", h: ⌘}, "+", "!", {t: "[", h: ⌘}, {t: "]", h: ⌥}, {t: "=", h: ^}, ";", {type: trans}]
+    - [{type: trans}, {t: "@", h: ⇧}, {t: "\"", h: ^}, {t: "(", h: ⌥}, {t: ")", h: ⌘}, "+", "!", {t: "[", h: ⌘}, {t: "]", h: ⌥}, {t: "=", h: ^}, ";", {type: trans}]
     - [{type: trans}, "\\", "/", "[", "#", "#", "?", "*", "|", "`", "'", {type: trans}]
     - [{type: trans}, {type: held}, {type: trans}, {type: trans}]
   num:
@@ -33,7 +27,7 @@ layers:
     - [{type: held}, ↵, {type: trans}, "0"]
   accents:
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
-    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: held}, {type: trans}, {type: trans}, "ö", "ô", "ù", "¨", {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "ö", "ô", "ù", "¨", {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "ç", "à", "é", "ï", {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "è", "ê", "ë", {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}]
@@ -42,8 +36,14 @@ combos:
     p: [17, 29]
     k: "⇧v"
   - l: [latenight]
-    p: [14, 15]
+    p: [38, 39]
     k: "$"
+  - l: [latenight]
+    p: [19, 31]
+    k: "/"
+  - l: [latenight]
+    p: [20, 32]
+    k: "\\"
   - l: [latenight]
     p: [43, 44]
     k: "../"
