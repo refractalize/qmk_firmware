@@ -14,6 +14,8 @@ enum layer_names {
     L_SYM,
     L_NUM,
     L_ACCENTS,
+    L_DUP,
+    L_WM_NAV,
 };
 
 #define LT_DBL LT(L_NAV, KC_NO)
@@ -38,47 +40,65 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     SEND_DOLLAR_CAPS_WORD,
     SEND_EQUALS_RABK,
     SEND_MINS_RABK,
+    MG_UE,
+    DUP,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_LATENIGHT] = LAYOUT(
-        KC_PSCR           , LGUI(LALT(KC_1))  , LGUI(LALT(KC_2))  , LGUI(LALT(KC_3))  , KC_VOLD           , KC_VOLU           ,                     KC_MPLY           , KC_MRWD           , KC_MFFD           , KC_MPRV           , KC_MNXT           , KC_DEL            ,
-        KC_TAB            , KC_B              , KC_F              , KC_L              , KC_D              , KC_J              ,                     KC_QUOT           , KC_P              , KC_O              , KC_U              , KC_COLN           , KC_BSPC           ,
-        LSFT_T(KC_ESC)    , LSFT_T(KC_N)      , LCTL_T(KC_S)      , LALT_T(KC_H)      , LGUI_T(KC_T)      , KC_K              ,                     KC_Y              , LGUI_T(KC_C)      , LALT_T(KC_A)      , LCTL_T(KC_E)      , LSFT_T(KC_I)      , RSFT_T(KC_ENT)    ,
-        KC_BSLS           , KC_X              , KC_V              , KC_M              , KC_G              , KC_Q              ,                     KC_Z              , KC_W              , KC_DOT            , KC_MINS           , KC_COMM           , KC_SLSH           ,
-                                                                                        MT_OSM_SHIFT      , MT_R              ,                     MT_SPACE          , LT_DBL
+        KC_PSCR            , LGUI(LALT(KC_1))   , LGUI(LALT(KC_2))   , LGUI(LALT(KC_3))   , KC_VOLD            , KC_VOLU            ,                      KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
+        KC_TAB             , KC_B               , KC_F               , LT(L_WM_NAV, KC_L) , KC_D               , KC_J               ,                      KC_QUOT            , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
+        LSFT_T(KC_ESC)     , LSFT_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_K               ,                      KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LSFT_T(KC_I)       , RSFT_T(KC_ENT)     ,
+        KC_BSLS            , KC_X               , KC_V               , KC_M               , LT(L_ACCENTS, KC_G), KC_Q               ,                      KC_Z               , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
+                                                                                            MT_OSM_SHIFT       , MT_R               ,                      MT_SPACE           , LT_DBL
     ),
 
     [L_NAV] = LAYOUT(
-        S(KC_PSCR)        , PDF(L_LATENIGHT)  , _______           , _______           , _______           , _______           ,                     _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     KC_PGUP           , KC_HOME           , KC_UP             , KC_END            , _______           , _______           ,
-        _______           , KC_LSFT           , KC_LCTL           , KC_LALT           , KC_LGUI           , _______           ,                     KC_PGDN           , KC_LEFT           , KC_DOWN           , KC_RGHT           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , _______           , _______           , _______           , _______           , _______           ,
-                                                                                        _______           , _______           ,                     _______           , _______
+        S(KC_PSCR)         , PDF(L_LATENIGHT)   , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
+        _______            , KC_LSFT            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
+                                                                                            _______            , _______            ,                      _______            , _______
     ),
 
     [L_SYM] = LAYOUT(
-        KC_F1             , KC_F2             , KC_F3             , KC_F4             , KC_F5             , KC_F6             ,                     KC_F7             , KC_F8             , KC_F9             , KC_F10            , KC_F11            , KC_F12            ,
-        _______           , KC_PERC           , KC_DLR            , KC_LCBR           , KC_RCBR           , KC_TILD           ,                     KC_CIRC           , KC_LABK           , KC_RABK           , KC_MINS           , KC_AMPR           , _______           ,
-        _______           , LSFT_T(KC_AT)     , LCTL_T(KC_DQUO)   , LALT_T(KC_LPRN)   , LGUI_T(KC_RPRN)   , KC_PLUS           ,                     KC_EXLM           , LGUI_T(KC_LBRC)   , LALT_T(KC_RBRC)   , LCTL_T(KC_EQL)    , KC_SCLN           , _______           ,
-        _______           , KC_BSLS           , KC_SLSH           , KC_LBRC           , KC_HASH           , KC_HASH           ,                     KC_QUES           , KC_ASTR           , KC_PIPE           , KC_GRV            , KC_QUOT           , _______           ,
-                                                                                        _______           , _______           ,                     _______           , _______
+        KC_F1              , KC_F2              , KC_F3              , KC_F4              , KC_F5              , KC_F6              ,                      KC_F7              , KC_F8              , KC_F9              , KC_F10             , KC_F11             , KC_F12             ,
+        _______            , KC_PERC            , KC_DLR             , KC_LCBR            , KC_RCBR            , KC_TILD            ,                      KC_CIRC            , KC_LABK            , KC_RABK            , KC_MINS            , KC_AMPR            , _______            ,
+        _______            , LSFT_T(KC_AT)      , LCTL_T(KC_DQUO)    , LALT_T(KC_LPRN)    , LGUI_T(KC_RPRN)    , KC_PLUS            ,                      KC_EXLM            , LGUI_T(KC_LBRC)    , LALT_T(KC_RBRC)    , LCTL_T(KC_EQL)     , KC_SCLN            , _______            ,
+        _______            , KC_BSLS            , KC_SLSH            , KC_LBRC            , KC_HASH            , KC_HASH            ,                      KC_QUES            , KC_ASTR            , KC_PIPE            , KC_GRV             , KC_QUOT            , _______            ,
+                                                                                            _______            , _______            ,                      _______            , _______
     ),
 
     [L_NUM] = LAYOUT(
-        LALT(LCTL(KC_F1)) , LALT(LCTL(KC_F2)) , LALT(LCTL(KC_F3)) , LALT(LCTL(KC_F4)) , LALT(LCTL(KC_F5)) , LALT(LCTL(KC_F6)) ,                     LALT(LCTL(KC_F7)) , LALT(LCTL(KC_F8)) , LALT(LCTL(KC_F9)) , LALT(LCTL(KC_F10)), LALT(LCTL(KC_F11)), LALT(LCTL(KC_F12)),
-        _______           , KC_GRV            , RCTL(KC_W)        , SHIFT_ALT_TAB     , ALT_TAB           , KC_UP             ,                     KC_ASTR           , KC_7              , KC_8              , KC_9              , KC_MINS           , _______           ,
-        KC_ENT            , PASTE_HISTORY     , RCTL(S(KC_C))     , RCTL(KC_C)        , RCTL(KC_V)        , KC_DOWN           ,                     KC_PLUS           , LGUI_T(KC_1)      , LALT_T(KC_2)      , LCTL_T(KC_3)      , KC_DOT            , _______           ,
-        _______           , KC_DQUO           , KC_QUOT           , PREV_TAB          , NEXT_TAB          , RCTL(S(KC_A))     ,                     KC_SLSH           , KC_4              , KC_5              , KC_6              , KC_COMM           , _______           ,
-                                                                                        _______           , KC_ENT            ,                     _______           , KC_0
+        LALT(LCTL(KC_F1))  , LALT(LCTL(KC_F2))  , LALT(LCTL(KC_F3))  , LALT(LCTL(KC_F4))  , LALT(LCTL(KC_F5))  , LALT(LCTL(KC_F6))  ,                      LALT(LCTL(KC_F7))  , LALT(LCTL(KC_F8))  , LALT(LCTL(KC_F9))  , LALT(LCTL(KC_F10)) , LALT(LCTL(KC_F11)) , LALT(LCTL(KC_F12)) ,
+        _______            , KC_GRV             , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                      KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
+        KC_ENT             , PASTE_HISTORY      , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                      KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
+        _______            , KC_DQUO            , KC_QUOT            , PREV_TAB           , NEXT_TAB           , RCTL(S(KC_A))      ,                      KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
+                                                                                            _______            , KC_ENT             ,                      _______            , KC_0
     ),
 
     [L_ACCENTS] = LAYOUT(
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , _______           , _______           , _______           , _______           , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , ACC_O_UM          , ACC_O_CIRC        , ACC_U_GRV         , RALT(KC_DQUO)     , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , US_CCED           , ACC_A_GRV         , US_EACU           , ACC_I_UM          , _______           ,
-        _______           , _______           , _______           , _______           , _______           , _______           ,                     _______           , ACC_E_GRV         , ACC_E_CIRC        , ACC_E_UM          , _______           , _______           ,
-                                                                                        _______           , _______           ,                     _______           , _______
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , ACC_O_UM           , ACC_O_CIRC         , ACC_U_GRV          , RALT(KC_DQUO)      , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , US_CCED            , ACC_A_GRV          , US_EACU            , ACC_I_UM           , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , ACC_E_GRV          , ACC_E_CIRC         , ACC_E_UM           , _______            , _______            ,
+                                                                                            _______            , _______            ,                      _______            , _______
+    ),
+
+    [L_DUP] = LAYOUT(
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , DUP                , DUP                , DUP                , DUP                , DUP                ,                      DUP                , DUP                , DUP                , MG_UE              , DUP                , _______            ,
+        _______            , DUP                , DUP                , KC_HASH            , DUP                , DUP                ,                      DUP                , DUP                , KC_PERC            , DUP                , DUP                , _______            ,
+        _______            , DUP                , DUP                , DUP                , DUP                , DUP                ,                      DUP                , KC_ASTR            , KC_PIPE            , KC_UNDS            , DUP                , _______            ,
+                                                                                            _______            , DUP                ,                      _______            , DUP
+    ),
+
+    [L_WM_NAV] = LAYOUT(
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , LGUI(LALT(KC_7))   , LGUI(LALT(KC_8))   , LGUI(LALT(KC_9))   , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , LGUI(LALT(KC_1))   , LGUI(LALT(KC_2))   , LGUI(LALT(KC_3))   , _______            , _______            ,
+        _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , LGUI(LALT(KC_4))   , LGUI(LALT(KC_5))   , LGUI(LALT(KC_6))   , _______            , _______            ,
+                                                                                            _______            , _______            ,                      _______            , LGUI(LALT(KC_0))
     ),
 };
 
@@ -86,7 +106,6 @@ const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM dollar_caps_word_combo[] = {KC_V, KC_M, COMBO_END};
 const uint16_t PROGMEM slash_combo[] = {KC_P, LGUI_T(KC_C), COMBO_END};
 const uint16_t PROGMEM back_slash_combo[] = {KC_O, LALT_T(KC_A), COMBO_END};
-const uint16_t PROGMEM go_combo[] = {KC_G, KC_O, COMBO_END};
 const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
 const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
@@ -161,20 +180,24 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-// When true, the next key pressed is sent twice (see LT_DBL handling below).
-static bool double_next_key = false;
-static uint16_t double_key_timer = 0;
-static uint8_t doubled_key_delete_count = 0;
-static bool suppress_doubled_key = false;
-static uint16_t suppressed_double_keycode = KC_NO;
-static bool double_with_caps_word = false;
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        case KC_A ... KC_Z:
+        case KC_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
 
-static bool is_modifier_only_key(uint16_t keycode, keyrecord_t *record) {
-    if (IS_MODIFIER_KEYCODE(keycode) || keycode == MT_OSM_SHIFT) {
-        return true;
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+        case KC_NO:
+        case DUP:
+            return true;
+
+        default:
+            return false;
     }
-
-    return (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode)) && !record->tap.count;
 }
 
 static uint16_t double_tap_keycode(uint16_t keycode) {
@@ -201,98 +224,6 @@ static bool double_key_has_allowed_mods(uint16_t keycode) {
     return true;
 }
 
-static void tap_doubled_key(uint16_t keycode);
-
-#define SEND_MAGIC_STRING(lowercase, capitalized)              \
-    do {                                                       \
-        if (get_oneshot_mods() & MOD_MASK_SHIFT) {             \
-            del_oneshot_mods(MOD_MASK_SHIFT);                  \
-            send_keyboard_report();                            \
-            SEND_STRING(capitalized);                          \
-        } else {                                               \
-            SEND_STRING(lowercase);                            \
-        }                                                      \
-    } while (0)
-
-static uint8_t send_doubled_key(uint16_t keycode) {
-    suppress_doubled_key = false;
-    switch (double_tap_keycode(keycode)) {
-        case KC_X:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_V:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_H:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("the ", "The ");
-            return 4;
-        case KC_J:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_K:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("tion ", "tion ");
-            return 5;
-        case KC_Q:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_QUOT:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_Y:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("you ", "You ");
-            return 4;
-        case KC_W:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("with ", "With ");
-            return 5;
-        case KC_A:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("and ", "And ");
-            return 4;
-        case KC_DOT:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_U:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("for ", "For ");
-            return 4;
-        case KC_MINS:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_COLN:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        case KC_I:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("ing ", "ing ");
-            return 4;
-        case KC_COMM:
-            suppress_doubled_key = true;
-            SEND_MAGIC_STRING("", "");
-            return 0;
-        default: {
-            uint16_t tap_keycode = double_tap_keycode(keycode);
-            uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
-            if (KC_A <= basic_keycode && basic_keycode <= KC_Z) {
-                tap_doubled_key(keycode);
-                return 2;
-            }
-            return 0;
-        }
-    }
-}
-
 static void tap_doubled_key(uint16_t keycode) {
     uint16_t tap_keycode = double_tap_keycode(keycode);
     uint16_t basic_keycode = IS_QK_MODS(tap_keycode) ? QK_MODS_GET_BASIC_KEYCODE(tap_keycode) : tap_keycode;
@@ -310,69 +241,25 @@ static void tap_doubled_key(uint16_t keycode) {
     tap_code16(tap_keycode);
 }
 
-static bool process_double_behavior(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == LT_DBL && record->event.pressed && !record->tap.count) {
-        double_with_caps_word = is_caps_word_on();
-    }
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case DUP:
+            if (record->event.pressed) {
+                uint8_t  base_layer  = get_highest_layer(default_layer_state);
+                uint16_t base_keycode = keymap_key_to_keycode(base_layer, record->event.key);
 
-    if (!record->event.pressed && keycode == suppressed_double_keycode) {
-        suppressed_double_keycode = KC_NO;
-        return false;
-    }
-
-    if (record->event.pressed && !is_modifier_only_key(keycode, record)) {
-        if (double_next_key) {
-            double_next_key = false;
-            doubled_key_delete_count = 0;
-            if (keycode == LT_DBL) {
-                tap_code16(KC_UNDS);
-                double_with_caps_word = false;
-                return false;
-            }
-            if (double_key_has_allowed_mods(keycode)) {
-                doubled_key_delete_count = send_doubled_key(keycode);
-                if (suppress_doubled_key) {
-                    suppress_doubled_key = false;
-                    suppressed_double_keycode = keycode;
-                    return false;
+                tap_doubled_key(base_keycode);
+                if (double_key_has_allowed_mods(base_keycode)) {
+                    tap_doubled_key(base_keycode);
                 }
             }
-        } else if (keycode == KC_BSPC && doubled_key_delete_count && !(get_mods() | get_oneshot_mods() | get_weak_mods())) {
-            for (uint8_t i = 1; i < doubled_key_delete_count; ++i) {
-                tap_code16(KC_BSPC);
+            return false;
+        case LT_DBL:
+            if (!record->event.pressed && record->tap.count) {
+                set_oneshot_layer(L_DUP, ONESHOT_START);
+                clear_oneshot_layer_state(ONESHOT_PRESSED);
             }
-            doubled_key_delete_count = 0;
-        } else {
-            doubled_key_delete_count = 0;
-        }
-    }
-
-    if (keycode == LT_DBL && record->event.pressed && record->tap.count) {
-        double_next_key = true;
-        double_key_timer = timer_read();
-        if (double_with_caps_word) {
-            caps_word_on();
-        }
-        double_with_caps_word = false;
-    }
-
-    return true;
-}
-
-void housekeeping_task_user(void) {
-#if CAPS_WORD_IDLE_TIMEOUT > 0
-    if (double_next_key && timer_elapsed(double_key_timer) >= CAPS_WORD_IDLE_TIMEOUT) {
-        double_next_key = false;
-    }
-#endif
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_double_behavior(keycode, record)) {
-        return false;
-    }
-
-    switch (keycode) {
+            break;
         case ALT_TAB: // super alt tab macro
             if (record->event.pressed) {
                 if (!is_alt_tab_active) {
@@ -548,6 +435,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SEND_MINS_RABK:
             if (record->event.pressed) {
                 SEND_STRING("->");
+                return false;
+            }
+            break;
+        case MG_UE:
+            if (record->event.pressed) {
+                SEND_STRING("ue");
                 return false;
             }
             break;
