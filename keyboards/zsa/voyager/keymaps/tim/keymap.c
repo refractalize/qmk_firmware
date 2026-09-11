@@ -332,44 +332,76 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case ACC_A_GRV:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("`") "a");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("`") "A");
+                } else {
+                    SEND_STRING(SS_RALT("`") "a");
+                }
             }
-            break;
+            return false;
         case ACC_E_GRV:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("`") "e");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("`") "E");
+                } else {
+                    SEND_STRING(SS_RALT("`") "e");
+                }
             }
-            break;
+            return false;
         case ACC_E_CIRC:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("6") "e");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("6") "E");
+                } else {
+                    SEND_STRING(SS_RALT("6") "e");
+                }
             }
-            break;
+            return false;
         case ACC_E_UM:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("\"") "e");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("\"") "E");
+                } else {
+                    SEND_STRING(SS_RALT("\"") "e");
+                }
             }
-            break;
+            return false;
         case ACC_U_GRV:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("`") "u");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("`") "U");
+                } else {
+                    SEND_STRING(SS_RALT("`") "u");
+                }
             }
-            break;
+            return false;
         case ACC_O_CIRC:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("6") "o");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("6") "O");
+                } else {
+                    SEND_STRING(SS_RALT("6") "o");
+                }
             }
-            break;
+            return false;
         case ACC_O_UM:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("\"") "o");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("\"") "O");
+                } else {
+                    SEND_STRING(SS_RALT("\"") "o");
+                }
             }
-            break;
+            return false;
         case ACC_I_UM:
             if (record->event.pressed) {
-                SEND_STRING(SS_RALT("\"") "i");
+                if (is_caps_word_on()) {
+                    SEND_STRING(SS_RALT("\"") "I");
+                } else {
+                    SEND_STRING(SS_RALT("\"") "i");
+                }
             }
-            break;
+            return false;
         case LGUI_T(KC_AT):
             if (record->tap.count && record->event.pressed) {
                 caps_word_off();
@@ -440,10 +472,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case MG_UE:
             if (record->event.pressed) {
-                SEND_STRING("ue");
-                return false;
+                if (is_caps_word_on()) {
+                    SEND_STRING("UE");
+                } else {
+                    SEND_STRING("ue");
+                }
             }
-            break;
+            return false;
     }
     return true;
 }
