@@ -1,43 +1,62 @@
+# Diagram of keymap.c; positions are zero-based LAYOUT argument indices.
+# OS dup: tap arms the one-shot dup layer; hold enters nav.
+# DUP emits the base-layer tap key twice (once when non-Shift modifiers are held).
+# ue/ght and custom accent macros follow Caps Word capitalization.
+# Ctrl/Cmd shortcuts use Control normally and Command on macOS/iOS.
+# App switching uses Alt+Tab normally and Command+Tab on macOS/iOS.
+# Prev/Next tab and Paste history are also OS-dependent macros.
 layout:
   qmk_keyboard: zsa/voyager
 layers:
   latenight:
-    - ["$$mdi:camera$$", "⌘1", "⌘2", "⌘3", "$$mdi:volume-minus$$", "$$mdi:volume-plus$$", "$$mdi:play-pause$$", "$$mdi:rewind$$", "$$mdi:fast-forward$$", "$$mdi:skip-previous$$", "$$mdi:skip-next$$", ⌦]
-    - [⇥, b, f, l, d, j, "'", p, o, u, {t: ":", s: ";"}, ⌫]
-    - [{t: ⎋, h: ⇧}, {t: n, h: ⇧}, {t: s, h: ^}, {t: h, h: ⌥}, {t: t, h: ⌘}, k, y, {t: c, h: ⌘}, {t: a, h: ⌥}, {t: e, h: ^}, {t: i, h: ⇧}, {t: ↵, h: ⇧}]
-    - ["\\", x, v, m, g, q, z, w, {t: ".", s: "!"}, {t: "-", s: "?"}, {t: ",", s: "@"}, "/"]
-    - [{t: "OS⇧", h: "num"}, {t: r, h: sym}, {t: "$$mdi:keyboard-space$$", h: ⇧}, {t: "dbl", h: nav}]
+    - ["$$mdi:camera$$", "⌘⌥1", "⌘⌥2", "⌘⌥3", "$$mdi:volume-minus$$", "$$mdi:volume-plus$$", "$$mdi:play-pause$$", "$$mdi:rewind$$", "$$mdi:fast-forward$$", "$$mdi:skip-previous$$", "$$mdi:skip-next$$", ⌦]
+    - [⇥, b, f, {t: l, h: wm_nav}, d, j, "'", p, o, u, {t: ":", s: ";"}, ⌫]
+    - [{t: ⎋, h: shift}, {t: n, h: shift}, {t: s, h: alt}, {t: h, h: ctrl}, {t: t, h: gui}, k, y, {t: c, h: gui}, {t: a, h: ctrl}, {t: e, h: alt}, {t: i, h: shift}, {t: ↵, h: shift}]
+    - ["\\", x, v, m, {t: g, h: accents}, q, z, w, {t: ".", s: "!"}, {t: "-", s: "?"}, {t: ",", s: "@"}, "/"]
+    - [{t: "OS⇧", h: "num"}, {t: r, h: sym}, {t: "$$mdi:keyboard-space$$", h: shift, s: "Caps Word"}, {t: "OS dup", h: nav}]
   nav:
-    - ["$$mdi:video$$", "PDF latenight", {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
+    - ["⇧PrtSc", "PDF latenight", {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "$$mdi:arrow-collapse-up$$", "$$mdi:arrow-collapse-left$$", "$$mdi:arrow-up$$", "$$mdi:arrow-collapse-right$$", {type: trans}, {type: trans}]
-    - [{type: trans}, ⇧, ^, ⌥, ⌘, {type: trans}, "$$mdi:arrow-collapse-down$$", "$$mdi:arrow-left$$", "$$mdi:arrow-down$$", "$$mdi:arrow-right$$", {type: trans}, {type: trans}]
+    - [{type: trans}, ⇧, ⌥, ^, ⌘, {type: trans}, "$$mdi:arrow-collapse-down$$", "$$mdi:arrow-left$$", "$$mdi:arrow-down$$", "$$mdi:arrow-right$$", {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
-    - [{type: trans}, {type: trans}, {type: trans}, {type: held}]
+    - [{type: trans}, "$$mdi:keyboard-space$$", {type: trans}, {type: held}]
   sym:
     - [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12]
     - [{type: trans}, "%", "$", "{", "}", "~", "^", "<", ">", {t: "-", s: "?"}, "&", {type: trans}]
-    - [{type: trans}, {t: "@", h: ⇧}, {t: "\"", h: ^}, {t: "(", h: ⌥}, {t: ")", h: ⌘}, "+", "!", {t: "[", h: ⌘}, {t: "]", h: ⌥}, {t: "=", h: ^}, ";", {type: trans}]
+    - [{type: trans}, {t: "@", h: shift}, {t: "\"", h: alt}, {t: "(", h: ctrl}, {t: ")", h: gui}, "+", "!", {t: "[", h: gui}, {t: "]", h: ctrl}, {t: "=", h: alt}, ";", {type: trans}]
     - [{type: trans}, "\\", "/", "[", "#", "#", "?", "*", "|", "`", "'", {type: trans}]
     - [{type: trans}, {type: held}, {type: trans}, {type: trans}]
   num:
     - ["⌥⌃f1", "⌥⌃f2", "⌥⌃f3", "⌥⌃f4", "⌥⌃f5", "⌥⌃f6", "⌥⌃f7", "⌥⌃f8", "⌥⌃f9", "⌥⌃f10", "⌥⌃f11", "⌥⌃f12"]
-    - [{type: trans}, "`", "⌃w", "⇧⌥⇥", "⌥⇥", up, "*", "7", "8", "9", {t: "-", s: "?"}, {type: trans}]
-    - [↵, pastehist, "⌃⇧c", "⌃c", "⌃v", down, "+", {t: "1", h: ⌘}, {t: "2", h: ⌥}, {t: "3", h: ^}, {t: ".", s: "!"}, {type: trans}]
-    - [{type: trans}, "\"", "'", "⌃pgup", "⌃pgdn", "⌃⇧a", "/", "4", "5", "6", {t: ",", s: "@"}, {type: trans}]
+    - [{type: trans}, "`", "⌃/⌘w", "Prev app", "Next app", up, "*", "7", "8", "9", {t: "-", s: "?"}, {type: trans}]
+    - [↵, "Paste history", "⌃/⌘⇧c", "⌃/⌘c", "⌃/⌘v", down, "+", {t: "1", h: gui}, {t: "2", h: ctrl}, {t: "3", h: alt}, {t: ".", s: "!"}, {type: trans}]
+    - [{type: trans}, "\"", "'", "Prev tab", "Next tab", "⌃/⌘⇧a", "/", "4", "5", "6", {t: ",", s: "@"}, {type: trans}]
     - [{type: held}, ↵, {type: trans}, "0"]
   accents:
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "ö", "ô", "ù", "¨", {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "ç", "à", "é", "ï", {type: trans}]
-    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "è", "ê", "ë", {type: trans}, {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: held}, {type: trans}, {type: trans}, "è", "ê", "ë", {type: trans}, {type: trans}]
     - [{type: trans}, {type: trans}, {type: trans}, {type: trans}]
+  dup:
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
+    - [{type: trans}, "DUP", "DUP", "DUP", "DUP", "DUP", "DUP", "DUP", "DUP", "ue", "DUP", {type: trans}]
+    - [{type: trans}, "DUP", "DUP", "ght", "DUP", "DUP", "DUP", "DUP", "%", "DUP", "DUP", {type: trans}]
+    - [{type: trans}, "DUP", "_", "DUP", "DUP", "DUP", "DUP", "~", "`", "#", "DUP", {type: trans}]
+    - [{type: trans}, "DUP", {type: trans}, "DUP"]
+  wm_nav:
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: held}, {type: trans}, {type: trans}, {type: trans}, "⌘⌥7", "⌘⌥8", "⌘⌥9", {type: trans}, {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "⌘⌥1", "⌘⌥2", "⌘⌥3", {type: trans}, {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, {type: trans}, "⌘⌥4", "⌘⌥5", "⌘⌥6", {type: trans}, {type: trans}]
+    - [{type: trans}, {type: trans}, {type: trans}, "⌘⌥0"]
 combos:
   - l: [latenight]
     p: [17, 29]
     k: "⇧v"
   - l: [latenight]
     p: [38, 39]
-    k: "$"
+    k: {t: "$", h: "Caps Word"}
   - l: [latenight]
     p: [19, 31]
     k: "/"
@@ -50,6 +69,9 @@ combos:
   - l: [latenight]
     p: [44, 45]
     k: "./"
+  - l: [latenight]
+    p: [26, 14]
+    k: "_"
   - l: [sym]
     p: [19, 20]
     k: "=>"
@@ -68,6 +90,10 @@ combos:
   - l: [num]
     p: [32, 33]
     k: "]"
+  # The same dot/minus combo also exists at these explicit num-layer positions.
+  - l: [num]
+    p: [34, 22]
+    k: "./"
 draw_config:
   key_w: 60.0
   key_h: 56.0

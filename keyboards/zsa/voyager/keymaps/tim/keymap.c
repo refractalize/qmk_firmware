@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_LATENIGHT] = LAYOUT(
         KC_PSCR            , LGUI(LALT(KC_1))   , LGUI(LALT(KC_2))   , LGUI(LALT(KC_3))   , KC_VOLD            , KC_VOLU            ,                      KC_MPLY            , KC_MRWD            , KC_MFFD            , KC_MPRV            , KC_MNXT            , KC_DEL             ,
         KC_TAB             , KC_B               , KC_F               , LT(L_WM_NAV, KC_L) , KC_D               , KC_J               ,                      KC_QUOT            , KC_P               , KC_O               , KC_U               , KC_COLN            , KC_BSPC            ,
-        LSFT_T(KC_ESC)     , LSFT_T(KC_N)       , LCTL_T(KC_S)       , LALT_T(KC_H)       , LGUI_T(KC_T)       , KC_K               ,                      KC_Y               , LGUI_T(KC_C)       , LALT_T(KC_A)       , LCTL_T(KC_E)       , LSFT_T(KC_I)       , RSFT_T(KC_ENT)     ,
+        LSFT_T(KC_ESC)     , LSFT_T(KC_N)       , LALT_T(KC_S)       , LCTL_T(KC_H)       , LGUI_T(KC_T)       , KC_K               ,                      KC_Y               , LGUI_T(KC_C)       , LCTL_T(KC_A)       , LALT_T(KC_E)       , LSFT_T(KC_I)       , RSFT_T(KC_ENT)     ,
         KC_BSLS            , KC_X               , KC_V               , KC_M               , LT(L_ACCENTS, KC_G), KC_Q               ,                      KC_Z               , KC_W               , KC_DOT             , KC_MINS            , KC_COMM            , KC_SLSH            ,
                                                                                             MT_OSM_SHIFT       , MT_R               ,                      MT_SPACE           , LT_DBL
     ),
@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NAV] = LAYOUT(
         S(KC_PSCR)         , PDF(L_LATENIGHT)   , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
-        _______            , KC_LSFT            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
+        _______            , KC_LSFT            , KC_LALT            , KC_LCTL            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
                                                                                             _______            , KC_SPC             ,                      _______            , _______
     ),
@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_SYM] = LAYOUT(
         KC_F1              , KC_F2              , KC_F3              , KC_F4              , KC_F5              , KC_F6              ,                      KC_F7              , KC_F8              , KC_F9              , KC_F10             , KC_F11             , KC_F12             ,
         _______            , KC_PERC            , KC_DLR             , KC_LCBR            , KC_RCBR            , KC_TILD            ,                      KC_CIRC            , KC_LABK            , KC_RABK            , KC_MINS            , KC_AMPR            , _______            ,
-        _______            , LSFT_T(KC_AT)      , LCTL_T(KC_DQUO)    , LALT_T(KC_LPRN)    , LGUI_T(KC_RPRN)    , KC_PLUS            ,                      KC_EXLM            , LGUI_T(KC_LBRC)    , LALT_T(KC_RBRC)    , LCTL_T(KC_EQL)     , KC_SCLN            , _______            ,
+        _______            , LSFT_T(KC_AT)      , LALT_T(KC_DQUO)    , LCTL_T(KC_LPRN)    , LGUI_T(KC_RPRN)    , KC_PLUS            ,                      KC_EXLM            , LGUI_T(KC_LBRC)    , LCTL_T(KC_RBRC)    , LALT_T(KC_EQL)     , KC_SCLN            , _______            ,
         _______            , KC_BSLS            , KC_SLSH            , KC_LBRC            , KC_HASH            , KC_HASH            ,                      KC_QUES            , KC_ASTR            , KC_PIPE            , KC_GRV             , KC_QUOT            , _______            ,
                                                                                             _______            , _______            ,                      _______            , _______
     ),
@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_NUM] = LAYOUT(
         LALT(LCTL(KC_F1))  , LALT(LCTL(KC_F2))  , LALT(LCTL(KC_F3))  , LALT(LCTL(KC_F4))  , LALT(LCTL(KC_F5))  , LALT(LCTL(KC_F6))  ,                      LALT(LCTL(KC_F7))  , LALT(LCTL(KC_F8))  , LALT(LCTL(KC_F9))  , LALT(LCTL(KC_F10)) , LALT(LCTL(KC_F11)) , LALT(LCTL(KC_F12)) ,
         _______            , KC_GRV             , RCTL(KC_W)         , SHIFT_ALT_TAB      , ALT_TAB            , KC_UP              ,                      KC_ASTR            , KC_7               , KC_8               , KC_9               , KC_MINS            , _______            ,
-        KC_ENT             , PASTE_HISTORY      , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                      KC_PLUS            , LGUI_T(KC_1)       , LALT_T(KC_2)       , LCTL_T(KC_3)       , KC_DOT             , _______            ,
+        KC_ENT             , PASTE_HISTORY      , RCTL(S(KC_C))      , RCTL(KC_C)         , RCTL(KC_V)         , KC_DOWN            ,                      KC_PLUS            , LGUI_T(KC_1)       , LCTL_T(KC_2)       , LALT_T(KC_3)       , KC_DOT             , _______            ,
         _______            , KC_DQUO            , KC_QUOT            , PREV_TAB           , NEXT_TAB           , RCTL(S(KC_A))      ,                      KC_SLSH            , KC_4               , KC_5               , KC_6               , KC_COMM            , _______            ,
                                                                                             _______            , KC_ENT             ,                      _______            , KC_0
     ),
@@ -106,14 +106,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM dollar_caps_word_combo[] = {KC_V, KC_M, COMBO_END};
 const uint16_t PROGMEM slash_combo[] = {KC_P, LGUI_T(KC_C), COMBO_END};
-const uint16_t PROGMEM back_slash_combo[] = {KC_O, LALT_T(KC_A), COMBO_END};
+const uint16_t PROGMEM back_slash_combo[] = {KC_O, LCTL_T(KC_A), COMBO_END};
 const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
 const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
 const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
-const uint16_t PROGMEM underscore_combo[] = {LCTL_T(KC_S), KC_F, COMBO_END};
-const uint16_t PROGMEM num_12_combo[] = {LGUI_T(KC_1), LALT_T(KC_2), COMBO_END};
-const uint16_t PROGMEM num_23_combo[] = {LALT_T(KC_2), LCTL_T(KC_3), COMBO_END};
+const uint16_t PROGMEM underscore_combo[] = {LALT_T(KC_S), KC_F, COMBO_END};
+const uint16_t PROGMEM num_12_combo[] = {LGUI_T(KC_1), LCTL_T(KC_2), COMBO_END};
+const uint16_t PROGMEM num_23_combo[] = {LCTL_T(KC_2), LALT_T(KC_3), COMBO_END};
 const uint16_t PROGMEM num_78_combo[] = {KC_7, KC_8, COMBO_END};
 const uint16_t PROGMEM num_89_combo[] = {KC_8, KC_9, COMBO_END};
 
@@ -412,7 +412,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-        case LALT_T(KC_LPRN):
+        case LCTL_T(KC_LPRN):
             if (record->tap.count && record->event.pressed) {
                 caps_word_off();
                 tap_code16(KC_LPRN);
