@@ -41,6 +41,7 @@ enum custom_keycodes { // Make sure have the awesome keycode ready
     SEND_EQUALS_RABK,
     SEND_MINS_RABK,
     MG_UE,
+    MG_GHT,
     DUP,
 };
 
@@ -58,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______            , _______            , _______            , _______            , _______            , _______            ,                      KC_PGUP            , KC_HOME            , KC_UP              , KC_END             , _______            , _______            ,
         _______            , KC_LSFT            , KC_LCTL            , KC_LALT            , KC_LGUI            , _______            ,                      KC_PGDN            , KC_LEFT            , KC_DOWN            , KC_RGHT            , _______            , _______            ,
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
-                                                                                            _______            , _______            ,                      _______            , _______
+                                                                                            _______            , KC_SPC             ,                      _______            , _______
     ),
 
     [L_SYM] = LAYOUT(
@@ -88,8 +89,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_DUP] = LAYOUT(
         _______            , _______            , _______            , _______            , _______            , _______            ,                      _______            , _______            , _______            , _______            , _______            , _______            ,
         _______            , DUP                , DUP                , DUP                , DUP                , DUP                ,                      DUP                , DUP                , DUP                , MG_UE              , DUP                , _______            ,
-        _______            , DUP                , DUP                , KC_HASH            , DUP                , DUP                ,                      DUP                , DUP                , KC_PERC            , DUP                , DUP                , _______            ,
-        _______            , DUP                , DUP                , DUP                , DUP                , DUP                ,                      DUP                , KC_ASTR            , KC_PIPE            , KC_UNDS            , DUP                , _______            ,
+        _______            , DUP                , DUP                , MG_GHT             , DUP                , DUP                ,                      DUP                , DUP                , KC_PERC            , DUP                , DUP                , _______            ,
+        _______            , DUP                , KC_UNDS            , DUP                , DUP                , DUP                ,                      DUP                , KC_TILD            , KC_GRV             , KC_HASH            , DUP                , _______            ,
                                                                                             _______            , DUP                ,                      _______            , DUP
     ),
 
@@ -110,6 +111,7 @@ const uint16_t PROGMEM w_dot_combo[] = {KC_W, KC_DOT, COMBO_END};
 const uint16_t PROGMEM dot_mins_combo[] = {KC_DOT, KC_MINS, COMBO_END};
 const uint16_t PROGMEM labk_rabk_combo[] = {KC_LABK, KC_RABK, COMBO_END};
 const uint16_t PROGMEM rabk_mins_combo[] = {KC_RABK, KC_MINS, COMBO_END};
+const uint16_t PROGMEM underscore_combo[] = {LCTL_T(KC_S), KC_F, COMBO_END};
 const uint16_t PROGMEM num_12_combo[] = {LGUI_T(KC_1), LALT_T(KC_2), COMBO_END};
 const uint16_t PROGMEM num_23_combo[] = {LALT_T(KC_2), LCTL_T(KC_3), COMBO_END};
 const uint16_t PROGMEM num_78_combo[] = {KC_7, KC_8, COMBO_END};
@@ -124,6 +126,7 @@ combo_t key_combos[]   = {
     COMBO(dot_mins_combo, SEND_DOTSLASH),
     COMBO(labk_rabk_combo, SEND_EQUALS_RABK),
     COMBO(rabk_mins_combo, SEND_MINS_RABK),
+    COMBO(underscore_combo, KC_UNDS),
     COMBO(num_12_combo, KC_LBRC),
     COMBO(num_23_combo, KC_RBRC),
     COMBO(num_78_combo, KC_LPRN),
@@ -476,6 +479,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     SEND_STRING("UE");
                 } else {
                     SEND_STRING("ue");
+                }
+            }
+            return false;
+        case MG_GHT:
+            if (record->event.pressed) {
+                if (is_caps_word_on()) {
+                    SEND_STRING("GHT");
+                } else {
+                    SEND_STRING("ght");
                 }
             }
             return false;
